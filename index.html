@@ -26,9 +26,22 @@ main{max-width:720px;margin:0 auto;padding:16px 14px 48px}
 h1,h2,.num{font-family:"Barlow Semi Condensed","Barlow",system-ui,sans-serif}
 h1{font-size:28px;margin:0 0 12px;font-weight:700}
 h2{font-size:19px;margin:22px 0 8px;font-weight:600}
-nav{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:16px;overflow-x:auto}
-nav button{background:none;border:0;border-bottom:3px solid transparent;color:var(--muted);font:600 16px "Barlow",sans-serif;padding:8px 12px;cursor:pointer;white-space:nowrap}
-nav button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--gold)}
+.top{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:12px;background:var(--navy);color:#f2f6f9;padding:8px 14px;border-bottom:3px solid var(--gold)}
+.top h1{margin:0;font-size:26px;color:#f2f6f9;letter-spacing:.3px}
+.logo{width:36px;height:36px;flex:none;display:block}
+.burger{background:none;border:0;padding:0;cursor:pointer;display:grid;gap:5px;width:42px;height:42px;align-content:center;justify-items:center;border-radius:6px;flex:none}
+.burger span{display:block;height:3px;width:24px;background:#f2f6f9;border-radius:2px}
+#scrim{position:fixed;inset:0;background:rgba(5,15,25,.5);z-index:40}
+nav#tabs{position:fixed;top:0;left:0;bottom:0;width:min(290px,84vw);background:var(--card);border-right:1px solid var(--line);z-index:50;display:flex;flex-direction:column;overflow-y:auto;padding-bottom:24px;transform:translateX(-103%);visibility:hidden;transition:transform .22s ease,visibility 0s linear .22s;box-shadow:4px 0 18px rgba(0,0,0,.25)}
+nav#tabs.open{transform:none;visibility:visible;transition:transform .22s ease,visibility 0s}
+.dh{display:flex;align-items:center;gap:12px;background:var(--navy);color:#f2f6f9;padding:calc(14px + env(safe-area-inset-top,0px)) 18px 14px;border-bottom:3px solid var(--gold);font:700 24px "Barlow Semi Condensed","Barlow",sans-serif}
+.dh small{display:block;font:500 12px "Barlow",sans-serif;color:var(--gold);letter-spacing:1px;text-transform:uppercase}
+nav#tabs button{display:flex;align-items:center;justify-content:space-between;width:100%;text-align:left;background:none;border:0;border-left:4px solid transparent;color:var(--ink);font:600 17px "Barlow",sans-serif;padding:14px 18px;cursor:pointer}
+nav#tabs button[aria-selected="true"]{background:var(--head);border-left-color:var(--gold)}
+nav#tabs .gt{color:var(--muted);border-top:1px solid var(--line);margin-top:6px}
+.chev{display:inline-block;transition:transform .2s}.grp.open .chev{transform:rotate(180deg)}
+.sub{display:none}.grp.open .sub{display:block}
+nav#tabs .sub button{padding-left:34px;font-weight:500}
 .total{background:var(--navy);color:#f2f6f9;border-radius:6px;padding:16px 18px}
 .total .l{font-size:14px;opacity:.85}
 .total .num{font-size:54px;font-weight:700;line-height:1.05;color:var(--gold);font-variant-numeric:tabular-nums}
@@ -63,17 +76,28 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
 </style>
 </head>
 <body>
-<main>
-<h1>Flugbuch</h1>
-<nav role="tablist" id="tabs">
+<header class="top">
+  <button class="burger" id="menuBtn" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="tabs"><span></span><span></span><span></span></button>
+  <svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#e0b45a"/><g transform="translate(20 20) rotate(45) translate(-12 -12)"><path fill="#14283d" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></g></svg>
+  <h1>Flugbuch</h1>
+</header>
+<div id="scrim" hidden></div>
+<nav role="tablist" id="tabs" aria-label="Hauptmenü">
+  <div class="dh"><svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#e0b45a"/><g transform="translate(20 20) rotate(45) translate(-12 -12)"><path fill="#14283d" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></g></svg><div>Flugbuch<small>Menü</small></div></div>
   <button role="tab" data-t="ov" aria-selected="true">Übersicht</button>
   <button role="tab" data-t="log" aria-selected="false">Logbuch</button>
   <button role="tab" data-t="new" aria-selected="false">Neuer Flug</button>
-  <button role="tab" data-t="imp" aria-selected="false">Import</button>
-  <button role="tab" data-t="sync" aria-selected="false">Sync</button>
-  <button role="tab" data-t="exp" aria-selected="false">Export</button>
+  <div class="grp" id="grp">
+    <button type="button" class="gt" id="grpBtn" aria-expanded="false">Daten<span class="chev">▾</span></button>
+    <div class="sub">
+      <button role="tab" data-t="imp" aria-selected="false">Import</button>
+      <button role="tab" data-t="sync" aria-selected="false">Sync</button>
+      <button role="tab" data-t="exp" aria-selected="false">Export</button>
+    </div>
+  </div>
 </nav>
-<div id="syBadge" class="msg" style="text-align:right;padding:4px 16px;min-height:18px"></div>
+<main>
+<div id="syBadge" class="msg" style="text-align:right;padding:0 0 8px;min-height:18px"></div>
 
 <section id="p-ov"></section>
 
@@ -221,9 +245,18 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
   /* Tabs */
   function show(t){
     ["ov","log","new","edit","imp","sync","exp"].forEach(function(x){$("p-"+x).hidden=x!==t});
-    Array.prototype.forEach.call($("tabs").children,function(b){b.setAttribute("aria-selected",b.getAttribute("data-t")===t)});
+    var cur=t==="edit"?"log":t;
+    Array.prototype.forEach.call($("tabs").querySelectorAll("[data-t]"),function(b){b.setAttribute("aria-selected",b.getAttribute("data-t")===cur)});
+    if(/^(imp|sync|exp)$/.test(t))grp(true);
+    menu(false);
     window.scrollTo(0,0);
   }
+  function menu(o){$("tabs").classList.toggle("open",o);$("scrim").hidden=!o;$("menuBtn").setAttribute("aria-expanded",o);$("menuBtn").setAttribute("aria-label",o?"Menü schließen":"Menü öffnen")}
+  function grp(o){$("grp").classList.toggle("open",o);$("grpBtn").setAttribute("aria-expanded",o)}
+  $("menuBtn").addEventListener("click",function(){menu(!$("tabs").classList.contains("open"))});
+  $("scrim").addEventListener("click",function(){menu(false)});
+  $("grpBtn").addEventListener("click",function(){grp(!$("grp").classList.contains("open"))});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape")menu(false)});
   $("tabs").addEventListener("click",function(e){var t=e.target.getAttribute("data-t");if(t)show(t)});
 
   /* Auswertung */
