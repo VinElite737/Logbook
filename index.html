@@ -198,7 +198,7 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
   <div style="display:grid;gap:12px">
     <label>Web-App-Adresse<input id="syUrl" placeholder="https://script.google.com/macros/s/…/exec" inputmode="url" autocapitalize="off" autocomplete="off"></label>
     <label>Passwort (wie im Skript bei TOKEN)<input id="syTok" type="password" autocomplete="off"></label>
-    <label style="flex-direction:row;align-items:center;gap:8px"><input type="checkbox" id="syAuto" style="width:auto"> Automatisch abgleichen (alle 15 Sekunden)</label>
+    <label style="flex-direction:row;align-items:center;gap:8px"><input type="checkbox" id="syAuto" style="width:auto"> Automatisch abgleichen (alle 15 Sekunden und sobald die App wieder geöffnet wird)</label>
   </div>
   <div class="row2">
     <button class="btn" type="button" id="syMerge">Abgleichen</button>
@@ -223,7 +223,7 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
 
 <script>
 (function(){
-  var K2="flugbuch:v2",K1="flugbuch:v1",entries=[],pending=null;
+  var K2="flugbuch:v2",K1="flugbuch:v1",entries=[],pending=null,ver=0;
   var CATS=["SEP","SE IR","MEP","ME IR"];
   var ROLES={PIC:"PIC",CO:"Co-Pilot",DUAL:"Dual",FI:"FI"};
   var $=function(i){return document.getElementById(i)};
@@ -242,7 +242,7 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
       if(!Array.isArray(entries))entries=[];
     }catch(e){entries=[]}
   }
-  function save(){try{localStorage.setItem(K2,JSON.stringify(entries))}catch(e){}}
+  function save(){ver++;try{localStorage.setItem(K2,JSON.stringify(entries))}catch(e){}}
 
   /* Tabs */
   function show(t){
@@ -633,7 +633,7 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
   var SK="flugbuch_sync",QK="flugbuch_q",busy=false,flushing=false;
   var FIELDS=["cat","role","pic","type","reg","from","to","arr","min","night","ifr","ldgD","ldgN","note"];
   function cfg(){try{return JSON.parse(localStorage.getItem(SK))||{}}catch(e){return{}}}
-  function saveCfg(){try{localStorage.setItem(SK,JSON.stringify({url:$("syUrl").value.trim(),token:$("syTok").value,auto:$("syAuto").checked}))}catch(e){}}
+  function saveCfg(){try{localStorage.setItem(SK,JSON.stringify({url:$("syUrl").value.trim(),token:$("syTok").value,autoOff:!$("syAuto").checked}))}catch(e){}}
   function sy(t,bad){var m=$("syMsg");m.textContent=t;m.className="msg"+(bad?" err":"")}
   function qGet(){try{return JSON.parse(localStorage.getItem(QK))||[]}catch(e){return[]}}
   function qSet(q){try{localStorage.setItem(QK,JSON.stringify(q))}catch(e){}}
@@ -656,7 +656,7 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
         catch (e) {
           throw new Error("Die Apps-Script-Web-App hat kein JSON zurückgegeben. Bitte die bereitgestellte URL mit /exec verwenden und die Web-App für den Zugriff passend freigeben.");
         }
-        if(!j.ok) throw new Error(j.error||"Unbekannter Fehler");
+        if(!j.ok){var se=new Error(j.error||"Unbekannter Fehler");se.server=true;throw se}
         return j;
       });
   }
@@ -667,7 +667,7 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
     flushing=true;badge("Sende …");
     function step(){
       var q=qGet();if(!q.length)return Promise.resolve();
-      return call(q[0]).then(function(){var r=qGet();r.shift();qSet(r);return step()});
+      return call(q[0]).then(function(){var r=qGet();r.shift();qSet(r);return step()},function(e){if(e&&e.server&&e.message!=="Falsches Passwort"){var r=qGet();r.shift();qSet(r);return step()}throw e});
     }
     return step().then(function(){flushing=false;badge()},function(e){flushing=false;badge("Offline oder Fehler, wird später gesendet")});
   }
@@ -685,15 +685,25 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
       night:n(x.night),ifr:n(x.ifr),ldgD:n(x.ldgD),ldgN:n(x.ldgN),note:s(x.note),upd:0};
   }
   function pull(){return call({action:"get"}).then(function(j){var a=(j.entries||[]).map(normR).filter(Boolean);a.deleted=j.deleted||[];return a})}
-  function run(fn){
-    if(busy)return;busy=true;sy("Bitte warten …");
-    fn().then(function(t){renderAll();sy(t);badge()},function(e){sy(e.message,true)}).then(function(){busy=false});
+  var mergeChanged=false;
+  function run(fn,quiet){
+    if(busy)return;busy=true;if(!quiet)sy("Bitte warten …");mergeChanged=false;
+    fn().then(function(t){
+      if(!quiet||mergeChanged)renderAll();
+      if(quiet){var d=new Date();sy("Zuletzt automatisch abgeglichen um "+p2(d.getHours())+":"+p2(d.getMinutes())+":"+p2(d.getSeconds())+".")}else sy(t);
+      badge();
+    },function(e){sy(e.message,true)}).then(function(){busy=false});
   }
-  function doMerge(){
+  function autoMerge(){var c=cfg();if(c.autoOff||!c.url||!c.token||busy||flushing||document.hidden)return;run(function(){return doMerge(true)},true)}
+  function doMerge(auto){
+    var v0;
     return flushQ().then(function(){
       if(qGet().length)throw new Error("Es sind noch Änderungen offen. Bitte Verbindung prüfen und erneut versuchen.");
-      return pull();
+      v0=ver;return pull();
     }).then(function(rem){
+      if(ver!==v0||qGet().length){setTimeout(autoMerge,2500);return "Lokale Änderung während des Abgleichs, wird gleich erneut abgeglichen."}
+      if(auto&&!rem.length&&entries.length)return "Sheet meldet 0 Flüge, automatisch nichts gelöscht (zur Sicherheit). Bei Bedarf manuell abgleichen.";
+      var before=JSON.stringify(entries);
       var oldKeys={}, oldCount=entries.length, ids={}, nextId=Date.now();
       entries.forEach(function(e){oldKeys[key(e)]=1;ids[key(e)]=e.id});
       var fresh=0, updated=0, retained=[];
@@ -709,11 +719,12 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
       // Google Sheets ist die einzige Quelle der Wahrheit: lokale Einträge ohne Sheet-Zeile
       // werden entfernt und ausdrücklich NICHT wieder hochgeladen.
       entries=retained.sort(cmp);
-      save();
+      mergeChanged=JSON.stringify(entries)!==before;
+      if(mergeChanged)save();
       return "Abgeglichen: "+fresh+" neu aus dem Sheet, "+updated+" übernommen, "+removed+" lokale Einträge entfernt. Nichts wurde aus alten lokalen Daten hochgeladen.";
     });
   }
-  $("syMerge").addEventListener("click",function(){run(doMerge)});
+  $("syMerge").addEventListener("click",function(){run(function(){return doMerge(false)})});
   function armed(b,label,fn){
     var t=0;b.addEventListener("click",function(){
       if(!t){t=1;b.textContent="Sicher? Nochmal tippen";setTimeout(function(){t=0;b.textContent=label},4000);return}
@@ -727,17 +738,16 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
     });
   });
   ["syUrl","syTok","syAuto"].forEach(function(i){$(i).addEventListener("change",function(){saveCfg();badge();flushQ()})});
-  window.addEventListener("online",flushQ);
+  window.addEventListener("online",function(){flushQ().then(autoMerge)});
+  document.addEventListener("visibilitychange",function(){if(!document.hidden)autoMerge()});
+  window.addEventListener("focus",autoMerge);
   function syInit(){
-    var c=cfg();$("syUrl").value=c.url||"";$("syTok").value=c.token||"";$("syAuto").checked=!!c.auto;
+    var c=cfg();$("syUrl").value=c.url||"";$("syTok").value=c.token||"";$("syAuto").checked=!c.autoOff;
     badge();
-    if(c.auto&&c.url&&c.token)run(doMerge);else flushQ();
+    if(!c.autoOff&&c.url&&c.token)autoMerge();else flushQ();
   }
   // Andere geöffnete Geräte übernehmen Änderungen automatisch, ohne dass manuell abgeglichen werden muss.
-  setInterval(function(){
-    var c=cfg();
-    if(c.auto&&c.url&&c.token&&!busy&&!flushing)run(doMerge);
-  },15000);
+  setInterval(autoMerge,15000);
 
   function renderAll(){renderOv();renderLog();eList()}
   var t=new Date();
