@@ -23,12 +23,27 @@
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.45 "Barlow",system-ui,-apple-system,"Segoe UI",sans-serif}
 main{max-width:720px;margin:0 auto;padding:16px 14px 48px}
+main.wide{max-width:none}
+main.wide th,main.wide td{padding:8px 12px;font-size:14px}
 h1,h2,.num{font-family:"Barlow Semi Condensed","Barlow",system-ui,sans-serif}
 h1{font-size:28px;margin:0 0 12px;font-weight:700}
 h2{font-size:19px;margin:22px 0 8px;font-weight:600}
-nav{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:16px;overflow-x:auto}
-nav button{background:none;border:0;border-bottom:3px solid transparent;color:var(--muted);font:600 16px "Barlow",sans-serif;padding:8px 12px;cursor:pointer;white-space:nowrap}
-nav button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--gold)}
+.top{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:12px;background:var(--navy);color:#f2f6f9;padding:8px 14px;border-bottom:3px solid var(--gold)}
+.top h1{margin:0;font-size:26px;color:#f2f6f9;letter-spacing:.3px}
+.logo{width:36px;height:36px;flex:none;display:block}
+.burger{background:none;border:0;padding:0;cursor:pointer;display:grid;gap:5px;width:42px;height:42px;align-content:center;justify-items:center;border-radius:6px;flex:none}
+.burger span{display:block;height:3px;width:24px;background:#f2f6f9;border-radius:2px}
+#scrim{position:fixed;inset:0;background:rgba(5,15,25,.5);z-index:40}
+nav#tabs{position:fixed;top:0;left:0;bottom:0;width:min(290px,84vw);background:var(--card);border-right:1px solid var(--line);z-index:50;display:flex;flex-direction:column;overflow-y:auto;padding-bottom:24px;transform:translateX(-103%);visibility:hidden;transition:transform .22s ease,visibility 0s linear .22s;box-shadow:4px 0 18px rgba(0,0,0,.25)}
+nav#tabs.open{transform:none;visibility:visible;transition:transform .22s ease,visibility 0s}
+.dh{display:flex;align-items:center;gap:12px;background:var(--navy);color:#f2f6f9;padding:calc(14px + env(safe-area-inset-top,0px)) 18px 14px;border-bottom:3px solid var(--gold);font:700 24px "Barlow Semi Condensed","Barlow",sans-serif}
+.dh small{display:block;font:500 12px "Barlow",sans-serif;color:var(--gold);letter-spacing:1px;text-transform:uppercase}
+nav#tabs button{display:flex;align-items:center;justify-content:space-between;width:100%;text-align:left;background:none;border:0;border-left:4px solid transparent;color:var(--ink);font:600 17px "Barlow",sans-serif;padding:14px 18px;cursor:pointer}
+nav#tabs button[aria-selected="true"]{background:var(--head);border-left-color:var(--gold)}
+nav#tabs .gt{color:var(--muted);border-top:1px solid var(--line);margin-top:6px}
+.chev{display:inline-block;transition:transform .2s}.grp.open .chev{transform:rotate(180deg)}
+.msub{display:none}.grp.open .msub{display:block}
+nav#tabs .msub button{padding-left:34px;font-weight:500}
 .total{background:var(--navy);color:#f2f6f9;border-radius:6px;padding:16px 18px}
 .total .l{font-size:14px;opacity:.85}
 .total .num{font-size:54px;font-weight:700;line-height:1.05;color:var(--gold);font-variant-numeric:tabular-nums}
@@ -63,17 +78,28 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
 </style>
 </head>
 <body>
-<main>
-<h1>Flugbuch</h1>
-<nav role="tablist" id="tabs">
+<header class="top">
+  <button class="burger" id="menuBtn" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="tabs"><span></span><span></span><span></span></button>
+  <svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#e0b45a"/><g transform="translate(20 20) rotate(45) translate(-12 -12)"><path fill="#14283d" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></g></svg>
+  <h1>Flugbuch</h1>
+</header>
+<div id="scrim" hidden></div>
+<nav role="tablist" id="tabs" aria-label="Hauptmenü">
+  <div class="dh"><svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#e0b45a"/><g transform="translate(20 20) rotate(45) translate(-12 -12)"><path fill="#14283d" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></g></svg><div>Flugbuch<small>Menü</small></div></div>
   <button role="tab" data-t="ov" aria-selected="true">Übersicht</button>
   <button role="tab" data-t="log" aria-selected="false">Logbuch</button>
   <button role="tab" data-t="new" aria-selected="false">Neuer Flug</button>
-  <button role="tab" data-t="imp" aria-selected="false">Import</button>
-  <button role="tab" data-t="sync" aria-selected="false">Sync</button>
-  <button role="tab" data-t="exp" aria-selected="false">Export</button>
+  <div class="grp" id="grp">
+    <button type="button" class="gt" id="grpBtn" aria-expanded="false">Daten<span class="chev">▾</span></button>
+    <div class="msub">
+      <button role="tab" data-t="imp" aria-selected="false">Import</button>
+      <button role="tab" data-t="sync" aria-selected="false">Sync</button>
+      <button role="tab" data-t="exp" aria-selected="false">Export</button>
+    </div>
+  </div>
 </nav>
-<div id="syBadge" class="msg" style="text-align:right;padding:4px 16px;min-height:18px"></div>
+<main id="main">
+<div id="syBadge" class="msg" style="text-align:right;padding:0 0 8px;min-height:18px"></div>
 
 <section id="p-ov"></section>
 
@@ -172,7 +198,7 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
   <div style="display:grid;gap:12px">
     <label>Web-App-Adresse<input id="syUrl" placeholder="https://script.google.com/macros/s/…/exec" inputmode="url" autocapitalize="off" autocomplete="off"></label>
     <label>Passwort (wie im Skript bei TOKEN)<input id="syTok" type="password" autocomplete="off"></label>
-    <label style="flex-direction:row;align-items:center;gap:8px"><input type="checkbox" id="syAuto" style="width:auto"> Automatisch abgleichen (alle 15 Sekunden)</label>
+    <label style="flex-direction:row;align-items:center;gap:8px"><input type="checkbox" id="syAuto" style="width:auto"> Automatisch abgleichen (alle 15 Sekunden und sobald die App wieder geöffnet wird)</label>
   </div>
   <div class="row2">
     <button class="btn" type="button" id="syMerge">Abgleichen</button>
@@ -197,7 +223,7 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
 
 <script>
 (function(){
-  var K2="flugbuch:v2",K1="flugbuch:v1",entries=[],pending=null;
+  var K2="flugbuch:v2",K1="flugbuch:v1",entries=[],pending=null,ver=0;
   var CATS=["SEP","SE IR","MEP","ME IR"];
   var ROLES={PIC:"PIC",CO:"Co-Pilot",DUAL:"Dual",FI:"FI"};
   var $=function(i){return document.getElementById(i)};
@@ -216,14 +242,24 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
       if(!Array.isArray(entries))entries=[];
     }catch(e){entries=[]}
   }
-  function save(){try{localStorage.setItem(K2,JSON.stringify(entries))}catch(e){}}
+  function save(){ver++;try{localStorage.setItem(K2,JSON.stringify(entries))}catch(e){}}
 
   /* Tabs */
   function show(t){
     ["ov","log","new","edit","imp","sync","exp"].forEach(function(x){$("p-"+x).hidden=x!==t});
-    Array.prototype.forEach.call($("tabs").children,function(b){b.setAttribute("aria-selected",b.getAttribute("data-t")===t)});
+    var cur=t==="edit"?"log":t;
+    Array.prototype.forEach.call($("tabs").querySelectorAll("[data-t]"),function(b){b.setAttribute("aria-selected",b.getAttribute("data-t")===cur)});
+    if(/^(imp|sync|exp)$/.test(t))grp(true);
+    $("main").classList.toggle("wide",t==="log");
+    menu(false);
     window.scrollTo(0,0);
   }
+  function menu(o){$("tabs").classList.toggle("open",o);$("scrim").hidden=!o;$("menuBtn").setAttribute("aria-expanded",o);$("menuBtn").setAttribute("aria-label",o?"Menü schließen":"Menü öffnen")}
+  function grp(o){$("grp").classList.toggle("open",o);$("grpBtn").setAttribute("aria-expanded",o)}
+  $("menuBtn").addEventListener("click",function(){menu(!$("tabs").classList.contains("open"))});
+  $("scrim").addEventListener("click",function(){menu(false)});
+  $("grpBtn").addEventListener("click",function(){grp(!$("grp").classList.contains("open"))});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape")menu(false)});
   $("tabs").addEventListener("click",function(e){var t=e.target.getAttribute("data-t");if(t)show(t)});
 
   /* Auswertung */
@@ -247,7 +283,7 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
     var s=sums(),c=s.c;
     $("p-ov").innerHTML=
       '<div class="total"><div class="l">Flugerfahrung gesamt</div><div class="num">'+fmt(s.tot)+' h</div><div class="s">'+s.n+(s.n===1?" Flug":" Flüge")+', '+s.nf+(s.nf===1?" Simulatoreinheit":" Simulatoreinheiten")+'</div></div>'+
-     '<div class="grid">'+
+      '<div class="grid">'+
         stat("SEP","Single Engine Piston",fmt(c["SEP"]+c["SE IR"])+" h")+
         stat("MEP","Multi Engine Piston",fmt(c["MEP"]+c["ME IR"])+" h")+
         stat("SE IR","SE Instrument Rating",fmt(c["SE IR"])+" h")+
@@ -588,16 +624,16 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
   });
 
   /* Google-Sheet-Sync: schreibt direkt in dein Logbuch */
-  var GS="var TOKEN = 'HIER-EIGENES-PASSWORT-EINTRAGEN';\nvar FIRST = 4, LAST = 23;\n\nfunction doPost(e) {\n  var res, lock = LockService.getScriptLock();\n  try {\n    lock.waitLock(25000);\n    var q = JSON.parse(e.postData.contents);\n    if (q.token !== TOKEN) throw new Error('Falsches Passwort');\n    var ss = SpreadsheetApp.getActiveSpreadsheet();\n    if (q.action !== 'delete') repairBroken(ss);\n    if (q.action === 'get') res = { ok: true, entries: rowsOf(ss).map(function (x) { return x.e; }), deleted: deletedKeys(ss) };\n    else if (q.action === 'append') res = { ok: true, added: appendEntries(ss, q.entries) };\n    else if (q.action === 'update') res = { ok: true, done: updateEntry(ss, q.oldKey, q.entry) };\n    else if (q.action === 'delete') res = { ok: true, done: deleteEntry(ss, q.key) };\n    else throw new Error('Unbekannte Aktion');\n  } catch (err) {\n    res = { ok: false, error: String(err.message || err) };\n  } finally {\n    try { lock.releaseLock(); } catch (x) {}\n  }\n  return ContentService.createTextOutput(JSON.stringify(res)).setMimeType(ContentService.MimeType.JSON);\n}\n\nfunction deleteLog(ss) {\n  var sh = ss.getSheetByName('_SyncDeletes');\n  if (!sh) {\n    sh = ss.insertSheet('_SyncDeletes');\n    sh.getRange(1, 1, 1, 2).setValues([['key', 'deletedAt']]);\n    sh.hideSheet();\n  }\n  return sh;\n}\nfunction deletedKeys(ss) {\n  var sh = ss.getSheetByName('_SyncDeletes');\n  if (!sh || sh.getLastRow() < 2) return [];\n  return sh.getRange(2, 1, sh.getLastRow() - 1, 1).getDisplayValues()\n    .map(function (r) { return String(r[0] || ''); }).filter(Boolean);\n}\nfunction markDeleted(ss, key) {\n  if (!key) return;\n  var sh = deleteLog(ss), last = sh.getLastRow();\n  if (last >= 2) {\n    var vals = sh.getRange(2, 1, last - 1, 1).getDisplayValues();\n    for (var i = 0; i < vals.length; i++) if (String(vals[i][0]) === String(key)) return;\n  }\n  sh.appendRow([String(key), new Date()]);\n}\nfunction clearDeleted(ss, key) {\n  var sh = ss.getSheetByName('_SyncDeletes');\n  if (!sh || sh.getLastRow() < 2 || !key) return;\n  var vals = sh.getRange(2, 1, sh.getLastRow() - 1, 1).getDisplayValues();\n  for (var i = vals.length - 1; i >= 0; i--) {\n    if (String(vals[i][0]) === String(key)) sh.deleteRow(i + 2);\n  }\n}\n\nfunction pages(ss) {\n  return ss.getSheets().map(function (s) {\n    var m = /^Seite (\\d+)$/.exec(s.getName());\n    return m ? { n: +m[1], sh: s } : null;\n  }).filter(Boolean).sort(function (a, b) { return a.n - b.n; });\n}\nfunction toMin(v) {\n  v = String(v == null ? '' : v).trim();\n  var m = /^(\\d+):(\\d{2})/.exec(v);\n  if (m) return +m[1] * 60 + +m[2];\n  var f = parseFloat(v.replace(',', '.'));\n  return (isFinite(f) && f > 0 && f < 1) ? Math.round(f * 1440) : 0;\n}\nfunction hm(v) {\n  var m = /^(\\d{1,2}):(\\d{2})/.exec(String(v == null ? '' : v).trim());\n  return m ? ('0' + m[1]).slice(-2) + ':' + m[2] : '';\n}\nfunction frac(s) {\n  var m = /^(\\d{1,2}):(\\d{2})/.exec(String(s || ''));\n  return m ? (+m[1] * 60 + +m[2]) / 1440 : '';\n}\nfunction keyOf(e) {\n  return e.dep ? e.date + '|' + e.dep : e.date + '|' + e.cat + '|' + e.min + '|' + (e.note || '');\n}\n\nfunction rowsOf(ss) {\n  var tz = ss.getSpreadsheetTimeZone(), out = [], n = LAST - FIRST + 1;\n  pages(ss).forEach(function (p) {\n    var rg = p.sh.getRange(FIRST, 1, n, 21), val = rg.getValues(), dis = rg.getDisplayValues();\n    for (var i = 0; i < n; i++) {\n      var v = val[i], d = dis[i];\n      if (!(v[0] instanceof Date)) continue;\n      var t = { PIC: toMin(d[16]), CO: toMin(d[17]), DUAL: toMin(d[18]), FI: toMin(d[19]) }, role = 'PIC', best = 0;\n      for (var k in t) if (t[k] > best) { best = t[k]; role = k; }\n      var e = {\n        date: Utilities.formatDate(v[0], tz, 'yyyy-MM-dd'), from: d[1], dep: hm(d[2]), to: d[3], arr: hm(d[4]),\n        type: d[5], reg: d[6], pic: d[7], cat: String(d[8]).trim(), role: role,\n        min: toMin(d[10]) || toMin(d[11]), night: toMin(d[14]), ifr: toMin(d[15]),\n        ldgD: Number(v[12]) || 0, ldgN: Number(v[13]) || 0, note: String(d[20]).trim()\n      };\n      out.push({ sh: p.sh, row: FIRST + i, e: e });\n    }\n  });\n  return out;\n}\n\nfunction writeRow(sh, r, e) {\n  var d = e.date.split('-'), fstd = e.cat === 'FSTD';\n  var role = e.role || 'PIC', co = role === 'CO', fi = role === 'FI';\n  var self = role === 'PIC' ? 'SELF' : (e.pic || '');\n  // Genau 21 Werte für die vorhandenen Spalten A:U:\n  // Q=PIC, R=CO-PILOT, S=DUAL, T=FI, U=Remarks.\n  var row = [\n    new Date(+d[0], +d[1] - 1, +d[2]), e.from || '', frac(e.dep), e.to || '', frac(e.arr),\n    e.type || '', e.reg || '', fstd ? '' : (co || fi ? (e.pic || '') : self), e.cat, '',\n    '',\n    fstd ? frac(hmOf(e.min)) : '',\n    (!fstd && e.ldgD > 0) ? e.ldgD : '', (!fstd && e.ldgN > 0) ? e.ldgN : '',\n    '', '', '',\n    co ? frac(hmOf(e.min)) : '',\n    '',\n    fi ? frac(hmOf(e.min)) : '',\n    e.note || ''\n  ];\n  if (row.length !== 21) throw new Error('Interner Fehler: Es wurden nicht genau 21 Spalten vorbereitet.');\n  var f = ['dd.MM.yyyy', 'General', 'hh:mm', 'General', 'hh:mm', 'General', 'General', 'General', 'General', 'General'];\n  for (var c = 11; c <= 20; c++) f.push('hh:mm');\n  f.splice(12, 2, 'General', 'General');\n  f.push('General');\n  var rg = sh.getRange(r, 1, 1, 21);\n  rg.setValues([row]);\n  rg.setNumberFormats([f.slice(0, 21)]);\n  setFormulaCells(sh, r, fstd, co || fi);\n}\n// Formeln verwenden englische Funktionsnamen und Semikolons als Argumenttrenner.\nfunction setFormulaCells(sh, r, fstd, cofi) {\n  var s = String(r);\n  sh.getRange(r, 11).setFormula('=IF(OR(I' + s + '=\"SEP\";I' + s + '=\"MEP\";I' + s + '=\"ME IR\";I' + s + '=\"SE IR\");MOD(E' + s + '-C' + s + ';1);\"\")');\n  if (!fstd) sh.getRange(r, 12).setFormula('=IF(I' + s + '=\"FSTD\";MOD(E' + s + '-C' + s + ';1);\"\")');\n  sh.getRange(r, 15).setFormula('=IF(ISNUMBER(N' + s + ');K' + s + ';\"\")');\n  sh.getRange(r, 16).setFormula('=IF(OR(I' + s + '=\"ME IR\";I' + s + '=\"SE IR\");K' + s + ';IF(I' + s + '=\"FSTD\";L' + s + ';\"\"))');\n  if (!cofi) {\n    sh.getRange(r, 17).setFormula('=IF(H' + s + '=\"SELF\";K' + s + ';\"\")');\n    sh.getRange(r, 19).setFormula('=IF(H' + s + '<>\"SELF\";K' + s + ';\"\")');\n  }\n}\n// Zeilen, in denen schon Fehler wie #ERROR stehen, werden automatisch repariert\nfunction repairBroken(ss) {\n  var n = LAST - FIRST + 1, fixed = 0;\n  pages(ss).forEach(function (p) {\n    var rg = p.sh.getRange(FIRST, 1, n, 21), val = rg.getValues(), dis = rg.getDisplayValues();\n    for (var i = 0; i < n; i++) {\n      if (!(val[i][0] instanceof Date)) continue;\n      var bad = false;\n      [10, 11, 14, 15, 16, 18].forEach(function (c) { if (/^#|^Err/.test(String(dis[i][c]))) bad = true; });\n      if (!bad) continue;\n      setFormulaCells(p.sh, FIRST + i, String(val[i][8]).trim() === 'FSTD', !!(val[i][17] || val[i][19]));\n      fixed++;\n    }\n  });\n  if (fixed) SpreadsheetApp.flush();\n  return fixed;\n}\nfunction repairFormulas() { return repairBroken(SpreadsheetApp.getActiveSpreadsheet()); }\nfunction hmOf(min) {\n  min = +min || 0;\n  return ('0' + Math.floor(min / 60)).slice(-2) + ':' + ('0' + (min % 60)).slice(-2);\n}\nfunction resetRow(sh, r) {\n  sh.getRange(r, 1, 1, 21).setValues([new Array(21).fill('')]);\n  setFormulaCells(sh, r, false, false);\n}\n\nfunction nextFree(sh) {\n  var a = sh.getRange(FIRST, 1, LAST - FIRST + 1, 1).getValues(), last = -1;\n  for (var i = 0; i < a.length; i++) if (a[i][0] instanceof Date) last = i;\n  var r = FIRST + last + 1;\n  return r <= LAST ? r : 0;\n}\nfunction newPage(ss, last) {\n  var n = last.n + 1, sh = last.sh.copyTo(ss);\n  sh.setName('Seite ' + n);\n  ss.setActiveSheet(sh);\n  ss.moveActiveSheet(ss.getNumSheets());\n  for (var r = FIRST; r <= LAST; r++) resetRow(sh, r);\n  var cols = 'KLMNOPQRST'.split('');\n  var f = cols.map(function (c) { return \"='Seite \" + last.n + \"'!\" + c + '26'; });\n  sh.getRange(25, 11, 1, 10).setFormulas([f]);\n  return { n: n, sh: sh };\n}\n\nfunction appendEntries(ss, list) {\n  var have = {}, ps = pages(ss), added = 0;\n  rowsOf(ss).forEach(function (x) { have[keyOf(x.e)] = 1; });\n  if (!ps.length) {\n    throw new Error('Keine Tabellenblätter „Seite 1“, „Seite 2“ usw. gefunden. Bitte die vorhandene Logbuch-Vorlage mit ihren Seitenblättern verwenden.');\n  }\n  list.forEach(function (e) {\n    var k = keyOf(e);\n    if (have[k]) return;\n    have[k] = 1;\n    var last = ps[ps.length - 1], r = nextFree(last.sh);\n    if (!r) {\n      last = newPage(ss, last);\n      ps.push(last);\n      r = FIRST;\n    }\n    writeRow(last.sh, r, e);\n    clearDeleted(ss, k);\n    added++;\n  });\n  SpreadsheetApp.flush();\n  return added;\n}\nfunction findRow(ss, key) {\n  var all = rowsOf(ss);\n  for (var i = 0; i < all.length; i++) if (keyOf(all[i].e) === key) return all[i];\n  return null;\n}\nfunction updateEntry(ss, oldKey, e) {\n  var x = findRow(ss, oldKey), newKey = keyOf(e);\n  if (!x) return appendEntries(ss, [e]) > 0;\n  writeRow(x.sh, x.row, e);\n  if (oldKey && oldKey !== newKey) markDeleted(ss, oldKey);\n  clearDeleted(ss, newKey);\n  SpreadsheetApp.flush();\n  return true;\n}\nfunction deleteEntry(ss, key) {\n  var x = findRow(ss, key);\n  if (x) resetRow(x.sh, x.row);\n  markDeleted(ss, key);\n  SpreadsheetApp.flush();\n  return !!x;\n}\n";
+  var GS="var TOKEN = 'HIER-EIGENES-PASSWORT-EINTRAGEN';\nvar FIRST = 4, LAST = 23;\n\nfunction doPost(e) {\n  var res, lock = LockService.getScriptLock();\n  try {\n    lock.waitLock(25000);\n    var q = JSON.parse(e.postData.contents);\n    if (q.token !== TOKEN) throw new Error('Falsches Passwort');\n    var ss = SpreadsheetApp.getActiveSpreadsheet();\n    if (q.action !== 'delete') repairBroken(ss);\n    if (q.action === 'get') res = { ok: true, entries: rowsOf(ss).map(function (x) { return x.e; }), deleted: deletedKeys(ss) };\n    else if (q.action === 'append') res = { ok: true, added: appendEntries(ss, q.entries) };\n    else if (q.action === 'update') res = { ok: true, done: updateEntry(ss, q.oldKey, q.entry) };\n    else if (q.action === 'delete') res = { ok: true, done: deleteEntry(ss, q.key) };\n    else throw new Error('Unbekannte Aktion');\n  } catch (err) {\n    res = { ok: false, error: String(err.message || err) };\n  } finally {\n    try { lock.releaseLock(); } catch (x) {}\n  }\n  return ContentService.createTextOutput(JSON.stringify(res)).setMimeType(ContentService.MimeType.JSON);\n}\n\nfunction deleteLog(ss) {\n  var sh = ss.getSheetByName('_SyncDeletes');\n  if (!sh) {\n    sh = ss.insertSheet('_SyncDeletes');\n    sh.getRange(1, 1, 1, 2).setValues([['key', 'deletedAt']]);\n    sh.hideSheet();\n  }\n  return sh;\n}\nfunction deletedKeys(ss) {\n  var sh = ss.getSheetByName('_SyncDeletes');\n  if (!sh || sh.getLastRow() < 2) return [];\n  return sh.getRange(2, 1, sh.getLastRow() - 1, 1).getDisplayValues()\n    .map(function (r) { return String(r[0] || ''); }).filter(Boolean);\n}\nfunction isDeleted(ss, key) {\n  if (!key) return false;\n  return deletedKeys(ss).indexOf(String(key)) !== -1;\n}\nfunction markDeleted(ss, key) {\n  if (!key) return;\n  var sh = deleteLog(ss), last = sh.getLastRow();\n  if (last >= 2) {\n    var vals = sh.getRange(2, 1, last - 1, 1).getDisplayValues();\n    for (var i = 0; i < vals.length; i++) if (String(vals[i][0]) === String(key)) return;\n  }\n  sh.appendRow([String(key), new Date()]);\n}\n\nfunction pages(ss) {\n  return ss.getSheets().map(function (s) {\n    var m = /^Seite (\\d+)$/.exec(s.getName());\n    return m ? { n: +m[1], sh: s } : null;\n  }).filter(Boolean).sort(function (a, b) { return a.n - b.n; });\n}\nfunction toMin(v) {\n  v = String(v == null ? '' : v).trim();\n  var m = /^(\\d+):(\\d{2})/.exec(v);\n  if (m) return +m[1] * 60 + +m[2];\n  var f = parseFloat(v.replace(',', '.'));\n  return (isFinite(f) && f > 0 && f < 1) ? Math.round(f * 1440) : 0;\n}\nfunction hm(v) {\n  var m = /^(\\d{1,2}):(\\d{2})/.exec(String(v == null ? '' : v).trim());\n  return m ? ('0' + m[1]).slice(-2) + ':' + m[2] : '';\n}\nfunction frac(s) {\n  var m = /^(\\d{1,2}):(\\d{2})/.exec(String(s || ''));\n  return m ? (+m[1] * 60 + +m[2]) / 1440 : '';\n}\nfunction keyOf(e) {\n  return e.dep ? e.date + '|' + e.dep : e.date + '|' + e.cat + '|' + e.min + '|' + (e.note || '');\n}\n\nfunction rowsOf(ss) {\n  var tz = ss.getSpreadsheetTimeZone(), out = [], n = LAST - FIRST + 1;\n  pages(ss).forEach(function (p) {\n    var rg = p.sh.getRange(FIRST, 1, n, 21), val = rg.getValues(), dis = rg.getDisplayValues();\n    for (var i = 0; i < n; i++) {\n      var v = val[i], d = dis[i];\n      if (!(v[0] instanceof Date)) continue;\n      var t = { PIC: toMin(d[16]), CO: toMin(d[17]), DUAL: toMin(d[18]), FI: toMin(d[19]) }, role = 'PIC', best = 0;\n      for (var k in t) if (t[k] > best) { best = t[k]; role = k; }\n      var e = {\n        date: Utilities.formatDate(v[0], tz, 'yyyy-MM-dd'), from: d[1], dep: hm(d[2]), to: d[3], arr: hm(d[4]),\n        type: d[5], reg: d[6], pic: d[7], cat: String(d[8]).trim(), role: role,\n        min: toMin(d[10]) || toMin(d[11]), night: toMin(d[14]), ifr: toMin(d[15]),\n        ldgD: Number(v[12]) || 0, ldgN: Number(v[13]) || 0, note: String(d[20]).trim()\n      };\n      out.push({ sh: p.sh, row: FIRST + i, e: e });\n    }\n  });\n  return out;\n}\n\nfunction writeRow(sh, r, e) {\n  var d = e.date.split('-'), fstd = e.cat === 'FSTD';\n  var role = e.role || 'PIC', co = role === 'CO', fi = role === 'FI';\n  var self = role === 'PIC' ? 'SELF' : (e.pic || '');\n  var row = [\n    new Date(+d[0], +d[1] - 1, +d[2]), e.from || '', frac(e.dep), e.to || '', frac(e.arr),\n    e.type || '', e.reg || '', fstd ? '' : (co || fi ? (e.pic || '') : self), e.cat, '',\n    '',\n    fstd ? frac(hmOf(e.min)) : '',\n    (!fstd && e.ldgD > 0) ? e.ldgD : '', (!fstd && e.ldgN > 0) ? e.ldgN : '',\n    '', '', '',\n    co ? frac(hmOf(e.min)) : '',\n    '',\n    fi ? frac(hmOf(e.min)) : '',\n    e.note || ''\n  ];\n  if (row.length !== 21) throw new Error('Interner Fehler: Es wurden nicht genau 21 Spalten vorbereitet.');\n  var f = ['dd.MM.yyyy', 'General', 'hh:mm', 'General', 'hh:mm', 'General', 'General', 'General', 'General', 'General'];\n  for (var c = 11; c <= 20; c++) f.push('hh:mm');\n  f.splice(12, 2, 'General', 'General');\n  f.push('General');\n  var rg = sh.getRange(r, 1, 1, 21);\n  rg.setValues([row]);\n  rg.setNumberFormats([f.slice(0, 21)]);\n  setFormulaCells(sh, r, fstd, co || fi);\n}\nfunction setFormulaCells(sh, r, fstd, cofi) {\n  var s = String(r);\n  sh.getRange(r, 11).setFormula('=IF(OR(I' + s + '=\"SEP\";I' + s + '=\"MEP\";I' + s + '=\"ME IR\";I' + s + '=\"SE IR\");MOD(E' + s + '-C' + s + ';1);\"\")');\n  if (!fstd) sh.getRange(r, 12).setFormula('=IF(I' + s + '=\"FSTD\";MOD(E' + s + '-C' + s + ';1);\"\")');\n  sh.getRange(r, 15).setFormula('=IF(ISNUMBER(N' + s + ');K' + s + ';\"\")');\n  sh.getRange(r, 16).setFormula('=IF(OR(I' + s + '=\"ME IR\";I' + s + '=\"SE IR\");K' + s + ';IF(I' + s + '=\"FSTD\";L' + s + ';\"\"))');\n  if (!cofi) {\n    sh.getRange(r, 17).setFormula('=IF(H' + s + '=\"SELF\";K' + s + ';\"\")');\n    sh.getRange(r, 19).setFormula('=IF(H' + s + '<>\"SELF\";K' + s + ';\"\")');\n  }\n}\nfunction repairBroken(ss) {\n  var n = LAST - FIRST + 1, fixed = 0;\n  pages(ss).forEach(function (p) {\n    var rg = p.sh.getRange(FIRST, 1, n, 21), val = rg.getValues(), dis = rg.getDisplayValues();\n    for (var i = 0; i < n; i++) {\n      if (!(val[i][0] instanceof Date)) continue;\n      var bad = false;\n      [10, 11, 14, 15, 16, 18].forEach(function (c) { if (/^#|^Err/.test(String(dis[i][c]))) bad = true; });\n      if (!bad) continue;\n      setFormulaCells(p.sh, FIRST + i, String(val[i][8]).trim() === 'FSTD', !!(val[i][17] || val[i][19]));\n      fixed++;\n    }\n  });\n  if (fixed) SpreadsheetApp.flush();\n  return fixed;\n}\nfunction repairFormulas() { return repairBroken(SpreadsheetApp.getActiveSpreadsheet()); }\nfunction hmOf(min) {\n  min = +min || 0;\n  return ('0' + Math.floor(min / 60)).slice(-2) + ':' + ('0' + (min % 60)).slice(-2);\n}\nfunction resetRow(sh, r) {\n  sh.getRange(r, 1, 1, 21).setValues([new Array(21).fill('')]);\n  setFormulaCells(sh, r, false, false);\n}\nfunction nextFree(sh) {\n  var a = sh.getRange(FIRST, 1, LAST - FIRST + 1, 1).getValues(), last = -1;\n  for (var i = 0; i < a.length; i++) if (a[i][0] instanceof Date) last = i;\n  var r = FIRST + last + 1;\n  return r <= LAST ? r : 0;\n}\nfunction newPage(ss, last) {\n  var n = last.n + 1, sh = last.sh.copyTo(ss);\n  sh.setName('Seite ' + n);\n  ss.setActiveSheet(sh);\n  ss.moveActiveSheet(ss.getNumSheets());\n  for (var r = FIRST; r <= LAST; r++) resetRow(sh, r);\n  var cols = 'KLMNOPQRST'.split('');\n  var f = cols.map(function (c) { return \"='Seite \" + last.n + \"'!\" + c + '26'; });\n  sh.getRange(25, 11, 1, 10).setFormulas([f]);\n  return { n: n, sh: sh };\n}\nfunction appendEntries(ss, list) {\n  var have = {}, blocked = {}, ps = pages(ss), added = 0;\n  rowsOf(ss).forEach(function (x) { have[keyOf(x.e)] = 1; });\n  \n  if (!ps.length) throw new Error('Keine Tabellenblätter „Seite 1“, „Seite 2“ usw. gefunden. Bitte die vorhandene Logbuch-Vorlage verwenden.');\n  list.forEach(function (e) {\n    var k = keyOf(e);\n    if (have[k]) return;\n    have[k] = 1;\n    var last = ps[ps.length - 1], r = nextFree(last.sh);\n    if (!r) { last = newPage(ss, last); ps.push(last); r = FIRST; }\n    writeRow(last.sh, r, e);\n    added++;\n  });\n  SpreadsheetApp.flush();\n  return added;\n}\nfunction findRow(ss, key) {\n  var all = rowsOf(ss);\n  for (var i = 0; i < all.length; i++) if (keyOf(all[i].e) === key) return all[i];\n  return null;\n}\nfunction updateEntry(ss, oldKey, e) {\n  var x = findRow(ss, oldKey), newKey = keyOf(e);\n  // Ein Update darf niemals als Ersatz-Append für einen fehlenden/gelöschten Flug dienen.\n  if (!x) return false;\n  writeRow(x.sh, x.row, e);\n  if (oldKey && oldKey !== newKey) markDeleted(ss, oldKey);\n  SpreadsheetApp.flush();\n  return true;\n}\nfunction deleteEntry(ss, key) {\n  var x = findRow(ss, key);\n  if (x) resetRow(x.sh, x.row);\n  markDeleted(ss, key);\n  SpreadsheetApp.flush();\n  return !!x;\n}\n";
   $("gsCode").value=GS;
   $("gsCopy").addEventListener("click",function(){
     var t=$("gsCode");t.select();
     try{(navigator.clipboard?navigator.clipboard.writeText(GS):Promise.reject()).then(function(){sy("Code kopiert.")},function(){document.execCommand("copy");sy("Code kopiert.")})}catch(e){try{document.execCommand("copy");sy("Code kopiert.")}catch(x){sy("Bitte den Code von Hand markieren und kopieren.",true)}}
   });
-  var SK="flugbuch_sync",QK="flugbuch_q",busy=false,flushing=false;
+  var SK="flugbuch_sync",QK="flugbuch_q",busy=false,flushing=false,lastErr="";
   var FIELDS=["cat","role","pic","type","reg","from","to","arr","min","night","ifr","ldgD","ldgN","note"];
   function cfg(){try{return JSON.parse(localStorage.getItem(SK))||{}}catch(e){return{}}}
-  function saveCfg(){try{localStorage.setItem(SK,JSON.stringify({url:$("syUrl").value.trim(),token:$("syTok").value,auto:$("syAuto").checked}))}catch(e){}}
+  function saveCfg(){try{localStorage.setItem(SK,JSON.stringify({url:$("syUrl").value.trim(),token:$("syTok").value,autoOff:!$("syAuto").checked}))}catch(e){}}
   function sy(t,bad){var m=$("syMsg");m.textContent=t;m.className="msg"+(bad?" err":"")}
   function qGet(){try{return JSON.parse(localStorage.getItem(QK))||[]}catch(e){return[]}}
   function qSet(q){try{localStorage.setItem(QK,JSON.stringify(q))}catch(e){}}
@@ -620,7 +656,7 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
         catch (e) {
           throw new Error("Die Apps-Script-Web-App hat kein JSON zurückgegeben. Bitte die bereitgestellte URL mit /exec verwenden und die Web-App für den Zugriff passend freigeben.");
         }
-        if(!j.ok) throw new Error(j.error||"Unbekannter Fehler");
+        if(!j.ok){var se=new Error(j.error||"Unbekannter Fehler");se.server=true;throw se}
         return j;
       });
   }
@@ -631,9 +667,16 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
     flushing=true;badge("Sende …");
     function step(){
       var q=qGet();if(!q.length)return Promise.resolve();
-      return call(q[0]).then(function(){var r=qGet();r.shift();qSet(r);return step()});
+      return call(q[0]).then(function(){var r=qGet();r.shift();qSet(r);return step()},function(e){
+        if(e&&e.server&&e.message!=="Falsches Passwort"){
+          var r=qGet();r[0].tries=(r[0].tries||0)+1;r[0].err=e.message;
+          if(r[0].tries>=5){var dead=r.shift();qSet(r);lastErr="Änderung verworfen nach 5 Versuchen ("+dead.action+"): "+e.message;return step()}
+          qSet(r);
+        }
+        throw e;
+      });
     }
-    return step().then(function(){flushing=false;badge()},function(e){flushing=false;badge("Offline oder Fehler, wird später gesendet")});
+    return step().then(function(){flushing=false;badge();if(lastErr){sy(lastErr,true);lastErr=""}},function(e){flushing=false;badge((e&&e.server?"Fehler: "+e.message+", ":"Offline, ")+"wird später gesendet")});
   }
   function qAdd(op){var c=cfg();if(!c.url||!c.token)return;var q=qGet();q.push(op);qSet(q);badge();flushQ()}
   function qAppend(list){if(list&&list.length)qAdd({action:"append",entries:list.map(strip)})}
@@ -649,35 +692,46 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
       night:n(x.night),ifr:n(x.ifr),ldgD:n(x.ldgD),ldgN:n(x.ldgN),note:s(x.note),upd:0};
   }
   function pull(){return call({action:"get"}).then(function(j){var a=(j.entries||[]).map(normR).filter(Boolean);a.deleted=j.deleted||[];return a})}
-  function run(fn){
-    if(busy)return;busy=true;sy("Bitte warten …");
-    fn().then(function(t){renderAll();sy(t);badge()},function(e){sy(e.message,true)}).then(function(){busy=false});
+  var mergeChanged=false;
+  function run(fn,quiet){
+    if(busy)return;busy=true;if(!quiet)sy("Bitte warten …");mergeChanged=false;
+    fn().then(function(t){
+      if(!quiet||mergeChanged)renderAll();
+      if(quiet){var d=new Date();sy("Zuletzt automatisch abgeglichen um "+p2(d.getHours())+":"+p2(d.getMinutes())+":"+p2(d.getSeconds())+".")}else sy(t);
+      badge();
+    },function(e){sy(e.message,true)}).then(function(){busy=false});
   }
-  function doMerge(){
+  function autoMerge(){var c=cfg();if(c.autoOff||!c.url||!c.token||busy||flushing||document.hidden)return;run(function(){return doMerge(true)},true)}
+  function doMerge(auto){
+    var v0;
     return flushQ().then(function(){
       if(qGet().length)throw new Error("Es sind noch Änderungen offen. Bitte Verbindung prüfen und erneut versuchen.");
-      return pull();
+      v0=ver;return pull();
     }).then(function(rem){
-      var deleted=rem.deleted||[], deletedSet={};
-      deleted.forEach(function(k){deletedSet[k]=1});
-      var before=entries.length;
-      entries=entries.filter(function(e){return !deletedSet[key(e)]});
-      var removed=before-entries.length;
-      if(removed)save();
-      var by={},fresh=[],seen={},chg=0;
-      entries.forEach(function(e){by[key(e)]=e});
+      if(ver!==v0||qGet().length){setTimeout(autoMerge,2500);return "Lokale Änderung während des Abgleichs, wird gleich erneut abgeglichen."}
+      if(auto&&!rem.length&&entries.length)return "Sheet meldet 0 Flüge, automatisch nichts gelöscht (zur Sicherheit). Bei Bedarf manuell abgleichen.";
+      var before=JSON.stringify(entries);
+      var oldKeys={}, oldCount=entries.length, ids={}, nextId=Date.now();
+      entries.forEach(function(e){oldKeys[key(e)]=1;ids[key(e)]=e.id});
+      var fresh=0, updated=0, retained=[];
       rem.forEach(function(r){
-        var k=key(r),l=by[k];seen[k]=1;
-        if(!l){fresh.push(r);return}
-        var d=false;FIELDS.forEach(function(f){if(l[f]!==r[f]){l[f]=r[f];d=true}});if(d)chg++;
+        var k=key(r), id=ids[k];
+        if(id===undefined){id=nextId++;fresh++}else updated++;
+        r.id=id;
+        retained.push(r);
       });
-      var res=addAll(fresh,true);if(chg){entries.sort(cmp);save()}
-      var miss=entries.filter(function(e){return!seen[key(e)]});
-      var p=miss.length?call({action:"append",entries:miss.map(strip)}):Promise.resolve();
-      return p.then(function(){return"Abgeglichen: "+res.added+" neu aus dem Sheet, "+chg+" aktualisiert, "+removed+" gelöschte Einträge übernommen, "+miss.length+" ins Sheet geschrieben."});
+      var removed=0, sheetKeys={};
+      retained.forEach(function(e){sheetKeys[key(e)]=1});
+      Object.keys(oldKeys).forEach(function(k){if(!sheetKeys[k])removed++});
+      // Google Sheets ist die einzige Quelle der Wahrheit: lokale Einträge ohne Sheet-Zeile
+      // werden entfernt und ausdrücklich NICHT wieder hochgeladen.
+      entries=retained.sort(cmp);
+      mergeChanged=JSON.stringify(entries)!==before;
+      if(mergeChanged)save();
+      return "Abgeglichen: "+fresh+" neu aus dem Sheet, "+updated+" übernommen, "+removed+" lokale Einträge entfernt. Nichts wurde aus alten lokalen Daten hochgeladen.";
     });
   }
-  $("syMerge").addEventListener("click",function(){run(doMerge)});
+  $("syMerge").addEventListener("click",function(){run(function(){return doMerge(false)})});
   function armed(b,label,fn){
     var t=0;b.addEventListener("click",function(){
       if(!t){t=1;b.textContent="Sicher? Nochmal tippen";setTimeout(function(){t=0;b.textContent=label},4000);return}
@@ -691,17 +745,17 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
     });
   });
   ["syUrl","syTok","syAuto"].forEach(function(i){$(i).addEventListener("change",function(){saveCfg();badge();flushQ()})});
-  window.addEventListener("online",flushQ);
+  window.addEventListener("online",function(){flushQ().then(autoMerge)});
+  document.addEventListener("visibilitychange",function(){if(!document.hidden)autoMerge()});
+  window.addEventListener("focus",autoMerge);
   function syInit(){
-    var c=cfg();$("syUrl").value=c.url||"";$("syTok").value=c.token||"";$("syAuto").checked=!!c.auto;
+    var c=cfg();$("syUrl").value=c.url||"";$("syTok").value=c.token||"";$("syAuto").checked=!c.autoOff;
     badge();
-    if(c.auto&&c.url&&c.token)run(doMerge);else flushQ();
+    if(!c.autoOff&&c.url&&c.token)autoMerge();else flushQ();
   }
   // Andere geöffnete Geräte übernehmen Änderungen automatisch, ohne dass manuell abgeglichen werden muss.
-  setInterval(function(){
-    var c=cfg();
-    if(c.auto&&c.url&&c.token&&!busy&&!flushing)run(doMerge);
-  },15000);
+  setInterval(function(){if(qGet().length)flushQ()},8000);
+  setInterval(autoMerge,15000);
 
   function renderAll(){renderOv();renderLog();eList()}
   var t=new Date();
