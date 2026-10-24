@@ -23,6 +23,8 @@
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.45 "Barlow",system-ui,-apple-system,"Segoe UI",sans-serif}
 main{max-width:720px;margin:0 auto;padding:16px 14px 48px}
+main.wide{max-width:none}
+main.wide th,main.wide td{padding:8px 12px;font-size:14px}
 h1,h2,.num{font-family:"Barlow Semi Condensed","Barlow",system-ui,sans-serif}
 h1{font-size:28px;margin:0 0 12px;font-weight:700}
 h2{font-size:19px;margin:22px 0 8px;font-weight:600}
@@ -40,8 +42,8 @@ nav#tabs button{display:flex;align-items:center;justify-content:space-between;wi
 nav#tabs button[aria-selected="true"]{background:var(--head);border-left-color:var(--gold)}
 nav#tabs .gt{color:var(--muted);border-top:1px solid var(--line);margin-top:6px}
 .chev{display:inline-block;transition:transform .2s}.grp.open .chev{transform:rotate(180deg)}
-.sub{display:none}.grp.open .sub{display:block}
-nav#tabs .sub button{padding-left:34px;font-weight:500}
+.msub{display:none}.grp.open .msub{display:block}
+nav#tabs .msub button{padding-left:34px;font-weight:500}
 .total{background:var(--navy);color:#f2f6f9;border-radius:6px;padding:16px 18px}
 .total .l{font-size:14px;opacity:.85}
 .total .num{font-size:54px;font-weight:700;line-height:1.05;color:var(--gold);font-variant-numeric:tabular-nums}
@@ -89,14 +91,14 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
   <button role="tab" data-t="new" aria-selected="false">Neuer Flug</button>
   <div class="grp" id="grp">
     <button type="button" class="gt" id="grpBtn" aria-expanded="false">Daten<span class="chev">▾</span></button>
-    <div class="sub">
+    <div class="msub">
       <button role="tab" data-t="imp" aria-selected="false">Import</button>
       <button role="tab" data-t="sync" aria-selected="false">Sync</button>
       <button role="tab" data-t="exp" aria-selected="false">Export</button>
     </div>
   </div>
 </nav>
-<main>
+<main id="main">
 <div id="syBadge" class="msg" style="text-align:right;padding:0 0 8px;min-height:18px"></div>
 
 <section id="p-ov"></section>
@@ -248,6 +250,7 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
     var cur=t==="edit"?"log":t;
     Array.prototype.forEach.call($("tabs").querySelectorAll("[data-t]"),function(b){b.setAttribute("aria-selected",b.getAttribute("data-t")===cur)});
     if(/^(imp|sync|exp)$/.test(t))grp(true);
+    $("main").classList.toggle("wide",t==="log");
     menu(false);
     window.scrollTo(0,0);
   }
