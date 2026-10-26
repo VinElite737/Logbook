@@ -2,7 +2,7 @@
   "id": "./",
   "name": "Flugbuch",
   "short_name": "Flugbuch",
-  "description": "Flugbuch für private Zwecke",
+  "description": "Flugbuch für private Zwecke ",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
