@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "Haushaltsbuch",
-  "short_name": "Haushaltsbuch",
-  "description": "Dein privates Haushaltsbuch für Einnahmen, Ausgaben und Budget.",
+  "name": "Flugbuch",
+  "short_name": "Flugbuch",
+  "description": "Flugbuch für private Zwecke",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
