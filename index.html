@@ -15,6 +15,9 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Flugbuch">
 <meta name="theme-color" content="#14283d">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+<link rel="apple-touch-icon" href="./icon-192.png">
 <title>Flugbuch</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
@@ -93,7 +96,8 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
 </header>
 <div id="scrim" hidden></div>
 <nav role="tablist" id="tabs" aria-label="Hauptmenü">
-  <div class="dh"><svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#e0b45a"/><g transform="translate(20 20) rotate(45) translate(-12 -12)"><path fill="#14283d" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></g></svg><div>Flugbuch<small>Menü</small></div></div>
+  <div class="dh"><svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#e0b45a"/><g transform="translate(20 20) rotate(45) translate(-12 -12)"><path fill="#14283d" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></g></svg><div>FLUGBUCH<small>by ufuk Tezerdi</small></div></div>
+  <div class="dh"><svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#e0b45a"/><g transform="translate(20 20) rotate(45) translate(-12 -12)"><path fill="#14283d" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></g></svg><div>FLUGBUCH<small>ufuk Tezerdi</small></div></div>
   <button role="tab" data-t="ov" aria-selected="true">Übersicht</button>
   <button role="tab" data-t="log" aria-selected="false">Logbuch</button>
   <button role="tab" data-t="new" aria-selected="false">Neuer Flug</button>
@@ -770,6 +774,14 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
   $("date").value=t.getFullYear()+"-"+String(t.getMonth()+1).padStart(2,"0")+"-"+String(t.getDate()).padStart(2,"0");
   load();entries.sort(cmp);renderAll();syInit();
 })();
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(err => console.warn('Service Worker registration failed:', err));
+  });
+}
 </script>
 </body>
 </html>
