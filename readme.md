@@ -29,7 +29,10 @@ Die Anwendung ermöglicht den automatischen Abgleich aller Daten mit einem Googl
 
 ### Wichtiger Hinweis bei Codeänderungen
 
-Jegliche Anpassungen am Skript in Google Apps Script erfordern zwingend eine **neue Bereitstellung** (Neue Version), um wirksam zu werden. Durch die Erstellung einer neuen Bereitstellung ändert sich die Web-App-URL. Die aktualisierte URL muss anschließend zwingend in den Einstellungen der Anwendung unter `Sync` erneut eingetragen werden.
+1. `Bereitstellen` → `Bereitstellungen verwalten`
+2. Bei deiner bestehenden Web-App auf das `Stiftsymbol` (Bearbeiten) klicken.
+3. Bei `Version` Neue Version auswählen.
+4. Auf `Bereitstellen` klicken.
 
 ## Installation und Betrieb
 
