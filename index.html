@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <!--
-  FlightDeck – Pilot Toolkit
+  Fluchbuch - myAeroLog
   Copyright © 2026 Ufuk Tezerdi. All rights reserved.
 
   This software, including its source code, design and content, is the
   exclusive property of Ufuk Tezerdi. No part of it may be copied, modified,
   redistributed or used without prior written permission of the owner.
 -->
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Flugbuch">
+<meta name="apple-mobile-web-app-title" content="Logbook">
 <meta name="theme-color" content="#14283d">
 <link rel="manifest" href="./manifest.json">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
 <link rel="apple-touch-icon" href="./icon-192.png">
-<title>Flugbuch</title>
+<title>Logbook</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
 <style>
@@ -86,22 +86,114 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
 .empty{color:var(--muted);padding:16px 4px}
 .row2{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
 [hidden]{display:none!important}
+
+.mob,#bnav,#cards{display:none}
+.flt{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:12px}
+.flt .rng{display:flex;align-items:flex-end;gap:10px;flex:1 1 280px;color:var(--sky)}
+.flt .rng svg{flex:none;margin-bottom:6px}.flt .dash{color:var(--muted);margin-bottom:6px}
+.flt label{flex:1;font-size:10px;letter-spacing:1px;text-transform:uppercase}
+.flt input{background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:4px 0;font-size:16px}
+.flt input:focus-visible{outline:0;border-bottom-color:var(--sky)}
+.chips{display:flex;gap:6px}.chips button,.fs button{background:var(--head);color:var(--ink);border:0;border-radius:999px;font:600 13px "Barlow",sans-serif;padding:6px 12px;cursor:pointer}
+.fs{display:flex;align-items:center;gap:10px;flex:1 1 100%;font-size:13px;color:var(--muted)}.fs button{background:none;color:var(--sky);padding:0}
+.card{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--sky);border-radius:14px;padding:12px 14px;cursor:pointer}
+.card.np{border-left-color:var(--muted)}
+.c1,.c3{display:flex;justify-content:space-between;align-items:flex-end}
+.cd{font:600 13px "Barlow Semi Condensed",sans-serif;letter-spacing:1px;color:var(--muted);text-transform:uppercase}
+.chip{font:600 12px "Barlow Semi Condensed",sans-serif;border:1px solid var(--line);border-radius:6px;padding:2px 8px}
+.c2{display:flex;align-items:center;gap:10px;margin:8px 0 6px}
+.c2 b{font:700 26px "Barlow Semi Condensed",sans-serif;letter-spacing:.5px}
+.c2 i{flex:1;min-width:0;text-align:center;font:normal 12px "Barlow Semi Condensed",sans-serif;color:var(--muted);border-bottom:1px solid var(--line);height:9px;line-height:0}
+.c2 i span{background:var(--card);padding:0 6px}
+.cm{font:600 12px "Barlow Semi Condensed",sans-serif;letter-spacing:.5px;color:var(--muted)}
+.blk{text-align:right}.blk small{display:block;font-size:10px;letter-spacing:1px;color:var(--muted)}
+.blk b{font:700 26px "Barlow Semi Condensed",sans-serif;color:var(--sky);letter-spacing:1px;font-variant-numeric:tabular-nums}
+.cdet{display:none;margin-top:12px;border-top:1px solid var(--line);padding-top:12px}.card.open .cdet{display:block}
+.dg{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}.dg span{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+.dg b{font-weight:600;word-break:break-word}.dg .w{grid-column:1/-1}
+.ca{display:flex;gap:10px;margin-top:14px}.ca .btn{flex:1}
+.seg{gap:4px;margin-bottom:14px;background:var(--head);border-radius:12px;padding:4px}
+.seg button{flex:1;background:none;border:0;border-radius:9px;padding:9px;font:600 15px "Barlow",sans-serif;color:var(--muted);cursor:pointer}
+.seg button[aria-selected="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.25)}
+@media (max-width:700px){
+  .mob{display:flex}#cards{display:grid;gap:12px}#sc{display:none}.burger{display:none}
+  main{padding-bottom:116px}main.wide{max-width:720px}
+  #bnav{display:grid;position:fixed;left:0;right:0;bottom:0;z-index:35;grid-template-columns:1fr 1fr 84px 2fr;align-items:center;background:var(--navy);border-top:3px solid var(--gold);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
+  #bnav button{background:none;border:0;color:#9fb3c6;font:600 11px "Barlow",sans-serif;display:grid;justify-items:center;gap:2px;padding:4px 0;cursor:pointer}
+  #bnav button svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  #bnav button[aria-selected="true"]{color:var(--gold)}
+  #bnav .fab{width:62px;height:62px;border-radius:50%;background:var(--sky);color:var(--onsky);margin:-34px auto 0;place-items:center;box-shadow:0 4px 14px rgba(0,0,0,.4);border:4px solid var(--paper)}
+  #bnav .fab svg{width:28px;height:28px;stroke-width:2.6}
+}
+.i,.fh,.mb{display:none}
+.stp{display:flex;flex-direction:column;font-size:13px;color:var(--muted);gap:4px;min-width:0}
+.sr{display:flex;align-items:center;gap:8px}.sr input{flex:1}
+@media all{
+  form.nf{background:none;border:0;padding:0;gap:10px;margin-bottom:8px}
+  form.nf>*{order:var(--o,30)}
+  form.nf .mw{grid-column:1/-1}
+  .fh{display:block;grid-column:1/-1;text-align:center;font:600 12px "Barlow Semi Condensed",sans-serif;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);margin:10px 0 0}
+  form.nf label{position:relative;font-size:11px;letter-spacing:.6px}
+  form.nf input,form.nf select{background:var(--card);border:1px solid var(--line);border-radius:12px;height:48px;padding:0 14px}
+  form.nf label.ic input{padding-left:42px}
+  form.nf .i{display:block;position:absolute;left:14px;bottom:15px;width:18px;height:18px;fill:none;stroke:var(--muted);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+  form.nf input[readonly]{opacity:.7}
+  .stp{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px 10px;text-align:center}
+  .stp .dk{display:none}.stp .mb{display:block;font-size:11px;letter-spacing:1px;text-transform:uppercase}
+  .stp .sr input{border:0;background:none;text-align:center;font:700 26px "Barlow Semi Condensed",sans-serif;height:40px;padding:0;-moz-appearance:textfield}
+  .stp .sr input::-webkit-inner-spin-button,.stp .sr input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+  .stp .sr button{display:grid;place-items:center;width:34px;height:34px;flex:none;border-radius:50%;border:0;background:var(--head);color:var(--ink);font:600 20px "Barlow",sans-serif;cursor:pointer;padding:0}
+  .stp .sr button:last-child{background:var(--sky);color:var(--onsky)}
+}
+#bnav{display:grid;position:fixed;left:0;right:0;bottom:0;max-width:640px;margin:0 auto;z-index:35;grid-template-columns:1fr 1fr 84px 1fr 1fr;align-items:center;background:var(--navy);border-top:3px solid var(--gold);border-radius:18px 18px 0 0;padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
+#bnav button{background:none;border:0;color:#9fb3c6;font:600 11px "Barlow",sans-serif;display:grid;justify-items:center;gap:2px;padding:4px 0;cursor:pointer}
+#bnav button svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#bnav button[aria-selected="true"]{color:var(--gold)}
+#bnav .fab{width:62px;height:62px;border-radius:50%;background:var(--sky);color:var(--onsky);margin:-34px auto 0;place-items:center;box-shadow:0 4px 14px rgba(0,0,0,.4);border:4px solid var(--paper)}
+#bnav .fab svg{width:28px;height:28px;stroke-width:2.6}
+.burger{display:none}main{padding-bottom:116px}.seg.mob{display:flex}
+.back{background:none;border:0;color:var(--sky);font:600 15px "Barlow",sans-serif;padding:0 0 10px;cursor:pointer;display:block}
+.mh{margin:0 0 12px}.tag{font:600 12px "Barlow",sans-serif;color:var(--muted);margin-left:6px}
+.mrow{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px;color:var(--ink);font:inherit;cursor:pointer}
+.mrow svg{width:26px;height:26px;fill:none;stroke:var(--sky);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.mrow div{flex:1}.mrow b{display:block;font:600 18px "Barlow Semi Condensed",sans-serif}.mrow small{color:var(--muted)}.mrow i{color:var(--muted);font-style:normal;font-size:24px}
+.dlist{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.dit{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line)}.dit:last-child{border:0}
+.dit b{display:block;font:600 17px "Barlow Semi Condensed",sans-serif}.dit small{color:var(--muted)}
+.dr{display:flex;flex-direction:column;align-items:flex-end;gap:6px}.dr button{background:none;border:0;color:var(--muted);font:600 13px "Barlow",sans-serif;cursor:pointer;padding:0}
+.pill{font:600 13px "Barlow",sans-serif;border-radius:999px;padding:3px 10px;white-space:nowrap}
+.pill.good{background:var(--sky);color:var(--onsky)}.pill.warn{background:var(--gold);color:#14283d}.pill.exp{background:#8b1a3a;color:#fff}
+.dm{position:fixed;inset:0;z-index:60;background:rgba(5,15,25,.6);display:grid;place-items:center;padding:20px}
+.dmb{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;width:min(440px,100%);max-height:80vh;overflow:auto}.dmb h3{margin:0 0 6px;font:700 22px "Barlow Semi Condensed",sans-serif}
+.acw{position:relative;margin-bottom:14px}.acw label{font-size:11px;letter-spacing:.6px}
+.acw input{height:48px;border-radius:12px;background:var(--card);padding:0 14px}
+.ac-list{position:absolute;left:0;right:0;top:100%;z-index:20;background:var(--card);border:1px solid var(--line);border-radius:12px;margin-top:4px;max-height:300px;overflow:auto;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.ac-item{display:flex;gap:12px;align-items:center;padding:10px 12px;cursor:pointer;border-bottom:1px solid var(--line)}.ac-item:last-child{border:0}.ac-item.active{background:var(--head)}
+.ac-code{font:700 15px "Barlow Semi Condensed",sans-serif;color:var(--sky);min-width:44px}.ac-main b{display:block;font-weight:600}.ac-main small{color:var(--muted)}
+.ac-msg{padding:12px;color:var(--muted);font-size:14px}
+.mh2{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}.mt{font:700 32px "Barlow Semi Condensed",sans-serif;color:var(--sky);letter-spacing:1px}.mh2 small{color:var(--muted)}
+.mchips{display:flex;flex-wrap:wrap;gap:6px 16px;margin:8px 0 14px;font:600 15px "Barlow",sans-serif}.mchips span{display:inline-flex;align-items:center;gap:6px}
+.mchips svg,.mrw svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.mraw{font:14px/1.7 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--sky);background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;white-space:pre-wrap;word-break:break-word;letter-spacing:.5px;margin:0}
+.mdet{margin:22px 0 4px;color:var(--sky);font:600 13px "Barlow Semi Condensed",sans-serif;letter-spacing:1.5px}
+.mrw{display:flex;gap:14px;padding:14px 4px;border-bottom:1px solid var(--line)}.mrw:last-child{border:0}
+.mrw>svg{width:22px;height:22px;color:var(--muted);margin-top:2px}.mrw span{display:block;color:var(--muted);font-size:14px}.mrw b{display:block;font-weight:700;font-size:18px}
 </style>
 </head>
 <body>
 <header class="top">
-  <button class="burger" id="menuBtn" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="tabs"><span></span><span></span><span></span></button>
+  <button class="burger" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="tabs"><span></span><span></span><span></span></button>
   <svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#e0b45a"/><g transform="translate(20 20) rotate(45) translate(-12 -12)"><path fill="#14283d" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></g></svg>
-  <h1>Flugbuch</h1>
+  <h1>Logbook</h1>
 </header>
 <div id="scrim" hidden></div>
-<nav role="tablist" id="tabs" aria-label="Hauptmenü">
-  <div class="dh"><svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#e0b45a"/><g transform="translate(20 20) rotate(45) translate(-12 -12)"><path fill="#14283d" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></g></svg><div>FLUGBUCH<small>by ufuk Tezerdi</small></div></div>
-  <button role="tab" data-t="ov" aria-selected="true">Übersicht</button>
-  <button role="tab" data-t="log" aria-selected="false">Logbuch</button>
-  <button role="tab" data-t="new" aria-selected="false">Neuer Flug</button>
+<nav role="tablist" id="tabs" aria-label="Main menu">
+  <div class="dh"><svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#e0b45a"/><g transform="translate(20 20) rotate(45) translate(-12 -12)"><path fill="#14283d" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></g></svg><div>LOGBOOK<small>by ufuk Tezerdi</small></div></div>
+  <button role="tab" data-t="ov" aria-selected="true">Overview</button>
+  <button role="tab" data-t="log" aria-selected="false">Logbook</button>
+  <button role="tab" data-t="new" aria-selected="false">New flight</button>
   <div class="grp" id="grp">
-    <button type="button" class="gt" id="grpBtn" aria-expanded="false">Daten<span class="chev">▾</span></button>
+    <button type="button" class="gt" id="grpBtn" aria-expanded="false">Data<span class="chev">▾</span></button>
     <div class="msub">
       <button role="tab" data-t="imp" aria-selected="false">Import</button>
       <button role="tab" data-t="sync" aria-selected="false">Sync</button>
@@ -115,122 +207,165 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
 <section id="p-ov"></section>
 
 <section id="p-log" hidden>
-  <div class="scroll"><table id="tbl"></table></div>
+  <div class="flt">
+    <div class="rng"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+      <label>From<input type="date" id="fFrom"></label><span class="dash">–</span><label>To<input type="date" id="fTo"></label></div>
+    <div class="chips" id="chips"><button type="button" data-q="30">30 days</button><button type="button" data-q="year">This year</button><button type="button" data-q="all">All</button></div>
+    <div class="fs"><span id="fSum"></span><button type="button" id="fClr" hidden>Clear filter</button></div>
+  </div>
+  <div id="cards"></div>
+  <div class="scroll" id="sc"><table id="tbl"></table></div>
 </section>
 
 <section id="p-new" hidden>
-  <form id="f" autocomplete="off">
-    <label>Datum<input type="date" id="date" required></label>
-    <label>Kategorie
+  <form id="f" class="nf" autocomplete="off">
+    <h3 class="fh" style="--o:1">General info</h3>
+    <label class="ic" style="--o:2">Date<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><input type="date" id="date" required></label>
+    <label style="--o:5">Category
       <select id="cat"><option>SEP</option><option>SE IR</option><option>MEP</option><option>ME IR</option><option value="FSTD">FSTD (Simulator)</option></select>
     </label>
-    <label>Funktion
+    <label style="--o:6">Function
       <select id="role"><option value="PIC">PIC</option><option value="CO">Co-Pilot</option><option value="DUAL">Dual</option><option value="FI">FI</option></select>
     </label>
-    <label>PIC-Name<input id="pic" placeholder="SELF" maxlength="30"></label>
-    <label>Muster<input id="type" placeholder="Aquila A210" maxlength="24"></label>
-    <label>Kennzeichen<input id="reg" placeholder="D-EUAU" maxlength="16" autocapitalize="characters"></label>
-    <label>Von<input id="from" placeholder="EDTE" maxlength="8" autocapitalize="characters"></label>
-    <label>Abflug<input type="time" id="start"></label>
-    <label>Nach<input id="to" placeholder="EDTE" maxlength="8" autocapitalize="characters"></label>
-    <label>Ankunft<input type="time" id="end"></label>
-    <label>Oder Dauer direkt<input id="manual" inputmode="numeric" placeholder="h:mm" maxlength="6"></label>
-    <label>Nachtzeit<input id="night" inputmode="numeric" placeholder="h:mm" maxlength="6"></label>
-    <label>IFR-Zeit<input id="ifr" inputmode="numeric" placeholder="h:mm" maxlength="6"></label>
-    <label>Landungen Tag<input type="number" id="ldgD" min="0" value="1" inputmode="numeric"></label>
-    <label>Landungen Nacht<input type="number" id="ldgN" min="0" value="0" inputmode="numeric"></label>
-    <label class="wide">Bemerkung<input id="note" maxlength="120"></label>
-    <p class="calc wide">Dauer: <b id="calc">–</b></p>
-    <p class="msg wide err" id="fmsg" hidden></p>
-    <button class="btn wide" type="submit">Flug speichern</button>
-    <p class="msg wide">Die Daten bleiben in diesem Browser auf deinem Gerät. Sichere sie regelmäßig im Tab Export.</p>
+    <h3 class="fh" style="--o:7">Crew</h3>
+    <label class="ic mw" style="--o:8">PIC name<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><input id="pic" placeholder="SELF" maxlength="30"></label>
+    <label class="ic mw" style="--o:4">Aircraft type<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4l4 7H8z"/><circle cx="7" cy="17" r="3"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg><input id="type" placeholder="Aquila A210" maxlength="24"></label>
+    <label class="ic" style="--o:3">Registration<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><input id="reg" placeholder="D-EUAU" maxlength="16" autocapitalize="characters"></label>
+    <h3 class="fh" style="--o:9">Route</h3>
+    <label style="--o:10">From<input id="from" placeholder="EDTE" maxlength="8" autocapitalize="characters"></label>
+    <h3 class="fh" style="--o:12">Timing</h3>
+    <label style="--o:14">Departure<input type="time" id="start"></label>
+    <label style="--o:11">To<input id="to" placeholder="EDTE" maxlength="8" autocapitalize="characters"></label>
+    <label style="--o:15">Arrival<input type="time" id="end"></label>
+    <label style="--o:16">Night time<input id="night" inputmode="numeric" placeholder="h:mm" maxlength="6"></label>
+    <label style="--o:17">IFR time<input id="ifr" inputmode="numeric" placeholder="h:mm" maxlength="6"></label>
+    <h3 class="fh" style="--o:18">Landings</h3>
+    <div class="stp" style="--o:19"><span class="dk">Landings day</span><span class="mb">Day</span><div class="sr"><button type="button" class="mob" data-s="ldgD" data-d="-1" aria-label="Fewer">−</button><input type="number" id="ldgD" min="0" value="1" inputmode="numeric" aria-label="Landings day"><button type="button" class="mob" data-s="ldgD" data-d="1" aria-label="More">+</button></div></div>
+    <div class="stp" style="--o:20"><span class="dk">Landings night</span><span class="mb">Night</span><div class="sr"><button type="button" class="mob" data-s="ldgN" data-d="-1" aria-label="Fewer">−</button><input type="number" id="ldgN" min="0" value="0" inputmode="numeric" aria-label="Landings night"><button type="button" class="mob" data-s="ldgN" data-d="1" aria-label="More">+</button></div></div>
+    <label class="wide" style="--o:21">Remarks<input id="note" maxlength="120"></label>
+    <p class="calc wide" style="--o:13">Duration: <b id="calc">–</b></p>
+    <p class="msg wide err" id="fmsg" style="--o:22" hidden></p>
+    <button class="btn wide" type="submit" style="--o:23">Save flight</button>
+    <p class="msg wide" style="--o:24">Your data stays in this browser on your device. Back it up regularly under Data › Export.</p>
   </form>
 </section>
 
 <section id="p-edit" hidden>
-  <button class="btn alt" type="button" id="eBack" style="margin-bottom:12px">← Zurück zum Logbuch</button>
-  <label style="display:grid;gap:6px;margin-bottom:12px">Eintrag wählen (neueste zuerst)<select id="eSel"></select></label>
+  <button class="btn alt" type="button" id="eBack" style="margin-bottom:12px">← Back to logbook</button>
+  <label style="display:grid;gap:6px;margin-bottom:12px">Select entry (newest first)<select id="eSel"></select></label>
   <form id="ef" autocomplete="off">
-    <label>Datum<input type="date" id="e_date" required></label>
-    <label>Kategorie
+    <label>Date<input type="date" id="e_date" required></label>
+    <label>Category
       <select id="e_cat"><option>SEP</option><option>SE IR</option><option>MEP</option><option>ME IR</option><option value="FSTD">FSTD (Simulator)</option></select>
     </label>
-    <label>Funktion
+    <label>Function
       <select id="e_role"><option value="PIC">PIC</option><option value="CO">Co-Pilot</option><option value="DUAL">Dual</option><option value="FI">FI</option></select>
     </label>
-    <label>PIC-Name<input id="e_pic" maxlength="30"></label>
-    <label>Muster<input id="e_type" maxlength="24"></label>
-    <label>Kennzeichen<input id="e_reg" maxlength="16" autocapitalize="characters"></label>
-    <label>Von<input id="e_from" maxlength="8" autocapitalize="characters"></label>
-    <label>Abflug<input type="time" id="e_start"></label>
-    <label>Nach<input id="e_to" maxlength="8" autocapitalize="characters"></label>
-    <label>Ankunft<input type="time" id="e_end"></label>
-    <label>Dauer<input id="e_dur" inputmode="numeric" placeholder="h:mm" maxlength="6"></label>
-    <label>Nachtzeit<input id="e_night" inputmode="numeric" placeholder="h:mm" maxlength="6"></label>
-    <label>IFR-Zeit<input id="e_ifr" inputmode="numeric" placeholder="h:mm" maxlength="6"></label>
-    <label>Landungen Tag<input type="number" id="e_ldgD" min="0" inputmode="numeric"></label>
-    <label>Landungen Nacht<input type="number" id="e_ldgN" min="0" inputmode="numeric"></label>
-    <label class="wide">Bemerkung<input id="e_note" maxlength="120"></label>
+    <label>PIC name<input id="e_pic" maxlength="30"></label>
+    <label>Aircraft type<input id="e_type" maxlength="24"></label>
+    <label>Registration<input id="e_reg" maxlength="16" autocapitalize="characters"></label>
+    <label>From<input id="e_from" maxlength="8" autocapitalize="characters"></label>
+    <label>Departure<input type="time" id="e_start"></label>
+    <label>To<input id="e_to" maxlength="8" autocapitalize="characters"></label>
+    <label>Arrival<input type="time" id="e_end"></label>
+    <label>Duration<input id="e_dur" inputmode="numeric" placeholder="h:mm" maxlength="6"></label>
+    <label>Night time<input id="e_night" inputmode="numeric" placeholder="h:mm" maxlength="6"></label>
+    <label>IFR time<input id="e_ifr" inputmode="numeric" placeholder="h:mm" maxlength="6"></label>
+    <label>Landings day<input type="number" id="e_ldgD" min="0" inputmode="numeric"></label>
+    <label>Landings night<input type="number" id="e_ldgN" min="0" inputmode="numeric"></label>
+    <label class="wide">Remarks<input id="e_note" maxlength="120"></label>
     <p class="msg wide" id="eMsg"></p>
-    <button class="btn wide" type="submit">Änderungen speichern</button>
-    <p class="msg wide">Wenn du Abflug oder Ankunft änderst, wird die Dauer neu berechnet. Du kannst sie danach noch von Hand anpassen.</p>
+    <button class="btn wide" type="submit">Save changes</button>
+    <p class="msg wide">If you change departure or arrival, the duration is recalculated. You can still adjust it manually afterwards.</p>
   </form>
 </section>
 
-<section id="p-imp" hidden>
-  <h2>Excel importieren</h2>
-  <p class="msg">Wähle eine oder mehrere Excel-Dateien (.xlsx). Die Kopfzeile wird automatisch erkannt, auch die zweizeilige Logbuch-Vorlage mit Abflug/Ankunft. Vor dem Übernehmen siehst du, was erkannt wurde. Einträge mit gleichem Datum und gleicher Abflugzeit werden nie doppelt angelegt, neue Einträge werden automatisch nach Datum einsortiert.</p>
+<section id="p-imp" hidden><button type="button" class="back" data-go="more">‹ More</button><div class="seg mob"><button type="button" data-go="imp">Import</button><button type="button" data-go="sync">Sync</button><button type="button" data-go="exp">Export</button></div>
+  <h2>Import Excel</h2>
+  <p class="msg">Choose one or more Excel files (.xlsx). The header row is detected automatically, including the two-row logbook template with departure/arrival. Before importing you see what was recognised. Entries with the same date and departure time are never duplicated, and new entries are sorted by date automatically.</p>
   <div style="display:grid;gap:12px;margin-top:12px">
-    <label>Excel-Dateien<input type="file" id="xmlIn" accept=".xlsx,.xls,.csv" multiple></label>
-    <label>Kategorie, falls in der Datei keine steht
-      <select id="impCat"><option value="">Automatisch erkennen</option><option>SEP</option><option>SE IR</option><option>MEP</option><option>ME IR</option><option value="FSTD">FSTD (Simulator)</option></select>
+    <label>Excel files<input type="file" id="xmlIn" accept=".xlsx,.xls,.csv" multiple></label>
+    <label>Category, if the file has none
+      <select id="impCat"><option value="">Detect automatically</option><option>SEP</option><option>SE IR</option><option>MEP</option><option>ME IR</option><option value="FSTD">FSTD (Simulator)</option></select>
     </label>
   </div>
   <p class="msg" id="impMsg" style="margin-top:12px"></p>
   <div id="impList"></div>
   <div class="row2"><button class="btn" id="impGo" type="button" hidden></button></div>
-  <p class="msg">Dauer wird als h:mm, Dezimalstunden (1,5) oder Minuten (90) gelesen, Daten als Excel-Datum oder TT.MM.JJJJ. Zeilen ohne Datum, etwa Summenzeilen, werden ignoriert.</p>
+  <p class="msg">Duration is read as h:mm, decimal hours (1.5) or minutes (90); dates as Excel dates or DD.MM.YYYY. Rows without a date, such as total rows, are ignored.</p>
 </section>
 
-<section id="p-sync" hidden>
-  <h2>Automatisch ins Google-Sheet-Logbuch schreiben</h2>
-  <p class="msg">Jeder neue, geänderte oder gelöschte Flug wird automatisch in dein Google-Sheet-Logbuch übernommen (neue Flüge landen in der nächsten freien Zeile der letzten Seite, bei voller Seite wird „Seite 12“ usw. automatisch angelegt). Das geht nur, wenn die App über eine eigene Internetadresse läuft (index.html gehostet), nicht in der Claude-Vorschau.</p>
+<section id="p-sync" hidden><button type="button" class="back" data-go="more">‹ More</button><div class="seg mob"><button type="button" data-go="imp">Import</button><button type="button" data-go="sync">Sync</button><button type="button" data-go="exp">Export</button></div>
+  <h2>Write automatically to your Google Sheet logbook</h2>
+  <p class="msg">Every new, changed or deleted flight is transferred to your Google Sheet logbook automatically (new flights go to the next free row of the last page; when a page is full, “Seite 12” etc. is created automatically). This only works when the app runs from its own web address (hosted index.html), not in the Claude preview.</p>
   <details style="margin:12px 0">
-    <summary style="cursor:pointer;font-weight:600">Einrichtung (einmalig)</summary>
+    <summary style="cursor:pointer;font-weight:600">Setup (one time)</summary>
     <ol class="msg" style="padding-left:20px;line-height:1.6">
-      <li>Öffne <b>dein Logbuch-Sheet</b> (das mit den Seiten „Seite 1, Seite 2 …“) und tippe auf „Erweiterungen“, dann „Apps Script“.</li>
-      <li>Den vorhandenen Code löschen, den Code unten einfügen, bei TOKEN ein eigenes geheimes Passwort eintragen und speichern.</li>
-      <li>„Bereitstellen“, „Neue Bereitstellung“, Typ „Web-App“. Ausführen als: „Ich“. Zugriff: „Jeder“. Bereitstellen und die Berechtigungen erlauben (bei der Warnung „Nicht überprüft“ auf „Erweitert“ und „Trotzdem fortfahren“).</li>
-      <li>Die angezeigte Web-App-URL (endet auf /exec) und dein Passwort unten eintragen und auf „Abgleichen“ tippen.</li>
+      <li>Open <b>your logbook sheet</b> (the one with the pages “Seite 1”, “Seite 2” …) and tap “Extensions”, then “Apps Script”.</li>
+      <li>Delete the existing code, paste the code below, enter your own secret password at TOKEN and save.</li>
+      <li>“Deploy”, “New deployment”, type “Web app”. Execute as: “Me”. Access: “Anyone”. Deploy and allow the permissions (on the “Not verified” warning tap “Advanced” and “Continue anyway”).</li>
+      <li>Enter the web app URL shown (ends in /exec) and your password below and tap “Sync now”.</li>
     </ol>
     <textarea id="gsCode" readonly rows="10" style="font:13px/1.4 monospace;white-space:pre"></textarea>
-    <div class="row2"><button class="btn alt" type="button" id="gsCopy">Code kopieren</button></div>
+    <div class="row2"><button class="btn alt" type="button" id="gsCopy">Copy code</button></div>
   </details>
   <div style="display:grid;gap:12px">
-    <label>Web-App-Adresse<input id="syUrl" placeholder="https://script.google.com/macros/s/…/exec" inputmode="url" autocapitalize="off" autocomplete="off"></label>
-    <label>Passwort (wie im Skript bei TOKEN)<input id="syTok" type="password" autocomplete="off"></label>
-    <label style="flex-direction:row;align-items:center;gap:8px"><input type="checkbox" id="syAuto" style="width:auto"> Automatisch abgleichen (alle 15 Sekunden und sobald die App wieder geöffnet wird)</label>
+    <label>Web app address<input id="syUrl" placeholder="https://script.google.com/macros/s/…/exec" inputmode="url" autocapitalize="off" autocomplete="off"></label>
+    <label>Password (same as TOKEN in the script)<input id="syTok" type="password" autocomplete="off"></label>
+    <label style="flex-direction:row;align-items:center;gap:8px"><input type="checkbox" id="syAuto" style="width:auto"> Sync automatically (every 15 seconds and whenever the app is reopened)</label>
   </div>
   <div class="row2">
-    <button class="btn" type="button" id="syMerge">Abgleichen</button>
-    <button class="btn alt" type="button" id="syDown">Dieses Gerät ersetzen</button>
+    <button class="btn" type="button" id="syMerge">Sync now</button>
+    <button class="btn alt" type="button" id="syDown">Replace this device</button>
   </div>
   <p class="msg" id="syMsg"></p>
-  <p class="msg" style="margin-top:12px"><b>Automatisch:</b> Nach jedem Speichern, Bearbeiten oder Löschen geht die Änderung sofort an das Sheet. Ohne Internet wird sie gemerkt und später nachgeschickt. Oben auf der Seite siehst du den Stand.<br><b>Abgleichen:</b> gleicht neue, geänderte und gelöschte Flüge in beide Richtungen ab. Bei aktivierter Automatik wird alle 15 Sekunden abgeglichen, solange die App geöffnet und online ist.<br><b>Dieses Gerät ersetzen:</b> dieses Gerät bekommt genau den Stand des Sheets.<br><b>Gelöscht:</b> im Sheet bleibt die Zeile leer (eine Lücke), die Formeln bleiben erhalten.</p>
+  <p class="msg" style="margin-top:12px"><b>Automatic:</b> After every save, edit or delete the change is sent to the sheet immediately. Without internet it is remembered and sent later. The status is shown at the top of the page.<br><b>Sync now:</b> syncs new, changed and deleted flights in both directions. With automatic sync enabled this happens every 15 seconds while the app is open and online.<br><b>Replace this device:</b> this device gets exactly the state of the sheet.<br><b>Deleted:</b> the row in the sheet stays empty (a gap); the formulas are kept.</p>
 </section>
 
-<section id="p-exp" hidden>
-  <h2>Exportieren</h2>
+<section id="p-exp" hidden><button type="button" class="back" data-go="more">‹ More</button><div class="seg mob"><button type="button" data-go="imp">Import</button><button type="button" data-go="sync">Sync</button><button type="button" data-go="exp">Export</button></div>
+  <h2>Export</h2>
   <div class="row2">
-    <button class="btn" id="bCsv" type="button">Logbuch als CSV (Excel)</button>
-    <button class="btn alt" id="bJson" type="button">Backup als Datei</button>
+    <button class="btn" id="bCsv" type="button">Logbook as CSV (Excel)</button>
+    <button class="btn alt" id="bJson" type="button">Backup as file</button>
   </div>
-  <h2>Backup laden</h2>
-  <label>Backup-Datei auswählen<input type="file" id="fileIn" accept=".json,application/json"></label>
+  <h2>Load backup</h2>
+  <label>Choose backup file<input type="file" id="fileIn" accept=".json,application/json"></label>
   <p class="msg" id="emsg" style="margin-top:10px"></p>
   <textarea id="fallback" rows="8" hidden readonly></textarea>
 </section>
+<section id="p-docs" hidden>
+  <h2 class="mh">Documents</h2>
+  <p class="msg" style="margin-bottom:12px">Track expiry dates and remaining days. Entries are stored locally on this device.</p>
+  <form id="docForm" class="nf" autocomplete="off">
+    <label class="mw">Licence / Document<select id="docType"><option>Class 1 Medical</option><option>Class 2 Medical</option><option>SEP Rating</option><option>MEP Rating</option><option>IR Rating</option><option>ICAO English / ELP</option><option>Passport</option><option>Custom</option></select></label>
+    <label class="mw" id="docNameWrap" hidden>Label (optional)<input id="docName" placeholder="e.g. EASA licence"></label>
+    <label class="mw">Licence number (optional)<input id="docNo" placeholder="e.g. DE.FCL.123456" autocapitalize="characters" spellcheck="false"></label>
+    <label>Expiry date<input id="docDate" type="date" required></label>
+    <label>Remind me before<select id="docNotice"><option value="90">90 days</option><option value="60">60 days</option><option value="30" selected>30 days</option><option value="14">14 days</option></select></label>
+    <button class="btn wide" type="submit">+ Save reminder</button>
+    <p class="msg wide" id="docMsg"></p>
+  </form>
+  <h2>My documents <span class="tag" id="docCount"></span></h2>
+  <div class="dlist" id="docList"></div>
+</section>
+<section id="p-more" hidden>
+  <h2 class="mh">More</h2>
+  <button type="button" class="mrow" data-go="metar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a4 4 0 0 1-.5-8A6 6 0 0 1 18 9a4.5 4.5 0 0 1 0 9z"/></svg><div><b>METAR</b><small>Current weather report for any airport</small></div><i>›</i></button>
+  <button type="button" class="mrow" data-go="imp"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg><div><b>Data</b><small>Import, Sync and Export</small></div><i>›</i></button>
+</section>
+<section id="p-metar" hidden>
+  <button type="button" class="back" data-go="more">‹ More</button>
+  <div class="acw"><label>Airport / ICAO code<input id="mIcao" type="text" placeholder="e.g. EDDS, Stuttgart or STR" autocomplete="off" autocapitalize="off" spellcheck="false" role="combobox" aria-expanded="false"></label><div class="ac-list" id="mList" hidden></div></div>
+  <div id="mOut"><p class="msg">Search an airport and pick it from the suggestions. The METAR loads automatically.</p></div>
+</section>
 </main>
+<nav id="bnav" aria-label="Main navigation">
+  <button type="button" data-go="ov" aria-selected="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg><span>Overview</span></button>
+  <button type="button" data-go="log" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h11a2 2 0 0 1 2 2v14H8a2 2 0 0 1-2-2V4z"/><path d="M6 18a2 2 0 0 1 2-2h11"/></svg><span>Logbook</span></button>
+  <button type="button" class="fab" data-go="new" aria-label="New flight"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+  <button type="button" data-go="docs" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg><span>Docs</span></button>
+  <button type="button" data-go="more" data-grp="1" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="19" cy="12" r="1.7" fill="currentColor"/></svg><span>More</span></button>
+</nav>
 
 <script>
 (function(){
@@ -257,15 +392,15 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
 
   /* Tabs */
   function show(t){
-    ["ov","log","new","edit","imp","sync","exp"].forEach(function(x){$("p-"+x).hidden=x!==t});
+    ["ov","log","new","edit","imp","sync","exp","docs","more","metar"].forEach(function(x){$("p-"+x).hidden=x!==t});
     var cur=t==="edit"?"log":t;
     Array.prototype.forEach.call($("tabs").querySelectorAll("[data-t]"),function(b){b.setAttribute("aria-selected",b.getAttribute("data-t")===cur)});
     if(/^(imp|sync|exp)$/.test(t))grp(true);
     $("main").classList.toggle("wide",t==="log");
     menu(false);
-    window.scrollTo(0,0);
+    navSel(t);if(t==="metar")metarEnter();window.scrollTo(0,0);
   }
-  function menu(o){$("tabs").classList.toggle("open",o);$("scrim").hidden=!o;$("menuBtn").setAttribute("aria-expanded",o);$("menuBtn").setAttribute("aria-label",o?"Menü schließen":"Menü öffnen")}
+  function menu(o){$("tabs").classList.toggle("open",o);$("scrim").hidden=!o;$("menuBtn").setAttribute("aria-expanded",o);$("menuBtn").setAttribute("aria-label",o?"Close menu":"Open menu")}
   function grp(o){$("grp").classList.toggle("open",o);$("grpBtn").setAttribute("aria-expanded",o)}
   $("menuBtn").addEventListener("click",function(){menu(!$("tabs").classList.contains("open"))});
   $("scrim").addEventListener("click",function(){menu(false)});
@@ -293,33 +428,33 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
   function renderOv(){
     var s=sums(),c=s.c;
     $("p-ov").innerHTML=
-      '<div class="total"><div class="l">Flugerfahrung gesamt</div><div class="num">'+fmt(s.tot)+' h</div><div class="s">'+s.n+(s.n===1?" Flug":" Flüge")+', '+s.nf+(s.nf===1?" Simulatoreinheit":" Simulatoreinheiten")+'</div></div>'+
+      '<div class="total"><div class="l">Total flight experience</div><div class="num">'+fmt(s.tot)+' h</div><div class="s">'+s.n+(s.n===1?" flight":" flights")+', '+s.nf+(s.nf===1?" simulator session":" simulator sessions")+'</div></div>'+
       '<div class="grid">'+
         stat("SEP","Single Engine Piston",fmt(c["SEP"]+c["SE IR"])+" h")+
         stat("MEP","Multi Engine Piston",fmt(c["MEP"]+c["ME IR"])+" h")+
         stat("SE IR","SE Instrument Rating",fmt(c["SE IR"])+" h")+
         stat("ME IR","ME Instrument Rating",fmt(c["ME IR"])+" h")+
         stat("FSTD","Flight Simulation Training",fmt(s.fstd)+" h")+
-        '<div><div class="k">Landungen</div><div class="row"><span>Tag</span><b>'+s.ld+'</b></div><div class="row"><span>Nacht</span><b>'+s.ln+'</b></div></div>'+
+        '<div><div class="k">Landings</div><div class="row"><span>Day</span><b>'+s.ld+'</b></div><div class="row"><span>Night</span><b>'+s.ln+'</b></div></div>'+
       '</div>'+
-      '<h2>Nach Funktion und Bedingung</h2>'+
+      '<h2>By function and condition</h2>'+
       '<div class="grid">'+
-        stat("PIC","Kommandant",fmt(s.pic)+" h")+
-        stat("Dual","Mit Fluglehrer",fmt(s.dual)+" h")+
+        stat("PIC","Pilot in command",fmt(s.pic)+" h")+
+        stat("Dual","With instructor",fmt(s.dual)+" h")+
         stat("Co-Pilot","",fmt(s.co)+" h")+
-        stat("Nacht","",fmt(s.night)+" h")+
-        stat("IFR","inkl. Simulator",fmt(s.ifr)+" h")+
-        stat("FI","Fluglehrer",fmt(s.fi)+" h")+
+        stat("Night","",fmt(s.night)+" h")+
+        stat("IFR","incl. simulator",fmt(s.ifr)+" h")+
+        stat("FI","Flight instructor",fmt(s.fi)+" h")+
       '</div>'+
-      '<h2>Aktuell</h2>'+
-      '<div class="grid">'+stat("Letzte 30 Tage","",fmt(s.d30)+" h")+stat("Letzte 12 Monate","",fmt(s.d365)+" h")+'</div>';
+      '<h2>Recent</h2>'+
+      '<div class="grid">'+stat("Last 30 days","",fmt(s.d30)+" h")+stat("Last 12 months","",fmt(s.d365)+" h")+'</div>';
   }
 
   /* Logbuch */
   function sorted(){return entries.slice().sort(cmp)}
   function renderLog(){
-    var rows=sorted();
-    if(!rows.length){$("tbl").innerHTML='<tbody><tr><td class="empty">Noch keine Einträge. Trag deinen ersten Flug im Tab „Neuer Flug“ ein.</td></tr></tbody>';return}
+    var all=sorted(),rows=view();renderCards(rows,all.length);
+    if(!rows.length){$("tbl").innerHTML='<tbody><tr><td class="empty">'+(all.length?"No flights in this period.":"No entries yet. Add your first flight under “New flight”.")+'</td></tr></tbody>';return}
     var T={tot:0,fstd:0,ld:0,ln:0,night:0,ifr:0,pic:0,co:0,dual:0,fi:0};
     var body=rows.map(function(e){
       var isF=e.cat==="FSTD",fl=isF?0:e.min;
@@ -328,42 +463,44 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
       T.pic+=r.PIC;T.co+=r.CO;T.dual+=r.DUAL;T.fi+=r.FI;
       return'<tr><td>'+dmy(e.date)+'</td><td>'+esc(e.from)+'</td><td>'+esc(e.dep)+'</td><td>'+esc(e.to)+'</td><td>'+esc(e.arr)+'</td><td>'+esc(isF?"FSTD":e.type)+'</td><td>'+esc(e.reg)+'</td><td>'+esc(e.pic)+'</td><td>'+esc(e.cat)+'</td>'+
         '<td class="n">'+f0(fl)+'</td><td class="n">'+f0(isF?e.min:0)+'</td><td class="n">'+(e.ldgD||"")+'</td><td class="n">'+(e.ldgN||"")+'</td><td class="n">'+f0(e.night)+'</td><td class="n">'+f0(e.ifr)+'</td>'+
-        '<td class="n">'+f0(r.PIC)+'</td><td class="n">'+f0(r.CO)+'</td><td class="n">'+f0(r.DUAL)+'</td><td class="n">'+f0(r.FI)+'</td><td>'+esc(e.note)+'</td><td><button type="button" data-edit="'+e.id+'" style="color:var(--sky)">Bearbeiten</button> <button type="button" data-id="'+e.id+'">Löschen</button></td></tr>';
+        '<td class="n">'+f0(r.PIC)+'</td><td class="n">'+f0(r.CO)+'</td><td class="n">'+f0(r.DUAL)+'</td><td class="n">'+f0(r.FI)+'</td><td>'+esc(e.note)+'</td><td><button type="button" data-edit="'+e.id+'" style="color:var(--sky)">Edit</button> <button type="button" data-id="'+e.id+'">Delete</button></td></tr>';
     }).join("");
-    $("tbl").innerHTML='<thead><tr><th>Datum</th><th>Von</th><th>Ab</th><th>Nach</th><th>An</th><th>Muster</th><th>Kennz.</th><th>PIC</th><th>Kat.</th><th class="n">Gesamt</th><th class="n">FSTD</th><th class="n">Ldg Tag</th><th class="n">Ldg Nacht</th><th class="n">Nacht</th><th class="n">IFR</th><th class="n">PIC</th><th class="n">Co</th><th class="n">Dual</th><th class="n">FI</th><th>Bemerkung</th><th></th></tr></thead><tbody>'+body+'</tbody>'+
-      '<tfoot><tr><td colspan="9">Summe</td><td class="n">'+fmt(T.tot)+'</td><td class="n">'+fmt(T.fstd)+'</td><td class="n">'+T.ld+'</td><td class="n">'+T.ln+'</td><td class="n">'+fmt(T.night)+'</td><td class="n">'+fmt(T.ifr)+'</td><td class="n">'+fmt(T.pic)+'</td><td class="n">'+fmt(T.co)+'</td><td class="n">'+fmt(T.dual)+'</td><td class="n">'+fmt(T.fi)+'</td><td colspan="2"></td></tr></tfoot>';
+    $("tbl").innerHTML='<thead><tr><th>Date</th><th>From</th><th>Dep</th><th>To</th><th>Arr</th><th>Type</th><th>Reg.</th><th>PIC name</th><th>Cat.</th><th class="n">Total</th><th class="n">FSTD</th><th class="n">Ldg day</th><th class="n">Ldg night</th><th class="n">Night</th><th class="n">IFR</th><th class="n">PIC</th><th class="n">Co</th><th class="n">Dual</th><th class="n">FI</th><th>Remarks</th><th></th></tr></thead><tbody>'+body+'</tbody>'+
+      '<tfoot><tr><td colspan="9">Total</td><td class="n">'+fmt(T.tot)+'</td><td class="n">'+fmt(T.fstd)+'</td><td class="n">'+T.ld+'</td><td class="n">'+T.ln+'</td><td class="n">'+fmt(T.night)+'</td><td class="n">'+fmt(T.ifr)+'</td><td class="n">'+fmt(T.pic)+'</td><td class="n">'+fmt(T.co)+'</td><td class="n">'+fmt(T.dual)+'</td><td class="n">'+fmt(T.fi)+'</td><td colspan="2"></td></tr></tfoot>';
   }
   $("tbl").addEventListener("click",function(ev){
     var b=ev.target,id=b.getAttribute&&b.getAttribute("data-id");
     if(!id)return;
-    if(pending!==id){pending=id;b.textContent="Sicher?";setTimeout(function(){if(pending===id){pending=null;renderLog()}},4000);return}
+    if(pending!==id){pending=id;b.textContent="Sure?";setTimeout(function(){if(pending===id){pending=null;renderLog()}},4000);return}
     pending=null;var del=entries.filter(function(e){return String(e.id)===id})[0];entries=entries.filter(function(e){return String(e.id)!==id});save();renderAll();if(del)qDelete(del);
   });
 
   /* Neuer Flug */
   function duration(){
-    var m=$("manual").value.trim();if(m)return hm(m);
+    
     var a=clk($("start").value),b=clk($("end").value);
     if(a==null||b==null||isNaN(a)||isNaN(b))return null;
     var d=b-a;if(d<=0)d+=1440;return d;
   }
-  function calc(){var d=duration();$("calc").textContent=d==null?"–":fmt(d)+" h"}
-  ["start","end","manual"].forEach(function(i){$(i).addEventListener("input",calc)});
+  function syncIfr(d){var a=/^(SE IR|ME IR|FSTD)$/.test($("cat").value),f=$("ifr"),was=f.readOnly;f.readOnly=a;if(a)f.value=d==null?"":fmt(d);else if(was)f.value=""}
+  function calc(){var d=duration();$("calc").textContent=d==null?"–":fmt(d)+" h";syncIfr(d)}
+  $("cat").addEventListener("change",calc);
+  ["start","end"].forEach(function(i){$(i).addEventListener("input",calc)});
   function err(t){var m=$("fmsg");m.textContent=t;m.hidden=!t}
   $("f").addEventListener("submit",function(ev){
     ev.preventDefault();
     var d=duration();
-    if(d==null||d<=0){err("Bitte Abflug und Ankunft oder eine Dauer im Format h:mm eintragen.");return}
+    if(d==null||d<=0){err("Please enter departure and arrival times or a duration in h:mm format.");return}
     var n=$("night").value.trim(),i=$("ifr").value.trim(),nn=n?hm(n):0,ii=i?hm(i):0;
-    if(nn==null||ii==null){err("Nacht- und IFR-Zeit bitte im Format h:mm eintragen.");return}
+    if(nn==null||ii==null){err("Please enter night and IFR time in h:mm format.");return}
     err("");
     var ne=({id:Date.now(),date:$("date").value,cat:$("cat").value,role:$("role").value,pic:$("pic").value.trim(),
       type:$("type").value.trim(),reg:$("reg").value.trim().toUpperCase(),from:$("from").value.trim().toUpperCase(),dep:$("start").value,
       to:$("to").value.trim().toUpperCase(),arr:$("end").value,min:d,night:nn,ifr:ii,
       ldgD:Math.max(0,parseInt($("ldgD").value,10)||0),ldgN:Math.max(0,parseInt($("ldgN").value,10)||0),note:$("note").value.trim()});
-    if(addAll([ne]).dups){err("Für dieses Datum und diese Abflugzeit gibt es schon einen Eintrag.");return}
-    renderAll();
-    ["from","to","start","end","manual","night","ifr","note"].forEach(function(k){$(k).value=""});
+    if(addAll([ne]).dups){err("An entry for this date and departure time already exists.");return}
+    ding();renderAll();
+    ["from","to","start","end","night","ifr","note"].forEach(function(k){$(k).value=""});
     $("ldgD").value="1";$("ldgN").value="0";calc();show("log");
   });
 
@@ -379,7 +516,7 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
   }
   function eList(){
     var r=sorted().reverse(),s=$("eSel");
-    s.innerHTML=r.length?r.map(function(e){return'<option value="'+e.id+'">'+esc(eLabel(e))+'</option>'}).join(""):'<option value="">Keine Einträge</option>';
+    s.innerHTML=r.length?r.map(function(e){return'<option value="'+e.id+'">'+esc(eLabel(e))+'</option>'}).join(""):'<option value="">No entries</option>';
     if(eId!=null&&r.some(function(e){return String(e.id)===String(eId)}))s.value=eId;
     eFill(s.value);
   }
@@ -396,16 +533,16 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
   $("ef").addEventListener("submit",function(ev){
     ev.preventDefault();var m=$("eMsg");
     function bad(t){m.textContent=t;m.className="msg wide err"}
-    if(eId==null){bad("Kein Eintrag gewählt.");return}
+    if(eId==null){bad("No entry selected.");return}
     var d=hm($("e_dur").value),n=$("e_night").value.trim(),i=$("e_ifr").value.trim(),nn=n?hm(n):0,ii=i?hm(i):0;
-    if(!$("e_date").value){bad("Bitte ein Datum eintragen.");return}
-    if(!d){bad("Dauer bitte im Format h:mm eintragen.");return}
-    if(nn==null||ii==null){bad("Nacht- und IFR-Zeit bitte im Format h:mm eintragen.");return}
+    if(!$("e_date").value){bad("Please enter a date.");return}
+    if(!d){bad("Please enter the duration in h:mm format.");return}
+    if(nn==null||ii==null){bad("Please enter night and IFR time in h:mm format.");return}
     var ne={id:eId,date:$("e_date").value,cat:$("e_cat").value,role:$("e_role").value,pic:$("e_pic").value.trim(),type:$("e_type").value.trim(),reg:$("e_reg").value.trim().toUpperCase(),
       from:$("e_from").value.trim().toUpperCase(),dep:$("e_start").value,to:$("e_to").value.trim().toUpperCase(),arr:$("e_end").value,min:d,night:nn,ifr:ii,
       ldgD:Math.max(0,parseInt($("e_ldgD").value,10)||0),ldgN:Math.max(0,parseInt($("e_ldgN").value,10)||0),note:$("e_note").value.trim(),upd:Date.now()};
     var old=entries.filter(function(x){return x.id===eId})[0],others=entries.filter(function(x){return x.id!==eId}),k=key(ne);
-    if(others.some(function(x){return key(x)===k})){bad("Für dieses Datum und diese Abflugzeit gibt es schon einen Eintrag.");return}
+    if(others.some(function(x){return key(x)===k})){bad("An entry for this date and departure time already exists.");return}
     entries=others.concat([ne]);entries.sort(cmp);save();renderAll();qUpdate(old,ne);
     show("log");
   });
@@ -414,7 +551,7 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
   /* Export */
   function csvCell(v){v=String(v==null?"":v);return/[;"\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}
   function toCsv(){
-    var h=["Datum","Von","Abflug","Nach","Ankunft","Muster","Kennzeichen","PIC-Name","Kategorie","Gesamtzeit","FSTD","Landungen Tag","Landungen Nacht","Nacht","IFR","PIC","Co-Pilot","Dual","FI","Bemerkung"];
+    var h=["Date","From","Departure","To","Arrival","Aircraft type","Registration","PIC name","Category","Total time","FSTD","Landings day","Landings night","Night","IFR","PIC","Co-pilot","Dual","FI","Remarks"];
     var L=[h.join(";")];
     sorted().forEach(function(e){
       var f=e.cat==="FSTD",r={PIC:"",CO:"",DUAL:"",FI:""};if(!f)r[e.role]=fmt(e.min);
@@ -425,25 +562,25 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
   function msg(t,bad){var m=$("emsg");m.textContent=t;m.className="msg"+(bad?" err":"")}
   async function out(name,text){
     $("fallback").hidden=true;
-    if(!entries.length){msg("Es gibt noch nichts zu exportieren.",true);return}
+    if(!entries.length){msg("There is nothing to export yet.",true);return}
     try{
       if(typeof claude==="undefined"){
         var bl=new Blob([text],{type:"text/plain;charset=utf-8"}),u=URL.createObjectURL(bl),l=document.createElement("a");
         l.href=u;l.download=name;document.body.appendChild(l);l.click();l.remove();setTimeout(function(){URL.revokeObjectURL(u)},4000);
-        msg("Datei wurde heruntergeladen.");return;
+        msg("File downloaded.");return;
       }
       var dl=await claude.use("downloads");
       if(!dl)throw{code:"unavailable"};
       await dl.save({filename:name,data:text});
-      msg("Gespeichert.");
+      msg("Saved.");
     }catch(e){
-      if(e&&e.code==="declined"){msg("Abgebrochen.");return}
+      if(e&&e.code==="declined"){msg("Cancelled.");return}
       $("fallback").value=text;$("fallback").hidden=false;
-      msg("Speichern ist hier nicht möglich. Kopiere den Text unten und füge ihn in eine Datei ein.",true);
+      msg("Saving is not possible here. Copy the text below and paste it into a file.",true);
     }
   }
-  $("bCsv").addEventListener("click",function(){out("flugbuch.csv",toCsv())});
-  $("bJson").addEventListener("click",function(){out("flugbuch-backup.json",JSON.stringify(entries))});
+  $("bCsv").addEventListener("click",function(){out("logbook.csv",toCsv())});
+  $("bJson").addEventListener("click",function(){out("logbook-backup.json",JSON.stringify(entries))});
   $("fileIn").addEventListener("change",function(ev){
     var f=ev.target.files&&ev.target.files[0];if(!f)return;
     var r=new FileReader();
@@ -451,8 +588,8 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
       try{
         var a=JSON.parse(r.result);if(!Array.isArray(a))throw 0;
         var r2=addAll(a.filter(function(e){return e&&e.date&&typeof e.min==="number"}));renderAll();
-        msg(r2.added+" Einträge aus dem Backup hinzugefügt, "+r2.dups+" Duplikate übersprungen.");
-      }catch(e){msg("Diese Datei ist kein gültiges Backup.",true)}
+        msg(r2.added+" entries added from backup, "+r2.dups+" duplicates skipped.");
+      }catch(e){msg("This file is not a valid backup.",true)}
     };
     r.readAsText(f);ev.target.value="";
   });
@@ -572,7 +709,7 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
   function rec(o,defCat){
     var dRaw=pick(o,A.date),d=pd(dRaw);
     if(!d){Object.keys(o).some(function(k){var v=o[k];if(/^(\d{4}-\d{2}-\d{2}|\d{1,2}[.\/-]\d{1,2}[.\/-]\d{2,4})/.test(v)&&pd(v)){dRaw=v;d=pd(v);return true}})}
-    if(!d)return{bad:"kein erkennbares Datum"};
+    if(!d)return{bad:"no recognizable date"};
     var dep=pt(pick(o,A.dep,function(v){return isT(v)||/^\d{4}$/.test(v)}))||(/[T ]\d{1,2}:\d{2}/.test(dRaw)?pt(dRaw.replace(/^.*?[T ]/,"")):null);
     var arr=pt(pick(o,A.arr,function(v){return isT(v)||/^\d{4}$/.test(v)}));
     var dur=pm(pick(o,A.dur,isN)),fs=pm(pick(o,A.fstd,isN));
@@ -580,7 +717,7 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
     var type=pick(o,A.type,notT)||"",pic=pick(o,A.pic,notN)||"";
     var cat=mapCat(pick(o,A.cat))||(fs&&!dur?"FSTD":null)||(/fnpt|fstd|simulator/i.test(type)?"FSTD":null);
     var isF=cat==="FSTD",min=isF?(fs||dur):dur;
-    if(!min)return{bad:"keine erkennbare Dauer"};
+    if(!min)return{bad:"no recognizable duration"};
     var ifr=pm(pick(o,A.ifr,isN))||0,night=pm(pick(o,A.night,isN))||0;
     if(!cat){cat=defCat||((/p2006|da ?42|da ?62|seneca|baron|duchess|twin/i.test(type)?"MEP":"SEP")+(ifr>=min?" IR":""))}
     var role="PIC",rr=String(pick(o,A.role)||"").toUpperCase();
@@ -599,28 +736,28 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
   function runImp(){
     staged=[];var bad=[],seen={},dups=0,skip=0,exist={},dbg="";
     entries.forEach(function(e){exist[key(e)]=1});
-    if(files.length&&typeof XLSX==="undefined"){impMsg("Die Excel-Bibliothek konnte nicht geladen werden. Bitte die Seite neu laden.",true);return}
+    if(files.length&&typeof XLSX==="undefined"){impMsg("The Excel library could not be loaded. Please reload the page.",true);return}
     files.forEach(function(f){
       var wb,found=false;
-      try{wb=XLSX.read(f.buf,{type:"array",cellNF:true})}catch(x){bad.push(f.name+": keine lesbare Excel-Datei");return}
+      try{wb=XLSX.read(f.buf,{type:"array",cellNF:true})}catch(x){bad.push(f.name+": not a readable Excel file");return}
       wb.SheetNames.forEach(function(sn){
         var list=toObjs(sheetRows(wb.Sheets[sn]));if(!list)return;found=true;
         if(!dbg&&list.length)dbg=Object.keys(list[0].o).slice(0,14).map(function(k){return k+"="+list[0].o[k]}).join("; ");
         list.forEach(function(it){
           var r=rec(it.o,$("impCat").value||null);
-          if(r.bad){if(/Datum/.test(r.bad))skip++;else bad.push(f.name+" ("+sn+") Zeile "+it.n+": "+r.bad);return}
+          if(r.bad){if(/date/.test(r.bad))skip++;else bad.push(f.name+" ("+sn+") row "+it.n+": "+r.bad);return}
           var k=key(r.e);if(exist[k]||seen[k]){dups++;return}
           seen[k]=1;staged.push(r.e);
         });
       });
-      if(!found)bad.push(f.name+": keine Kopfzeile mit „Datum“ gefunden");
+      if(!found)bad.push(f.name+": no header row with “Date” found");
     });
     staged.sort(cmp);
-    $("impGo").hidden=!staged.length;$("impGo").textContent=staged.length+(staged.length===1?" Eintrag übernehmen":" Einträge übernehmen");
+    $("impGo").hidden=!staged.length;$("impGo").textContent=staged.length+(staged.length===1?" entry to import":" entries to import");
     var rows=staged.slice(0,8).map(function(e){return"<tr><td>"+dmy(e.date)+"</td><td>"+esc(e.dep)+"</td><td>"+esc(e.from)+"</td><td>"+esc(e.to)+"</td><td>"+esc(e.cat)+"</td><td class=\"n\">"+fmt(e.min)+"</td></tr>"}).join("");
-    $("impList").innerHTML=rows?"<div class=\"scroll\"><table><thead><tr><th>Datum</th><th>Ab</th><th>Von</th><th>Nach</th><th>Kat.</th><th class=\"n\">Dauer</th></tr></thead><tbody>"+rows+"</tbody></table></div>"+(staged.length>8?"<p class=\"msg\">… und "+(staged.length-8)+" weitere</p>":""):"";
+    $("impList").innerHTML=rows?"<div class=\"scroll\"><table><thead><tr><th>Date</th><th>Dep</th><th>From</th><th>To</th><th>Cat.</th><th class=\"n\">Duration</th></tr></thead><tbody>"+rows+"</tbody></table></div>"+(staged.length>8?"<p class=\"msg\">… and "+(staged.length-8)+" more</p>":""):"";
     if(!files.length){impMsg("");return}
-    impMsg(staged.length+" neu, "+dups+" bereits vorhanden (übersprungen), "+bad.length+" nicht lesbar"+(skip?", "+skip+" Zeilen ohne Datum ignoriert (z. B. Summen)":"")+"."+(bad.length?" "+bad.slice(0,4).join("; ")+(bad.length>4?" …":""):"")+(!staged.length&&dbg?" Erkannt (erste Zeile): "+dbg:""),!staged.length&&bad.length>0);
+    impMsg(staged.length+" new, "+dups+" already present (skipped), "+bad.length+" unreadable"+(skip?", "+skip+" rows without a date ignored (e.g. totals)":"")+"."+(bad.length?" "+bad.slice(0,4).join("; ")+(bad.length>4?" …":""):"")+(!staged.length&&dbg?" Detected (first row): "+dbg:""),!staged.length&&bad.length>0);
   }
   function readFile(f){return new Promise(function(ok){var r=new FileReader();r.onload=function(){ok({name:f.name,buf:r.result})};r.onerror=function(){ok({name:f.name,buf:new ArrayBuffer(0)})};r.readAsArrayBuffer(f)})}
   $("xmlIn").addEventListener("change",function(ev){
@@ -631,15 +768,15 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
   $("impCat").addEventListener("change",runImp);
   $("impGo").addEventListener("click",function(){
     var r=addAll(staged);renderAll();files=[];runImp();
-    impMsg(r.added+" Einträge importiert"+(r.dups?", "+r.dups+" Duplikate übersprungen":"")+". Das Logbuch ist nach Datum und Abflugzeit sortiert.");
+    impMsg(r.added+" entries imported"+(r.dups?", "+r.dups+" duplicates skipped":"")+". The logbook is sorted by date and departure time.");
   });
 
   /* Google-Sheet-Sync: schreibt direkt in dein Logbuch */
-  var GS="var TOKEN = 'HIER-EIGENES-PASSWORT-EINTRAGEN';\nvar FIRST = 4, LAST = 23;\n\nfunction doPost(e) {\n  var res, lock = LockService.getScriptLock();\n  try {\n    lock.waitLock(25000);\n    var q = JSON.parse(e.postData.contents);\n    if (q.token !== TOKEN) throw new Error('Falsches Passwort');\n    var ss = SpreadsheetApp.getActiveSpreadsheet();\n    if (q.action !== 'delete') repairBroken(ss);\n    if (q.action === 'get') res = { ok: true, entries: rowsOf(ss).map(function (x) { return x.e; }), deleted: deletedKeys(ss) };\n    else if (q.action === 'append') res = { ok: true, added: appendEntries(ss, q.entries) };\n    else if (q.action === 'update') res = { ok: true, done: updateEntry(ss, q.oldKey, q.entry) };\n    else if (q.action === 'delete') res = { ok: true, done: deleteEntry(ss, q.key) };\n    else throw new Error('Unbekannte Aktion');\n  } catch (err) {\n    res = { ok: false, error: String(err.message || err) };\n  } finally {\n    try { lock.releaseLock(); } catch (x) {}\n  }\n  return ContentService.createTextOutput(JSON.stringify(res)).setMimeType(ContentService.MimeType.JSON);\n}\n\nfunction deleteLog(ss) {\n  var sh = ss.getSheetByName('_SyncDeletes');\n  if (!sh) {\n    sh = ss.insertSheet('_SyncDeletes');\n    sh.getRange(1, 1, 1, 2).setValues([['key', 'deletedAt']]);\n    sh.hideSheet();\n  }\n  return sh;\n}\nfunction deletedKeys(ss) {\n  var sh = ss.getSheetByName('_SyncDeletes');\n  if (!sh || sh.getLastRow() < 2) return [];\n  return sh.getRange(2, 1, sh.getLastRow() - 1, 1).getDisplayValues()\n    .map(function (r) { return String(r[0] || ''); }).filter(Boolean);\n}\nfunction isDeleted(ss, key) {\n  if (!key) return false;\n  return deletedKeys(ss).indexOf(String(key)) !== -1;\n}\nfunction markDeleted(ss, key) {\n  if (!key) return;\n  var sh = deleteLog(ss), last = sh.getLastRow();\n  if (last >= 2) {\n    var vals = sh.getRange(2, 1, last - 1, 1).getDisplayValues();\n    for (var i = 0; i < vals.length; i++) if (String(vals[i][0]) === String(key)) return;\n  }\n  sh.appendRow([String(key), new Date()]);\n}\n\nfunction pages(ss) {\n  return ss.getSheets().map(function (s) {\n    var m = /^Seite (\\d+)$/.exec(s.getName());\n    return m ? { n: +m[1], sh: s } : null;\n  }).filter(Boolean).sort(function (a, b) { return a.n - b.n; });\n}\nfunction toMin(v) {\n  v = String(v == null ? '' : v).trim();\n  var m = /^(\\d+):(\\d{2})/.exec(v);\n  if (m) return +m[1] * 60 + +m[2];\n  var f = parseFloat(v.replace(',', '.'));\n  return (isFinite(f) && f > 0 && f < 1) ? Math.round(f * 1440) : 0;\n}\nfunction hm(v) {\n  var m = /^(\\d{1,2}):(\\d{2})/.exec(String(v == null ? '' : v).trim());\n  return m ? ('0' + m[1]).slice(-2) + ':' + m[2] : '';\n}\nfunction frac(s) {\n  var m = /^(\\d{1,2}):(\\d{2})/.exec(String(s || ''));\n  return m ? (+m[1] * 60 + +m[2]) / 1440 : '';\n}\nfunction keyOf(e) {\n  return e.dep ? e.date + '|' + e.dep : e.date + '|' + e.cat + '|' + e.min + '|' + (e.note || '');\n}\n\nfunction rowsOf(ss) {\n  var tz = ss.getSpreadsheetTimeZone(), out = [], n = LAST - FIRST + 1;\n  pages(ss).forEach(function (p) {\n    var rg = p.sh.getRange(FIRST, 1, n, 21), val = rg.getValues(), dis = rg.getDisplayValues();\n    for (var i = 0; i < n; i++) {\n      var v = val[i], d = dis[i];\n      if (!(v[0] instanceof Date)) continue;\n      var t = { PIC: toMin(d[16]), CO: toMin(d[17]), DUAL: toMin(d[18]), FI: toMin(d[19]) }, role = 'PIC', best = 0;\n      for (var k in t) if (t[k] > best) { best = t[k]; role = k; }\n      var e = {\n        date: Utilities.formatDate(v[0], tz, 'yyyy-MM-dd'), from: d[1], dep: hm(d[2]), to: d[3], arr: hm(d[4]),\n        type: d[5], reg: d[6], pic: d[7], cat: String(d[8]).trim(), role: role,\n        min: toMin(d[10]) || toMin(d[11]), night: toMin(d[14]), ifr: toMin(d[15]),\n        ldgD: Number(v[12]) || 0, ldgN: Number(v[13]) || 0, note: String(d[20]).trim()\n      };\n      out.push({ sh: p.sh, row: FIRST + i, e: e });\n    }\n  });\n  return out;\n}\n\nfunction writeRow(sh, r, e) {\n  var d = e.date.split('-'), fstd = e.cat === 'FSTD';\n  var role = e.role || 'PIC', co = role === 'CO', fi = role === 'FI';\n  var self = role === 'PIC' ? 'SELF' : (e.pic || '');\n  var row = [\n    Utilities.parseDate(e.date, sh.getParent().getSpreadsheetTimeZone(), 'yyyy-MM-dd'), e.from || '', frac(e.dep), e.to || '', frac(e.arr),\n    e.type || '', e.reg || '', fstd ? '' : (co || fi ? (e.pic || '') : self), e.cat, '',\n    '',\n    fstd ? frac(hmOf(e.min)) : '',\n    (!fstd && e.ldgD > 0) ? e.ldgD : '', (!fstd && e.ldgN > 0) ? e.ldgN : '',\n    '', '', '',\n    co ? frac(hmOf(e.min)) : '',\n    '',\n    fi ? frac(hmOf(e.min)) : '',\n    e.note || ''\n  ];\n  if (row.length !== 21) throw new Error('Interner Fehler: Es wurden nicht genau 21 Spalten vorbereitet.');\n  var f = ['dd.MM.yyyy', 'General', 'hh:mm', 'General', 'hh:mm', 'General', 'General', 'General', 'General', 'General'];\n  for (var c = 11; c <= 20; c++) f.push('hh:mm');\n  f.splice(12, 2, 'General', 'General');\n  f.push('General');\n  var rg = sh.getRange(r, 1, 1, 21);\n  rg.setValues([row]);\n  rg.setNumberFormats([f.slice(0, 21)]);\n  setFormulaCells(sh, r, fstd, co || fi);\n}\nfunction setFormulaCells(sh, r, fstd, cofi) {\n  var s = String(r);\n  sh.getRange(r, 11).setFormula('=IF(OR(I' + s + '=\"SEP\";I' + s + '=\"MEP\";I' + s + '=\"ME IR\";I' + s + '=\"SE IR\");MOD(E' + s + '-C' + s + ';1);\"\")');\n  if (!fstd) sh.getRange(r, 12).setFormula('=IF(I' + s + '=\"FSTD\";MOD(E' + s + '-C' + s + ';1);\"\")');\n  sh.getRange(r, 15).setFormula('=IF(ISNUMBER(N' + s + ');K' + s + ';\"\")');\n  sh.getRange(r, 16).setFormula('=IF(OR(I' + s + '=\"ME IR\";I' + s + '=\"SE IR\");K' + s + ';IF(I' + s + '=\"FSTD\";L' + s + ';\"\"))');\n  if (!cofi) {\n    sh.getRange(r, 17).setFormula('=IF(H' + s + '=\"SELF\";K' + s + ';\"\")');\n    sh.getRange(r, 19).setFormula('=IF(H' + s + '<>\"SELF\";K' + s + ';\"\")');\n  }\n}\nfunction repairBroken(ss) {\n  var n = LAST - FIRST + 1, fixed = 0;\n  pages(ss).forEach(function (p) {\n    var rg = p.sh.getRange(FIRST, 1, n, 21), val = rg.getValues(), dis = rg.getDisplayValues();\n    for (var i = 0; i < n; i++) {\n      if (!(val[i][0] instanceof Date)) continue;\n      var bad = false;\n      [10, 11, 14, 15, 16, 18].forEach(function (c) { if (/^#|^Err/.test(String(dis[i][c]))) bad = true; });\n      if (!bad) continue;\n      setFormulaCells(p.sh, FIRST + i, String(val[i][8]).trim() === 'FSTD', !!(val[i][17] || val[i][19]));\n      fixed++;\n    }\n  });\n  if (fixed) SpreadsheetApp.flush();\n  return fixed;\n}\nfunction repairFormulas() { return repairBroken(SpreadsheetApp.getActiveSpreadsheet()); }\nfunction hmOf(min) {\n  min = +min || 0;\n  return ('0' + Math.floor(min / 60)).slice(-2) + ':' + ('0' + (min % 60)).slice(-2);\n}\nfunction resetRow(sh, r) {\n  sh.getRange(r, 1, 1, 21).setValues([new Array(21).fill('')]);\n  setFormulaCells(sh, r, false, false);\n}\nfunction nextFree(sh) {\n  var a = sh.getRange(FIRST, 1, LAST - FIRST + 1, 1).getValues(), last = -1;\n  for (var i = 0; i < a.length; i++) if (a[i][0] instanceof Date) last = i;\n  var r = FIRST + last + 1;\n  return r <= LAST ? r : 0;\n}\nfunction newPage(ss, last) {\n  var n = last.n + 1, sh = last.sh.copyTo(ss);\n  sh.setName('Seite ' + n);\n  ss.setActiveSheet(sh);\n  ss.moveActiveSheet(ss.getNumSheets());\n  for (var r = FIRST; r <= LAST; r++) resetRow(sh, r);\n  var cols = 'KLMNOPQRST'.split('');\n  var f = cols.map(function (c) { return \"='Seite \" + last.n + \"'!\" + c + '26'; });\n  sh.getRange(25, 11, 1, 10).setFormulas([f]);\n  return { n: n, sh: sh };\n}\nfunction appendEntries(ss, list) {\n  var have = {}, blocked = {}, ps = pages(ss), added = 0;\n  rowsOf(ss).forEach(function (x) { have[keyOf(x.e)] = 1; });\n  \n  if (!ps.length) throw new Error('Keine Tabellenblätter „Seite 1“, „Seite 2“ usw. gefunden. Bitte die vorhandene Logbuch-Vorlage verwenden.');\n  list.forEach(function (e) {\n    var k = keyOf(e);\n    if (have[k]) return;\n    have[k] = 1;\n    var last = ps[ps.length - 1], r = nextFree(last.sh);\n    if (!r) { last = newPage(ss, last); ps.push(last); r = FIRST; }\n    writeRow(last.sh, r, e);\n    added++;\n  });\n  SpreadsheetApp.flush();\n  return added;\n}\nfunction findRow(ss, key) {\n  var all = rowsOf(ss);\n  for (var i = 0; i < all.length; i++) if (keyOf(all[i].e) === key) return all[i];\n  return null;\n}\nfunction updateEntry(ss, oldKey, e) {\n  var x = findRow(ss, oldKey), newKey = keyOf(e);\n  // Ein Update darf niemals als Ersatz-Append für einen fehlenden/gelöschten Flug dienen.\n  if (!x) return false;\n  writeRow(x.sh, x.row, e);\n  if (oldKey && oldKey !== newKey) markDeleted(ss, oldKey);\n  SpreadsheetApp.flush();\n  return true;\n}\nfunction deleteEntry(ss, key) {\n  var x = findRow(ss, key);\n  if (x) resetRow(x.sh, x.row);\n  markDeleted(ss, key);\n  SpreadsheetApp.flush();\n  return !!x;\n}\n";
+  var GS="var TOKEN = 'ENTER-YOUR-OWN-PASSWORD-HERE';\nvar FIRST = 4, LAST = 23;\n\nfunction doPost(e) {\n  var res, lock = LockService.getScriptLock();\n  try {\n    lock.waitLock(25000);\n    var q = JSON.parse(e.postData.contents);\n    if (q.token !== TOKEN) throw new Error('Wrong password');\n    var ss = SpreadsheetApp.getActiveSpreadsheet();\n    if (q.action !== 'delete') repairBroken(ss);\n    if (q.action === 'get') res = { ok: true, entries: rowsOf(ss).map(function (x) { return x.e; }), deleted: deletedKeys(ss) };\n    else if (q.action === 'append') res = { ok: true, added: appendEntries(ss, q.entries) };\n    else if (q.action === 'update') res = { ok: true, done: updateEntry(ss, q.oldKey, q.entry) };\n    else if (q.action === 'delete') res = { ok: true, done: deleteEntry(ss, q.key) };\n    else throw new Error('Unbekannte Aktion');\n  } catch (err) {\n    res = { ok: false, error: String(err.message || err) };\n  } finally {\n    try { lock.releaseLock(); } catch (x) {}\n  }\n  return ContentService.createTextOutput(JSON.stringify(res)).setMimeType(ContentService.MimeType.JSON);\n}\n\nfunction deleteLog(ss) {\n  var sh = ss.getSheetByName('_SyncDeletes');\n  if (!sh) {\n    sh = ss.insertSheet('_SyncDeletes');\n    sh.getRange(1, 1, 1, 2).setValues([['key', 'deletedAt']]);\n    sh.hideSheet();\n  }\n  return sh;\n}\nfunction deletedKeys(ss) {\n  var sh = ss.getSheetByName('_SyncDeletes');\n  if (!sh || sh.getLastRow() < 2) return [];\n  return sh.getRange(2, 1, sh.getLastRow() - 1, 1).getDisplayValues()\n    .map(function (r) { return String(r[0] || ''); }).filter(Boolean);\n}\nfunction isDeleted(ss, key) {\n  if (!key) return false;\n  return deletedKeys(ss).indexOf(String(key)) !== -1;\n}\nfunction markDeleted(ss, key) {\n  if (!key) return;\n  var sh = deleteLog(ss), last = sh.getLastRow();\n  if (last >= 2) {\n    var vals = sh.getRange(2, 1, last - 1, 1).getDisplayValues();\n    for (var i = 0; i < vals.length; i++) if (String(vals[i][0]) === String(key)) return;\n  }\n  sh.appendRow([String(key), new Date()]);\n}\n\nfunction pages(ss) {\n  return ss.getSheets().map(function (s) {\n    var m = /^Seite (\\d+)$/.exec(s.getName());\n    return m ? { n: +m[1], sh: s } : null;\n  }).filter(Boolean).sort(function (a, b) { return a.n - b.n; });\n}\nfunction toMin(v) {\n  v = String(v == null ? '' : v).trim();\n  var m = /^(\\d+):(\\d{2})/.exec(v);\n  if (m) return +m[1] * 60 + +m[2];\n  var f = parseFloat(v.replace(',', '.'));\n  return (isFinite(f) && f > 0 && f < 1) ? Math.round(f * 1440) : 0;\n}\nfunction hm(v) {\n  var m = /^(\\d{1,2}):(\\d{2})/.exec(String(v == null ? '' : v).trim());\n  return m ? ('0' + m[1]).slice(-2) + ':' + m[2] : '';\n}\nfunction frac(s) {\n  var m = /^(\\d{1,2}):(\\d{2})/.exec(String(s || ''));\n  return m ? (+m[1] * 60 + +m[2]) / 1440 : '';\n}\nfunction keyOf(e) {\n  return e.dep ? e.date + '|' + e.dep : e.date + '|' + e.cat + '|' + e.min + '|' + (e.note || '');\n}\n\nfunction rowsOf(ss) {\n  var tz = ss.getSpreadsheetTimeZone(), out = [], n = LAST - FIRST + 1;\n  pages(ss).forEach(function (p) {\n    var rg = p.sh.getRange(FIRST, 1, n, 21), val = rg.getValues(), dis = rg.getDisplayValues();\n    for (var i = 0; i < n; i++) {\n      var v = val[i], d = dis[i];\n      if (!(v[0] instanceof Date)) continue;\n      var t = { PIC: toMin(d[16]), CO: toMin(d[17]), DUAL: toMin(d[18]), FI: toMin(d[19]) }, role = 'PIC', best = 0;\n      for (var k in t) if (t[k] > best) { best = t[k]; role = k; }\n      var e = {\n        date: Utilities.formatDate(v[0], tz, 'yyyy-MM-dd'), from: d[1], dep: hm(d[2]), to: d[3], arr: hm(d[4]),\n        type: d[5], reg: d[6], pic: d[7], cat: String(d[8]).trim(), role: role,\n        min: toMin(d[10]) || toMin(d[11]), night: toMin(d[14]), ifr: toMin(d[15]),\n        ldgD: Number(v[12]) || 0, ldgN: Number(v[13]) || 0, note: String(d[20]).trim()\n      };\n      out.push({ sh: p.sh, row: FIRST + i, e: e });\n    }\n  });\n  return out;\n}\n\nfunction writeRow(sh, r, e) {\n  var d = e.date.split('-'), fstd = e.cat === 'FSTD';\n  var role = e.role || 'PIC', co = role === 'CO', fi = role === 'FI';\n  var self = role === 'PIC' ? 'SELF' : (e.pic || '');\n  var row = [\n    Utilities.parseDate(e.date, sh.getParent().getSpreadsheetTimeZone(), 'yyyy-MM-dd'), e.from || '', frac(e.dep), e.to || '', frac(e.arr),\n    e.type || '', e.reg || '', fstd ? '' : (co || fi ? (e.pic || '') : self), e.cat, '',\n    '',\n    fstd ? frac(hmOf(e.min)) : '',\n    (!fstd && e.ldgD > 0) ? e.ldgD : '', (!fstd && e.ldgN > 0) ? e.ldgN : '',\n    '', '', '',\n    co ? frac(hmOf(e.min)) : '',\n    '',\n    fi ? frac(hmOf(e.min)) : '',\n    e.note || ''\n  ];\n  if (row.length !== 21) throw new Error('Internal error: expected exactly 21 columns.');\n  var f = ['dd.MM.yyyy', 'General', 'hh:mm', 'General', 'hh:mm', 'General', 'General', 'General', 'General', 'General'];\n  for (var c = 11; c <= 20; c++) f.push('hh:mm');\n  f.splice(12, 2, 'General', 'General');\n  f.push('General');\n  var rg = sh.getRange(r, 1, 1, 21);\n  rg.setValues([row]);\n  rg.setNumberFormats([f.slice(0, 21)]);\n  setFormulaCells(sh, r, fstd, co || fi);\n}\nfunction setFormulaCells(sh, r, fstd, cofi) {\n  var s = String(r);\n  sh.getRange(r, 11).setFormula('=IF(OR(I' + s + '=\"SEP\";I' + s + '=\"MEP\";I' + s + '=\"ME IR\";I' + s + '=\"SE IR\");MOD(E' + s + '-C' + s + ';1);\"\")');\n  if (!fstd) sh.getRange(r, 12).setFormula('=IF(I' + s + '=\"FSTD\";MOD(E' + s + '-C' + s + ';1);\"\")');\n  sh.getRange(r, 15).setFormula('=IF(ISNUMBER(N' + s + ');K' + s + ';\"\")');\n  sh.getRange(r, 16).setFormula('=IF(OR(I' + s + '=\"ME IR\";I' + s + '=\"SE IR\");K' + s + ';IF(I' + s + '=\"FSTD\";L' + s + ';\"\"))');\n  if (!cofi) {\n    sh.getRange(r, 17).setFormula('=IF(H' + s + '=\"SELF\";K' + s + ';\"\")');\n    sh.getRange(r, 19).setFormula('=IF(H' + s + '<>\"SELF\";K' + s + ';\"\")');\n  }\n}\nfunction repairBroken(ss) {\n  var n = LAST - FIRST + 1, fixed = 0;\n  pages(ss).forEach(function (p) {\n    var rg = p.sh.getRange(FIRST, 1, n, 21), val = rg.getValues(), dis = rg.getDisplayValues();\n    for (var i = 0; i < n; i++) {\n      if (!(val[i][0] instanceof Date)) continue;\n      var bad = false;\n      [10, 11, 14, 15, 16, 18].forEach(function (c) { if (/^#|^Err/.test(String(dis[i][c]))) bad = true; });\n      if (!bad) continue;\n      setFormulaCells(p.sh, FIRST + i, String(val[i][8]).trim() === 'FSTD', !!(val[i][17] || val[i][19]));\n      fixed++;\n    }\n  });\n  if (fixed) SpreadsheetApp.flush();\n  return fixed;\n}\nfunction repairFormulas() { return repairBroken(SpreadsheetApp.getActiveSpreadsheet()); }\nfunction hmOf(min) {\n  min = +min || 0;\n  return ('0' + Math.floor(min / 60)).slice(-2) + ':' + ('0' + (min % 60)).slice(-2);\n}\nfunction resetRow(sh, r) {\n  sh.getRange(r, 1, 1, 21).setValues([new Array(21).fill('')]);\n  setFormulaCells(sh, r, false, false);\n}\nfunction nextFree(sh) {\n  var a = sh.getRange(FIRST, 1, LAST - FIRST + 1, 1).getValues(), last = -1;\n  for (var i = 0; i < a.length; i++) if (a[i][0] instanceof Date) last = i;\n  var r = FIRST + last + 1;\n  return r <= LAST ? r : 0;\n}\nfunction newPage(ss, last) {\n  var n = last.n + 1, sh = last.sh.copyTo(ss);\n  sh.setName('Seite ' + n);\n  ss.setActiveSheet(sh);\n  ss.moveActiveSheet(ss.getNumSheets());\n  for (var r = FIRST; r <= LAST; r++) resetRow(sh, r);\n  var cols = 'KLMNOPQRST'.split('');\n  var f = cols.map(function (c) { return \"='Seite \" + last.n + \"'!\" + c + '26'; });\n  sh.getRange(25, 11, 1, 10).setFormulas([f]);\n  return { n: n, sh: sh };\n}\nfunction appendEntries(ss, list) {\n  var have = {}, blocked = {}, ps = pages(ss), added = 0;\n  rowsOf(ss).forEach(function (x) { have[keyOf(x.e)] = 1; });\n  \n  if (!ps.length) throw new Error('No sheets named “Seite 1”, “Seite 2” etc. found. Please use the existing logbook template.');\n  list.forEach(function (e) {\n    var k = keyOf(e);\n    if (have[k]) return;\n    have[k] = 1;\n    var last = ps[ps.length - 1], r = nextFree(last.sh);\n    if (!r) { last = newPage(ss, last); ps.push(last); r = FIRST; }\n    writeRow(last.sh, r, e);\n    added++;\n  });\n  SpreadsheetApp.flush();\n  return added;\n}\nfunction findRow(ss, key) {\n  var all = rowsOf(ss);\n  for (var i = 0; i < all.length; i++) if (keyOf(all[i].e) === key) return all[i];\n  return null;\n}\nfunction updateEntry(ss, oldKey, e) {\n  var x = findRow(ss, oldKey), newKey = keyOf(e);\n  // Ein Update darf niemals als Ersatz-Append für einen fehlenden/gelöschten Flug dienen.\n  if (!x) return false;\n  writeRow(x.sh, x.row, e);\n  if (oldKey && oldKey !== newKey) markDeleted(ss, oldKey);\n  SpreadsheetApp.flush();\n  return true;\n}\nfunction deleteEntry(ss, key) {\n  var x = findRow(ss, key);\n  if (x) resetRow(x.sh, x.row);\n  markDeleted(ss, key);\n  SpreadsheetApp.flush();\n  return !!x;\n}\n";
   $("gsCode").value=GS;
   $("gsCopy").addEventListener("click",function(){
     var t=$("gsCode");t.select();
-    try{(navigator.clipboard?navigator.clipboard.writeText(GS):Promise.reject()).then(function(){sy("Code kopiert.")},function(){document.execCommand("copy");sy("Code kopiert.")})}catch(e){try{document.execCommand("copy");sy("Code kopiert.")}catch(x){sy("Bitte den Code von Hand markieren und kopieren.",true)}}
+    try{(navigator.clipboard?navigator.clipboard.writeText(GS):Promise.reject()).then(function(){sy("Code copied.")},function(){document.execCommand("copy");sy("Code copied.")})}catch(e){try{document.execCommand("copy");sy("Code copied.")}catch(x){sy("Please select and copy the code manually.",true)}}
   });
   var SK="flugbuch_sync",QK="flugbuch_q",busy=false,flushing=false,lastErr="";
   var FIELDS=["cat","role","pic","type","reg","from","to","arr","min","night","ifr","ldgD","ldgN","note"];
@@ -651,13 +788,13 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
   function badge(msg){
     var c=cfg(),el=$("syBadge"),n=qGet().length;
     if(!c.url||!c.token){el.textContent="";return}
-    el.textContent=msg?"☁ "+msg:(n?"☁ "+n+(n===1?" Änderung":" Änderungen")+" noch nicht im Sheet":"☁ Im Google-Sheet gespeichert");
-    el.className="msg"+(((msg&&msg!=="Sende …")||(!msg&&n>0))?" err":"");
+    el.textContent=msg?"☁ "+msg:(n?"☁ "+n+(n===1?" change":" changes")+" not in the sheet yet":"☁ Saved to Google Sheet");
+    el.className="msg"+(((msg&&msg!=="Sending …")||(!msg&&n>0))?" err":"");
   }
   function strip(e){var o={};["date","cat","role","pic","type","reg","from","dep","to","arr","min","night","ifr","ldgD","ldgN","note"].forEach(function(f){o[f]=e[f]});return o}
   function call(body){
     saveCfg();var c=cfg();
-    if(!c.url||!c.token)return Promise.reject(new Error("Bitte Adresse und Passwort eintragen."));
+    if(!c.url||!c.token)return Promise.reject(new Error("Please enter address and password."));
     var b={};Object.keys(body).forEach(function(k){b[k]=body[k]});b.token=c.token;
     return fetch(c.url,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(b)})
       .then(function(r){return r.text()})
@@ -665,9 +802,9 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
         var j;
         try { j = JSON.parse(t); }
         catch (e) {
-          throw new Error("Die Apps-Script-Web-App hat kein JSON zurückgegeben. Bitte die bereitgestellte URL mit /exec verwenden und die Web-App für den Zugriff passend freigeben.");
+          throw new Error("The Apps Script web app did not return JSON. Please use the deployed URL ending in /exec and share the web app with suitable access.");
         }
-        if(!j.ok){var se=new Error(j.error||"Unbekannter Fehler");se.server=true;throw se}
+        if(!j.ok){var se=new Error(j.error||"Unknown error");se.server=true;throw se}
         return j;
       });
   }
@@ -675,19 +812,19 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
     var c=cfg();
     if(flushing||!c.url||!c.token)return Promise.resolve();
     if(!qGet().length){badge();return Promise.resolve()}
-    flushing=true;badge("Sende …");
+    flushing=true;badge("Sending …");
     function step(){
       var q=qGet();if(!q.length)return Promise.resolve();
       return call(q[0]).then(function(){var r=qGet();r.shift();qSet(r);return step()},function(e){
-        if(e&&e.server&&e.message!=="Falsches Passwort"){
+        if(e&&e.server&&!/^(Falsches Passwort|Wrong password)$/.test(e.message)){
           var r=qGet();r[0].tries=(r[0].tries||0)+1;r[0].err=e.message;
-          if(r[0].tries>=5){var dead=r.shift();qSet(r);lastErr="Änderung verworfen nach 5 Versuchen ("+dead.action+"): "+e.message;return step()}
+          if(r[0].tries>=5){var dead=r.shift();qSet(r);lastErr="Change discarded after 5 attempts ("+dead.action+"): "+e.message;return step()}
           qSet(r);
         }
         throw e;
       });
     }
-    return step().then(function(){flushing=false;badge();if(lastErr){sy(lastErr,true);lastErr=""}},function(e){flushing=false;badge((e&&e.server?"Fehler: "+e.message+", ":"Offline, ")+"wird später gesendet")});
+    return step().then(function(){flushing=false;badge();if(lastErr){sy(lastErr,true);lastErr=""}},function(e){flushing=false;badge((e&&e.server?"Error: "+e.message+", ":"Offline, ")+"will be sent later")});
   }
   function qAdd(op){var c=cfg();if(!c.url||!c.token)return;var q=qGet();q.push(op);qSet(q);badge();flushQ()}
   function qAppend(list){if(list&&list.length)qAdd({action:"append",entries:list.map(strip)})}
@@ -705,10 +842,10 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
   function pull(){return call({action:"get"}).then(function(j){var a=(j.entries||[]).map(normR).filter(Boolean);a.deleted=j.deleted||[];return a})}
   var mergeChanged=false;
   function run(fn,quiet){
-    if(busy)return;busy=true;if(!quiet)sy("Bitte warten …");mergeChanged=false;
+    if(busy)return;busy=true;if(!quiet)sy("Please wait …");mergeChanged=false;
     fn().then(function(t){
       if(!quiet||mergeChanged)renderAll();
-      if(quiet){var d=new Date();sy("Zuletzt automatisch abgeglichen um "+p2(d.getHours())+":"+p2(d.getMinutes())+":"+p2(d.getSeconds())+".")}else sy(t);
+      if(quiet){var d=new Date();sy("Last auto-synced at "+p2(d.getHours())+":"+p2(d.getMinutes())+":"+p2(d.getSeconds())+".")}else sy(t);
       badge();
     },function(e){sy(e.message,true)}).then(function(){busy=false});
   }
@@ -716,11 +853,11 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
   function doMerge(auto){
     var v0;
     return flushQ().then(function(){
-      if(qGet().length)throw new Error("Es sind noch Änderungen offen. Bitte Verbindung prüfen und erneut versuchen.");
+      if(qGet().length)throw new Error("Some changes are still pending. Please check the connection and try again.");
       v0=ver;return pull();
     }).then(function(rem){
-      if(ver!==v0||qGet().length){setTimeout(autoMerge,2500);return "Lokale Änderung während des Abgleichs, wird gleich erneut abgeglichen."}
-      if(auto&&!rem.length&&entries.length)return "Sheet meldet 0 Flüge, automatisch nichts gelöscht (zur Sicherheit). Bei Bedarf manuell abgleichen.";
+      if(ver!==v0||qGet().length){setTimeout(autoMerge,2500);return "Local change during sync, syncing again shortly."}
+      if(auto&&!rem.length&&entries.length)return "Sheet reports 0 flights, nothing deleted automatically (for safety). Sync manually if needed.";
       var before=JSON.stringify(entries);
       var oldKeys={}, oldCount=entries.length, ids={}, nextId=Date.now();
       entries.forEach(function(e){oldKeys[key(e)]=1;ids[key(e)]=e.id});
@@ -739,20 +876,20 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
       entries=retained.sort(cmp);
       mergeChanged=JSON.stringify(entries)!==before;
       if(mergeChanged)save();
-      return "Abgeglichen: "+fresh+" neu aus dem Sheet, "+updated+" übernommen, "+removed+" lokale Einträge entfernt. Nichts wurde aus alten lokalen Daten hochgeladen.";
+      return "Synced: "+fresh+" new from the sheet, "+updated+" updated, "+removed+" local entries removed. Nothing was uploaded from old local data.";
     });
   }
   $("syMerge").addEventListener("click",function(){run(function(){return doMerge(false)})});
   function armed(b,label,fn){
     var t=0;b.addEventListener("click",function(){
-      if(!t){t=1;b.textContent="Sicher? Nochmal tippen";setTimeout(function(){t=0;b.textContent=label},4000);return}
+      if(!t){t=1;b.textContent="Sure? Tap again";setTimeout(function(){t=0;b.textContent=label},4000);return}
       t=0;b.textContent=label;fn();
     });
   }
-  armed($("syDown"),"Dieses Gerät ersetzen",function(){
+  armed($("syDown"),"Replace this device",function(){
     run(function(){return flushQ().then(pull).then(function(rem){
-      if(!rem.length)throw new Error("Im Sheet wurden keine Flüge gefunden. Dieses Gerät bleibt unverändert.");
-      entries=[];addAll(rem,true);return"Dieses Gerät hat jetzt den Stand des Sheets ("+entries.length+" Einträge)."});
+      if(!rem.length)throw new Error("No flights found in the sheet. This device remains unchanged.");
+      entries=[];addAll(rem,true);return"This device now matches the sheet ("+entries.length+" entries)."});
     });
   });
   ["syUrl","syTok","syAuto"].forEach(function(i){$(i).addEventListener("change",function(){saveCfg();badge();flushQ()})});
@@ -767,6 +904,262 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
   // Andere geöffnete Geräte übernehmen Änderungen automatisch, ohne dass manuell abgeglichen werden muss.
   setInterval(function(){if(qGet().length)flushQ()},8000);
   setInterval(autoMerge,15000);
+
+  /* Date filter, cards, bottom bar, seatbelt chime */
+  var fF="",fT="",openId=null,MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  function fd(d){var p=d.split("-");return p[2]+" "+MON[+p[1]-1]+" "+p[0]}
+  function hh(n){var h=Math.floor(n/60),m=n%60;return(h<10?"0":"")+h+":"+(m<10?"0":"")+m}
+  function iso(d){return d.getFullYear()+"-"+p2(d.getMonth()+1)+"-"+p2(d.getDate())}
+  function view(){return sorted().filter(function(e){return(!fF||e.date>=fF)&&(!fT||e.date<=fT)})}
+  function setF(a,b){fF=a;fT=b;$("fFrom").value=a;$("fTo").value=b;renderLog()}
+  $("fFrom").addEventListener("change",function(){setF(this.value,fT)});
+  $("fTo").addEventListener("change",function(){setF(fF,this.value)});
+  $("fClr").addEventListener("click",function(){setF("","")});
+  $("chips").addEventListener("click",function(e){
+    var q=e.target.getAttribute("data-q"),n=new Date();if(!q)return;
+    if(q==="30")setF(iso(new Date(Date.now()-30*864e5)),iso(n));else if(q==="year")setF(n.getFullYear()+"-01-01",n.getFullYear()+"-12-31");else setF("","");
+  });
+  function renderCards(rows,total){
+    var tm=0;rows.forEach(function(e){if(e.cat!=="FSTD")tm+=e.min});
+    $("fSum").textContent=rows.length+(rows.length===1?" flight":" flights")+" · "+fmt(tm)+" h"+(rows.length<total?" (filtered)":"");
+    $("fClr").hidden=!(fF||fT);
+    if(!rows.length){$("cards").innerHTML='<p class="empty">'+(total?"No flights in this period.":"No entries yet. Tap + to add your first flight.")+'</p>';return}
+    function k(l,v,w){return'<div'+(w?' class="w"':'')+'><span>'+l+'</span><b>'+(esc(v)||"—")+'</b></div>'}
+    $("cards").innerHTML=rows.slice().reverse().map(function(e){
+      var F=e.cat==="FSTD",ld=(e.ldgD||0)+(e.ldgN||0);
+      return'<article class="card'+(e.role==="PIC"?"":" np")+(String(e.id)===String(openId)?" open":"")+'" data-c="'+e.id+'">'+
+        '<div class="c1"><span class="cd">'+fd(e.date)+'</span><span class="chip">'+esc(F?"FSTD":e.reg||"—")+'</span></div>'+
+        '<div class="c2"><b>'+esc(e.from||"—")+'</b><i><span>'+esc(F?"Simulator":e.type||"")+'</span></i><b>'+esc(e.to||"—")+'</b></div>'+
+        '<div class="c3"><span class="cm">'+esc(F?"FSTD":ROLES[e.role]||e.role)+' · '+ld+' LND</span><span class="blk"><small>BLOCK</small><b>'+hh(e.min)+'</b></span></div>'+
+        '<div class="cdet"><div class="dg">'+k("Date",fd(e.date))+k("Category",e.cat)+k("From",e.from)+k("Departure",e.dep)+k("To",e.to)+k("Arrival",e.arr)+k("Aircraft type",e.type)+k("Registration",e.reg)+k("Function",ROLES[e.role])+k("PIC name",e.pic)+k("Total time",hh(e.min)+" h")+k("Night",e.night?hh(e.night)+" h":"")+k("IFR",e.ifr?hh(e.ifr)+" h":"")+k("Landings day / night",(e.ldgD||0)+" / "+(e.ldgN||0))+k("Remarks",e.note,1)+'</div>'+
+        '<div class="ca"><button class="btn alt" type="button" data-edit="'+e.id+'">Edit</button><button class="btn alt" type="button" data-id="'+e.id+'" style="color:var(--danger)">Delete</button></div></div></article>';
+    }).join("");
+  }
+  $("cards").addEventListener("click",function(ev){
+    var b=ev.target.closest("button"),c=ev.target.closest(".card");
+    if(b&&b.getAttribute("data-edit")){eId=b.getAttribute("data-edit");eList();show("edit");return}
+    if(b&&b.getAttribute("data-id")){
+      var id=b.getAttribute("data-id");
+      if(pending!==id){pending=id;b.textContent="Sure?";setTimeout(function(){if(pending===id){pending=null;renderLog()}},4000);return}
+      pending=null;var del=entries.filter(function(e){return String(e.id)===id})[0];entries=entries.filter(function(e){return String(e.id)!==id});openId=null;save();renderAll();if(del)qDelete(del);return;
+    }
+    if(c){var id2=c.getAttribute("data-c");openId=String(openId)===id2?null:id2;c.classList.toggle("open",String(openId)===id2)}
+  });
+  function navSel(t){
+    var cur=t==="edit"?"log":t,dat=/^(more|metar|imp|sync|exp)$/.test(t);
+    Array.prototype.forEach.call(document.querySelectorAll("[data-go]"),function(b){var g=b.getAttribute("data-go");b.setAttribute("aria-selected",b.hasAttribute("data-grp")?dat:g===cur)});
+  }
+  document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-go]");if(b)show(b.getAttribute("data-go"))});
+  var AC=null;
+  function ding(){
+    try{
+      var C=window.AudioContext||window.webkitAudioContext;if(!C)return;
+      AC=AC||new C();if(AC.state==="suspended")AC.resume();
+      var t=AC.currentTime+.02,f=1175;
+      [[1,.55,1.6],[2,.12,1.1],[2.76,.07,.8],[4.07,.03,.5],[5.4,.015,.3]].forEach(function(p){
+        var o=AC.createOscillator(),g=AC.createGain();o.type="sine";o.frequency.value=f*p[0];
+        g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(p[1],t+.004);g.gain.exponentialRampToValueAtTime(.0001,t+p[2]);
+        o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+p[2]+.1);
+      });
+    }catch(e){}
+  }
+  document.addEventListener("click",function(e){
+    var b=e.target.closest&&e.target.closest("[data-s]");if(!b)return;
+    var i=$(b.getAttribute("data-s"));i.value=Math.max(0,(parseInt(i.value,10)||0)+ +b.getAttribute("data-d"));
+  });
+  calc();
+
+  /* Documents (licence reminder) */
+  var DK="flugbuch:docs",docs=[],dp=null;
+  try{docs=JSON.parse(localStorage.getItem(DK)||"[]")}catch(e){}
+  function saveDocs(){try{localStorage.setItem(DK,JSON.stringify(docs))}catch(e){}renderDocs()}
+  function dd(x){var a=new Date();a.setHours(0,0,0,0);return Math.ceil((new Date(x+"T00:00:00")-a)/864e5)}
+  function dcls(d){return d<0?"exp":d<=60?"warn":"good"}
+  function dlab(d){return d<0?"Expired "+(-d)+(d===-1?" day":" days")+" ago":d===0?"Expires today":d+(d===1?" day":" days")+" remaining"}
+  function renderDocs(){
+    $("docCount").textContent=docs.length+" tracked";
+    var r=docs.map(function(x,i){return{x:x,i:i}}).sort(function(a,b){return a.x.date<b.x.date?-1:1});
+    $("docList").innerHTML=r.length?r.map(function(o){var d=dd(o.x.date);
+      return'<div class="dit"><div><b>'+esc(o.x.title)+'</b><small>'+fd(o.x.date)+(o.x.no?" · "+esc(o.x.no):"")+'</small></div><div class="dr"><span class="pill '+dcls(d)+'">'+dlab(d)+'</span><button type="button" data-doc="'+o.i+'">Remove</button></div></div>'}).join(""):'<p class="empty">No expiry dates saved yet.</p>';
+  }
+  $("docList").addEventListener("click",function(e){
+    var b=e.target.closest("button"),i=b&&b.getAttribute("data-doc");if(i==null)return;
+    if(dp!==i){dp=i;b.textContent="Sure?";setTimeout(function(){if(dp===i){dp=null;renderDocs()}},4000);return}
+    dp=null;docs.splice(+i,1);saveDocs();
+  });
+  $("docType").addEventListener("change",function(){$("docNameWrap").hidden=this.value!=="Custom"});
+  function closeDm(){var m=$("dm");if(m)m.remove();document.body.style.overflow=""}
+  function dueCheck(){
+    var due=docs.filter(function(x){var d=dd(x.date);return d<0||d<=(x.notice||30)}).sort(function(a,b){return a.date<b.date?-1:1});
+    if(!due.length)return;closeDm();
+    var ov=document.createElement("div");ov.className="dm";ov.id="dm";ov.setAttribute("role","dialog");ov.setAttribute("aria-modal","true");
+    ov.innerHTML='<div class="dmb"><h3>Document reminder</h3><p class="msg" style="margin-bottom:8px">'+(due.length===1?"This document is":"These documents are")+' close to expiry or already expired.</p>'+
+      '<div class="dlist" style="margin-bottom:14px">'+due.map(function(x){var d=dd(x.date);return'<div class="dit"><div><b>'+esc(x.title)+'</b><small>'+fd(x.date)+'</small></div><span class="pill '+dcls(d)+'">'+dlab(d)+'</span></div>'}).join("")+'</div>'+
+      '<div class="row2"><button class="btn" id="dmOk" type="button">OK</button><button class="btn alt" id="dmGo" type="button">Open Documents</button></div></div>';
+    ov.addEventListener("click",function(e){if(e.target===ov)closeDm()});
+    document.body.appendChild(ov);document.body.style.overflow="hidden";
+    $("dmOk").onclick=closeDm;$("dmGo").onclick=function(){closeDm();show("docs")};
+  }
+  $("docForm").addEventListener("submit",function(ev){
+    ev.preventDefault();var date=$("docDate").value,m=$("docMsg");
+    if(!date){m.textContent="Choose an expiry date.";m.className="msg wide err";return}
+    var t=$("docType").value;
+    docs.push({title:t==="Custom"?($("docName").value.trim()||t):t,date:date,notice:+$("docNotice").value,no:$("docNo").value.trim()});
+    saveDocs();$("docName").value="";$("docNo").value="";$("docDate").value="";
+    m.textContent="Reminder saved.";m.className="msg wide";dueCheck();
+  });
+  renderDocs();setTimeout(dueCheck,600);
+
+  /* METAR (data sources and airport suggestions from FlightDeck) */
+  var WORKER="https://flightdeck.vineliteu.workers.dev",
+    PROXIES=[function(u){return"https://corsproxy.io/?url="+encodeURIComponent(u)},function(u){return"https://api.allorigins.win/raw?url="+encodeURIComponent(u)},function(u){return"https://api.codetabs.com/v1/proxy/?quest="+encodeURIComponent(u)}];
+  function mwTry(u,ms){
+    var c=new AbortController(),t=setTimeout(function(){c.abort()},ms||9000);
+    return fetch(u,{signal:c.signal}).then(function(r){return r.ok?r.text():null}).catch(function(){return null}).then(function(x){clearTimeout(t);return x});
+  }
+  async function mwGet(urls,kind){
+    for(var k=0;k<urls.length;k++){
+      var u=urls[k],att=[WORKER+"/fetch?url="+encodeURIComponent(u),u].concat(PROXIES.map(function(p){return p(u)}));
+      for(var j=0;j<att.length;j++){
+        var t=await mwTry(att[j]);if(t===null||!t.trim())continue;
+        if(kind==="json"){try{return JSON.parse(t)}catch(e){continue}}
+        if(/^\s*<(!doctype|html)/i.test(t))continue;
+        return t;
+      }
+    }
+    return null;
+  }
+  function csv(t){
+    var rows=[],row=[],f="",q=false,i,c;
+    for(i=0;i<t.length;i++){c=t[i];
+      if(q){if(c==='"'&&t[i+1]==='"'){f+='"';i++}else if(c==='"')q=false;else f+=c}
+      else if(c==='"')q=true;else if(c===","){row.push(f);f=""}
+      else if(c==="\n"||c==="\r"){if(c==="\r"&&t[i+1]==="\n")i++;row.push(f);f="";if(row.some(function(v){return v!==""}))rows.push(row);row=[]}
+      else f+=c;
+    }
+    if(f!==""||row.length){row.push(f);rows.push(row)}
+    var h=rows.shift().map(function(x){return x.trim()});
+    return rows.map(function(v){var o={};h.forEach(function(k,j){o[k]=v[j]||""});return o});
+  }
+  function nt(x){return String(x||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase()}
+  var ADK="flugbuch:airports_v1",adb=null,adbP=null;
+  function idxAp(rows){return rows.map(function(r){return{icao:r[0],iata:r[1],name:r[2],city:r[3],cc:r[4],rank:r[5],s:nt(r[2]+" "+r[3])}})}
+  function ensureDb(){
+    if(adb)return Promise.resolve(adb);if(adbP)return adbP;
+    adbP=(async function(){
+      try{var c=JSON.parse(localStorage.getItem(ADK)||"null");if(c&&Array.isArray(c.rows)&&c.rows.length>1000&&Date.now()-c.t<30*864e5){adb=idxAp(c.rows);return adb}}catch(e){}
+      var txt=await mwGet(["https://davidmegginson.github.io/ourairports-data/airports.csv"],"text");
+      if(!txt)throw new Error("Airport list unavailable");
+      var out=[];
+      csv(txt).forEach(function(r){
+        var ty=r.type;if(ty!=="large_airport"&&ty!=="medium_airport"&&ty!=="small_airport")return;
+        var ic=String(r.icao_code||r.gps_code||r.ident||"").trim().toUpperCase();if(!/^[A-Z]{4}$/.test(ic))return;
+        var ia=String(r.iata_code||"").trim().toUpperCase(),sc=r.scheduled_service==="yes";
+        if(ty==="small_airport"&&!sc&&!ia)return;
+        out.push([ic,ia,r.name||"",r.municipality||"",r.iso_country||"",(ty==="large_airport"?0:ty==="medium_airport"?1:2)+(sc?0:3)]);
+      });
+      if(out.length<500)throw new Error("Airport database incomplete");
+      try{localStorage.setItem(ADK,JSON.stringify({t:Date.now(),rows:out}))}catch(e){}
+      adb=idxAp(out);return adb;
+    })();
+    adbP.catch(function(){adbP=null});return adbP;
+  }
+  function searchAp(q,n){
+    var nq=nt(q).trim(),code=q.trim().toUpperCase(),sc=[];if(!nq||!adb)return[];
+    adb.forEach(function(a){
+      var v=0;
+      if(a.icao===code||(a.iata&&a.iata===code))v=1000;
+      else if(nq.length>=3&&(a.icao.indexOf(code)===0||(a.iata&&a.iata.indexOf(code)===0)))v=700;
+      if(!v){if(a.s.indexOf(nq)===0)v=650;else if(a.s.indexOf(" "+nq)>-1)v=500;else if(a.s.indexOf(nq)>-1)v=250}
+      if(v)sc.push([v-a.rank*15,a]);
+    });
+    sc.sort(function(x,y){return y[0]-x[0]});return sc.slice(0,n||8).map(function(x){return x[1]});
+  }
+  var mIn=$("mIcao"),mList=$("mList"),mItems=[],mAct=-1,mSeq=0,mTimer=null,mLoaded=false;
+  function mClose(){mList.hidden=true;mIn.setAttribute("aria-expanded","false");mAct=-1}
+  function mPaint(){Array.prototype.forEach.call(mList.querySelectorAll(".ac-item"),function(el,i){el.classList.toggle("active",i===mAct);if(i===mAct)el.scrollIntoView({block:"nearest"})})}
+  async function mRun(){
+    var q=mIn.value.trim();if(q.length<2){mClose();return}
+    var my=++mSeq;mItems=[];mAct=-1;
+    mList.innerHTML='<div class="ac-msg">'+(adb?"Searching…":"Loading airport list (first use only)…")+'</div>';mList.hidden=false;mIn.setAttribute("aria-expanded","true");
+    try{await ensureDb()}catch(e){if(my===mSeq)mList.innerHTML='<div class="ac-msg">The airport list could not be loaded. Please check your connection and try again.</div>';return}
+    if(my!==mSeq)return;
+    mItems=searchAp(q);mAct=mItems.length?0:-1;
+    mList.innerHTML=mItems.length?mItems.map(function(a,i){return'<div class="ac-item'+(i===0?" active":"")+'" role="option" data-i="'+i+'"><span class="ac-code">'+esc(a.icao)+'</span><span class="ac-main"><b>'+esc(a.name)+'</b><small>'+esc([a.city,a.cc].filter(Boolean).join(", "))+(a.iata?" · "+esc(a.iata):"")+'</small></span></div>'}).join(""):'<div class="ac-msg">No matches. Try another spelling, a city name or an airport code.</div>';
+  }
+  function mPick(i){var a=mItems[i];if(!a)return;mClose();mSeq++;mIn.value=a.icao+" – "+a.name;loadMetar(a.icao,a.name)}
+  mIn.addEventListener("input",function(){clearTimeout(mTimer);mTimer=setTimeout(mRun,180)});
+  mIn.addEventListener("focus",function(){mIn.select();ensureDb().catch(function(){})});
+  mIn.addEventListener("keydown",function(e){
+    if(e.key==="Escape"){mClose();return}
+    if(mList.hidden){if(e.key==="Enter"&&/^[A-Za-z]{4}$/.test(mIn.value.trim())){e.preventDefault();loadMetar(mIn.value.trim().toUpperCase(),"")}return}
+    if(e.key==="ArrowDown"&&mItems.length){e.preventDefault();mAct=(mAct+1)%mItems.length;mPaint()}
+    else if(e.key==="ArrowUp"&&mItems.length){e.preventDefault();mAct=(mAct-1+mItems.length)%mItems.length;mPaint()}
+    else if(e.key==="Enter"){e.preventDefault();if(mAct>=0)mPick(mAct);else if(/^[A-Za-z]{4}$/.test(mIn.value.trim())){mClose();loadMetar(mIn.value.trim().toUpperCase(),"")}}
+  });
+  mList.addEventListener("mousedown",function(e){e.preventDefault()});
+  mList.addEventListener("click",function(e){var el=e.target.closest(".ac-item");if(el)mPick(+el.getAttribute("data-i"))});
+  document.addEventListener("pointerdown",function(e){if(e.target!==mIn&&!mList.contains(e.target))mClose()});
+  function metarEnter(){
+    if(mLoaded)return;var s;
+    try{s=JSON.parse(localStorage.getItem("flugbuch:metar")||"null")}catch(e){}
+    if(s&&s.c){mIn.value=s.c+(s.n?" – "+s.n:"");loadMetar(s.c,s.n)}
+  }
+  var WXN={"-RA":"Light rain","RA":"Rain","+RA":"Heavy rain","-SN":"Light snow","SN":"Snow","+SN":"Heavy snow","TS":"Thunderstorm","TSRA":"Thunderstorm with rain","FG":"Fog","BR":"Mist","HZ":"Haze","DZ":"Drizzle","SHRA":"Rain showers","VCSH":"Showers nearby","FZRA":"Freezing rain","GR":"Hail","GS":"Small hail"};
+  function mParse(raw,j){
+    var tk=raw.toUpperCase().split(/\s+/),o={raw:raw},m,i,up=raw.toUpperCase();
+    for(i=0;i<tk.length;i++){if((m=/^(\d{2})(\d{2})(\d{2})Z$/.exec(tk[i]))){o.time=m[2]+":"+m[3]+" Z";break}}
+    var w=tk.map(function(t){return/^(\d{3}|VRB)(\d{2,3})(?:G(\d{2,3}))?(KT|MPS)$/.exec(t)}).filter(Boolean)[0];
+    if(w){
+      var k=w[4]==="MPS"?1.944:1,sp=Math.round(+w[2]*k),gu=w[3]?Math.round(+w[3]*k):0,dir=w[1]==="VRB"?"VRB":w[1]+"°";
+      o.wind=sp===0?"Calm":dir+" / "+sp+" kt"+(gu?" G"+gu:"");o.windShort=sp===0?"Calm":dir+" / "+sp+"kt";
+    }
+    var vis="";
+    if(tk.indexOf("CAVOK")>-1)vis="10+ km";
+    else tk.forEach(function(t,ix){
+      if(vis||ix<3)return;var a;
+      if(/^\d{4}$/.test(t)){var mm=+t;vis=mm>=9999?"10+ km":mm>=1000?(mm/1000).toFixed(mm%1000?1:0)+" km":mm+" m"}
+      else if((a=/^(P|M)?(\d+)(?:\/(\d+))?SM$/.exec(t))){var v=(a[3]?+a[2]/+a[3]:+a[2])*1.609;vis=(a[1]==="P"&&+a[2]>=6)||v>=10?"10+ km":v.toFixed(1)+" km"}
+    });
+    o.vis=vis;
+    var wx=tk.filter(function(t,ix){return ix>2&&(t==="TS"||/^(?:[-+]|VC)?(?:MI|PR|BC|DR|BL|SH|TS|FZ)?(?:DZ|RA|SN|SG|IC|PL|GR|GS|UP|BR|FG|FU|VA|DU|SA|HZ|PY|PO|SQ|FC|SS|DS)+$/.test(t))});
+    o.wx=wx.map(function(t){return WXN[t]||t}).join(", ");
+    var cl=tk.filter(function(t){return/^(FEW|SCT|BKN|OVC|VV)\d{3}(CB|TCU)?$/.test(t)}).map(function(t){return t.slice(0,3)+" "+(+t.slice(3,6)*100)+(/CB|TCU/.test(t.slice(6))?" "+t.slice(6):"")});
+    if(!cl.length){if(tk.indexOf("CAVOK")>-1)cl=["CAVOK"];else if(tk.some(function(t){return/^(SKC|CLR|NSC|NCD)$/.test(t)}))cl=["Clear"]}
+    o.clouds=cl.join(", ");
+    var tt=tk.filter(function(t,ix){return ix>2&&/^M?\d{2}\/M?\d{2}$/.test(t)})[0],cv=function(x){return x[0]==="M"?-(+x.slice(1)):+x};
+    if(tt){var pr=tt.split("/");o.temp=cv(pr[0]);o.dew=cv(pr[1])}
+    var tg=/\bT([01])(\d{3})([01])(\d{3})\b/.exec(up);
+    if(tg){o.temp=(tg[1]==="1"?-1:1)*(+tg[2])/10;o.dew=(tg[3]==="1"?-1:1)*(+tg[4])/10}
+    var qq=tk.filter(function(t){return/^Q\d{4}$/.test(t)})[0],aa=tk.filter(function(t){return/^A\d{4}$/.test(t)})[0];
+    if(qq)o.qnh=(+qq.slice(1))+" hPa";else if(aa)o.qnh=((+aa.slice(1))/100*33.8639).toFixed(1)+" hPa";
+    if(j&&typeof j.altim==="number"&&j.altim>850&&j.altim<1100)o.qnh=(Math.round(j.altim*10)/10)+" hPa";
+    return o;
+  }
+  var MI={clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',temp:'<path d="M10 4a2 2 0 0 1 4 0v10a4 4 0 1 1-4 0z"/>',wind:'<path d="M3 8h11a3 3 0 1 0-3-3M3 12h16a3 3 0 1 1-3 3M3 16h8"/>',eye:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',cloud:'<path d="M7 18a4 4 0 0 1-.5-8A6 6 0 0 1 18 9a4.5 4.5 0 0 1 0 9z"/>',gauge:'<path d="M4 16a8 8 0 1 1 16 0"/><path d="M12 16l4-5"/>',drop:'<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>'};
+  function mi(k){return'<svg viewBox="0 0 24 24" aria-hidden="true">'+MI[k]+'</svg>'}
+  function mRender(code,name,o){
+    function chip(k,v){return v?'<span>'+mi(k)+esc(v)+'</span>':""}
+    function row(k,l,v){return v?'<div class="mrw">'+mi(k)+'<div><span>'+l+'</span><b>'+esc(v)+'</b></div></div>':""}
+    var tmp=o.temp!=null?o.temp+"°C":"";
+    $("mOut").innerHTML='<div class="mh2"><span class="mt">METAR</span><small>'+esc(code)+(name?" · "+esc(name):"")+'</small></div>'+
+      '<div class="mchips">'+chip("clock",o.time)+chip("temp",tmp)+chip("wind",o.windShort)+'</div>'+
+      '<pre class="mraw">'+esc(o.raw)+'</pre><h4 class="mdet">DETAILS</h4>'+
+      row("temp","Temperature",o.temp!=null?o.temp+"°C / "+o.dew+"°C (Dew)":"")+row("wind","Wind",o.wind)+row("eye","Visibility",o.vis)+row("drop","Weather",o.wx)+row("cloud","Clouds",o.clouds)+row("gauge","QNH",o.qnh);
+  }
+  async function loadMetar(code,name){
+    mLoaded=true;var out=$("mOut");
+    out.innerHTML='<p class="msg">Loading METAR for '+esc(code)+' …</p>';
+    try{localStorage.setItem("flugbuch:metar",JSON.stringify({c:code,n:name||""}))}catch(e){}
+    var base="https://aviationweather.gov/api/data/metar?ids="+code,
+      r=await Promise.all([mwGet([base+"&format=raw","https://metar.vatsim.net/metar.php?id="+code,"https://tgftp.nws.noaa.gov/data/observations/metar/stations/"+code+".TXT"],"text"),mwGet([base+"&format=json"],"json")]),
+      j=Array.isArray(r[1])?r[1][0]:null,
+      lines=r[0]?String(r[0]).trim().split(/\r?\n/).filter(Boolean):[],
+      raw=lines.filter(function(l){return l.indexOf(code)>-1})[0]||lines[0]||(j&&j.rawOb)||"";
+    if(mIn.value.indexOf(code)!==0&&mIn.value.trim())return;
+    if(!raw){out.innerHTML='<p class="msg err">No current METAR available for '+esc(code)+'.</p>';return}
+    mRender(code,name,mParse(raw.trim(),j));
+  }
 
   function renderAll(){renderOv();renderLog();eList()}
   var t=new Date();
