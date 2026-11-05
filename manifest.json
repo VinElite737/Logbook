@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "Flugbuch",
-  "short_name": "Flugbuch",
+  "name": "myAeroLog",
+  "short_name": "myAeroLog",
   "description": "Flugbuch für private Zwecke",
   "start_url": "./",
   "scope": "./",
