@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-  Fluchbuch - myAeroLog
+  Flugbuch - myAeroLog
   Copyright © 2026 Ufuk Tezerdi. All rights reserved.
 
   This software, including its source code, design and content, is the
@@ -47,7 +47,7 @@ h2{font-size:19px;margin:22px 0 8px;font-weight:600}
 #scrim{position:fixed;inset:0;background:rgba(5,15,25,.5);z-index:40}
 nav#tabs{position:fixed;top:0;left:0;bottom:0;width:min(290px,84vw);background:var(--card);border-right:1px solid var(--line);z-index:50;display:flex;flex-direction:column;overflow-y:auto;padding-bottom:24px;transform:translateX(-103%);visibility:hidden;transition:transform .22s ease,visibility 0s linear .22s;box-shadow:4px 0 18px rgba(0,0,0,.25)}
 nav#tabs.open{transform:none;visibility:visible;transition:transform .22s ease,visibility 0s}
-.dh{display:flex;align-items:center;gap:12px;background:var(--navy);color:#f2f6f9;padding:calc(14px + env(safe-area-inset-top,0px)) 18px 14px;border-bottom:3px solid var(--gold);font:700 24px "Barlow Semi Condensed","Barlow",sans-serif}
+.dh{display:flex;align-items:center;gap:12px;background:var(--navy);color:#f2f6f9;padding:calc(14px + env(safe-area-inset-top,0px)) 18px 14px;font:700 24px "Barlow Semi Condensed","Barlow",sans-serif}
 .dh small{display:block;font:500 12px "Barlow",sans-serif;color:var(--gold);letter-spacing:1px;text-transform:uppercase}
 nav#tabs button{display:flex;align-items:center;justify-content:space-between;width:100%;text-align:left;background:none;border:0;border-left:4px solid transparent;color:var(--ink);font:600 17px "Barlow",sans-serif;padding:14px 18px;cursor:pointer}
 nav#tabs button[aria-selected="true"]{background:var(--head);border-left-color:var(--gold)}
@@ -178,6 +178,35 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
 .mdet{margin:22px 0 4px;color:var(--sky);font:600 13px "Barlow Semi Condensed",sans-serif;letter-spacing:1.5px}
 .mrw{display:flex;gap:14px;padding:14px 4px;border-bottom:1px solid var(--line)}.mrw:last-child{border:0}
 .mrw>svg{width:22px;height:22px;color:var(--muted);margin-top:2px}.mrw span{display:block;color:var(--muted);font-size:14px}.mrw b{display:block;font-weight:700;font-size:18px}
+
+/* New flight form: larger labels, inputs and section boxes */
+form.nf label{font-size:14px;font-weight:600;letter-spacing:.2px;color:var(--ink);gap:6px}
+form.nf input,form.nf select{height:52px;font-size:17px}
+form.nf label.ic input{padding-left:44px}
+form.nf .i{bottom:17px;width:19px;height:19px}
+form.nf .fh{display:flex;align-items:center;justify-content:center;justify-self:center;width:150px;max-width:100%;text-align:center;font:700 15px "Barlow Semi Condensed","Barlow",sans-serif;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink);background:linear-gradient(90deg,transparent,var(--gold) 25%,var(--gold) 75%,transparent) no-repeat bottom/100% 3px;border:0;border-radius:0;box-shadow:none;padding:6px 0 10px;margin:16px 0 0}
+form.nf .stp{font-size:14px;font-weight:600;color:var(--ink)}
+form.nf .stp .mb{font-size:13px;font-weight:600}
+form.nf .stp .sr input{height:44px;font-size:28px}
+/* Documents: elegant options button + popover */
+.dr button.dots{display:grid;place-items:center;width:40px;height:32px;border-radius:999px;border:1px solid var(--line);background:var(--head);color:var(--ink);cursor:pointer;padding:0;transition:border-color .15s,color .15s}
+.dots svg{width:20px;height:20px;fill:currentColor}
+.dr button.dots:hover,.dr button.dots[aria-expanded="true"]{border-color:var(--sky);color:var(--sky)}
+.pop{position:fixed;z-index:70;min-width:170px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 30px rgba(0,0,0,.35);padding:6px}
+.pop button{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;border-radius:11px;padding:12px 14px;font:600 16px "Barlow",sans-serif;color:var(--ink);cursor:pointer;text-align:left}
+.pop button:hover,.pop button:focus-visible{background:var(--head)}
+.pop button svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.pop button.del{color:var(--danger)}
+.dmb label{font-size:14px;font-weight:600;color:var(--ink)}
+.dmb input,.dmb select{height:48px;border-radius:12px}
+
+form.nf label small{font-size:13px;font-weight:500;color:var(--muted);letter-spacing:0}
+
+form.nf .rt{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) minmax(0,1fr);gap:8px;align-items:end}
+form.nf .rt input{padding:0 12px;text-align:center;text-transform:uppercase;letter-spacing:1px;font-weight:600}
+.pth{align-self:end;height:52px;display:flex;align-items:center;gap:5px;color:var(--sky);min-width:0}
+.pth i{flex:1;height:0;border-top:2px dashed var(--muted);min-width:6px;opacity:.85}
+.pth svg{width:24px;height:24px;fill:currentColor;transform:rotate(90deg);flex:none}
 </style>
 </head>
 <body>
@@ -232,11 +261,11 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
     <label class="ic mw" style="--o:4">Aircraft type<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4l4 7H8z"/><circle cx="7" cy="17" r="3"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg><input id="type" placeholder="Aquila A210" maxlength="24"></label>
     <label class="ic" style="--o:3">Registration<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><input id="reg" placeholder="D-EUAU" maxlength="16" autocapitalize="characters"></label>
     <h3 class="fh" style="--o:9">Route</h3>
-    <label style="--o:10">From<input id="from" placeholder="EDTE" maxlength="8" autocapitalize="characters"></label>
+    <div class="rt" style="--o:10"><label>From<input id="from" placeholder="EDTE" maxlength="8" autocapitalize="characters"></label><div class="pth" aria-hidden="true"><i></i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg><i class="ar"></i></div><label>To<input id="to" placeholder="EDTE" maxlength="8" autocapitalize="characters"></label></div>
     <h3 class="fh" style="--o:12">Timing</h3>
-    <label style="--o:14">Departure<input type="time" id="start"></label>
-    <label style="--o:11">To<input id="to" placeholder="EDTE" maxlength="8" autocapitalize="characters"></label>
-    <label style="--o:15">Arrival<input type="time" id="end"></label>
+    <label style="--o:14"><span>Departure <small>(off block)</small></span><input type="time" id="start"></label>
+    
+    <label style="--o:15"><span>Arrival <small>(on block)</small></span><input type="time" id="end"></label>
     <label style="--o:16">Night time<input id="night" inputmode="numeric" placeholder="h:mm" maxlength="6"></label>
     <label style="--o:17">IFR time<input id="ifr" inputmode="numeric" placeholder="h:mm" maxlength="6"></label>
     <h3 class="fh" style="--o:18">Landings</h3>
@@ -303,7 +332,8 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
     <ol class="msg" style="padding-left:20px;line-height:1.6">
       <li>Open <b>your logbook sheet</b> (the one with the pages “Seite 1”, “Seite 2” …) and tap “Extensions”, then “Apps Script”.</li>
       <li>Delete the existing code, paste the code below, enter your own secret password at TOKEN and save.</li>
-      <li>“Deploy”, “New deployment”, type “Web app”. Execute as: “Me”. Access: “Anyone”. Deploy and allow the permissions (on the “Not verified” warning tap “Advanced” and “Continue anyway”).</li>
+      <li>Create a <b>second, empty</b> Google Sheet for your documents. Copy its ID (the part of its address between “/d/” and “/edit”) and enter it at DOCS_FILE_ID in the script. Licences and documents are written there, never into the logbook.</li>
+      <li>“Deploy”, “New deployment”, type “Web app”. Execute as: “Me”. Access: “Anyone”. Deploy and allow the permissions (on the “Not verified” warning tap “Advanced” and “Continue anyway”). Already deployed earlier? Choose “Deploy”, “Manage deployments”, the pencil, version “New version”, then “Deploy”. The address stays the same.</li>
       <li>Enter the web app URL shown (ends in /exec) and your password below and tap “Sync now”.</li>
     </ol>
     <textarea id="gsCode" readonly rows="10" style="font:13px/1.4 monospace;white-space:pre"></textarea>
@@ -335,7 +365,7 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
 </section>
 <section id="p-docs" hidden>
   <h2 class="mh">Documents</h2>
-  <p class="msg" style="margin-bottom:12px">Track expiry dates and remaining days. Entries are stored locally on this device.</p>
+  <p class="msg" style="margin-bottom:12px">Track expiry dates and remaining days. Entries are stored on this device and, once Sync is set up, also in your separate Google Sheet for documents (not in the logbook).</p>
   <form id="docForm" class="nf" autocomplete="off">
     <label class="mw">Licence / Document<select id="docType"><option>Class 1 Medical</option><option>Class 2 Medical</option><option>SEP Rating</option><option>MEP Rating</option><option>IR Rating</option><option>ICAO English / ELP</option><option>Passport</option><option>Custom</option></select></label>
     <label class="mw" id="docNameWrap" hidden>Label (optional)<input id="docName" placeholder="e.g. EASA licence"></label>
@@ -772,7 +802,7 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
   });
 
   /* Google-Sheet-Sync: schreibt direkt in dein Logbuch */
-  var GS="var TOKEN = 'ENTER-YOUR-OWN-PASSWORD-HERE';\nvar FIRST = 4, LAST = 23;\n\nfunction doPost(e) {\n  var res, lock = LockService.getScriptLock();\n  try {\n    lock.waitLock(25000);\n    var q = JSON.parse(e.postData.contents);\n    if (q.token !== TOKEN) throw new Error('Wrong password');\n    var ss = SpreadsheetApp.getActiveSpreadsheet();\n    if (q.action !== 'delete') repairBroken(ss);\n    if (q.action === 'get') res = { ok: true, entries: rowsOf(ss).map(function (x) { return x.e; }), deleted: deletedKeys(ss) };\n    else if (q.action === 'append') res = { ok: true, added: appendEntries(ss, q.entries) };\n    else if (q.action === 'update') res = { ok: true, done: updateEntry(ss, q.oldKey, q.entry) };\n    else if (q.action === 'delete') res = { ok: true, done: deleteEntry(ss, q.key) };\n    else throw new Error('Unbekannte Aktion');\n  } catch (err) {\n    res = { ok: false, error: String(err.message || err) };\n  } finally {\n    try { lock.releaseLock(); } catch (x) {}\n  }\n  return ContentService.createTextOutput(JSON.stringify(res)).setMimeType(ContentService.MimeType.JSON);\n}\n\nfunction deleteLog(ss) {\n  var sh = ss.getSheetByName('_SyncDeletes');\n  if (!sh) {\n    sh = ss.insertSheet('_SyncDeletes');\n    sh.getRange(1, 1, 1, 2).setValues([['key', 'deletedAt']]);\n    sh.hideSheet();\n  }\n  return sh;\n}\nfunction deletedKeys(ss) {\n  var sh = ss.getSheetByName('_SyncDeletes');\n  if (!sh || sh.getLastRow() < 2) return [];\n  return sh.getRange(2, 1, sh.getLastRow() - 1, 1).getDisplayValues()\n    .map(function (r) { return String(r[0] || ''); }).filter(Boolean);\n}\nfunction isDeleted(ss, key) {\n  if (!key) return false;\n  return deletedKeys(ss).indexOf(String(key)) !== -1;\n}\nfunction markDeleted(ss, key) {\n  if (!key) return;\n  var sh = deleteLog(ss), last = sh.getLastRow();\n  if (last >= 2) {\n    var vals = sh.getRange(2, 1, last - 1, 1).getDisplayValues();\n    for (var i = 0; i < vals.length; i++) if (String(vals[i][0]) === String(key)) return;\n  }\n  sh.appendRow([String(key), new Date()]);\n}\n\nfunction pages(ss) {\n  return ss.getSheets().map(function (s) {\n    var m = /^Seite (\\d+)$/.exec(s.getName());\n    return m ? { n: +m[1], sh: s } : null;\n  }).filter(Boolean).sort(function (a, b) { return a.n - b.n; });\n}\nfunction toMin(v) {\n  v = String(v == null ? '' : v).trim();\n  var m = /^(\\d+):(\\d{2})/.exec(v);\n  if (m) return +m[1] * 60 + +m[2];\n  var f = parseFloat(v.replace(',', '.'));\n  return (isFinite(f) && f > 0 && f < 1) ? Math.round(f * 1440) : 0;\n}\nfunction hm(v) {\n  var m = /^(\\d{1,2}):(\\d{2})/.exec(String(v == null ? '' : v).trim());\n  return m ? ('0' + m[1]).slice(-2) + ':' + m[2] : '';\n}\nfunction frac(s) {\n  var m = /^(\\d{1,2}):(\\d{2})/.exec(String(s || ''));\n  return m ? (+m[1] * 60 + +m[2]) / 1440 : '';\n}\nfunction keyOf(e) {\n  return e.dep ? e.date + '|' + e.dep : e.date + '|' + e.cat + '|' + e.min + '|' + (e.note || '');\n}\n\nfunction rowsOf(ss) {\n  var tz = ss.getSpreadsheetTimeZone(), out = [], n = LAST - FIRST + 1;\n  pages(ss).forEach(function (p) {\n    var rg = p.sh.getRange(FIRST, 1, n, 21), val = rg.getValues(), dis = rg.getDisplayValues();\n    for (var i = 0; i < n; i++) {\n      var v = val[i], d = dis[i];\n      if (!(v[0] instanceof Date)) continue;\n      var t = { PIC: toMin(d[16]), CO: toMin(d[17]), DUAL: toMin(d[18]), FI: toMin(d[19]) }, role = 'PIC', best = 0;\n      for (var k in t) if (t[k] > best) { best = t[k]; role = k; }\n      var e = {\n        date: Utilities.formatDate(v[0], tz, 'yyyy-MM-dd'), from: d[1], dep: hm(d[2]), to: d[3], arr: hm(d[4]),\n        type: d[5], reg: d[6], pic: d[7], cat: String(d[8]).trim(), role: role,\n        min: toMin(d[10]) || toMin(d[11]), night: toMin(d[14]), ifr: toMin(d[15]),\n        ldgD: Number(v[12]) || 0, ldgN: Number(v[13]) || 0, note: String(d[20]).trim()\n      };\n      out.push({ sh: p.sh, row: FIRST + i, e: e });\n    }\n  });\n  return out;\n}\n\nfunction writeRow(sh, r, e) {\n  var d = e.date.split('-'), fstd = e.cat === 'FSTD';\n  var role = e.role || 'PIC', co = role === 'CO', fi = role === 'FI';\n  var self = role === 'PIC' ? 'SELF' : (e.pic || '');\n  var row = [\n    Utilities.parseDate(e.date, sh.getParent().getSpreadsheetTimeZone(), 'yyyy-MM-dd'), e.from || '', frac(e.dep), e.to || '', frac(e.arr),\n    e.type || '', e.reg || '', fstd ? '' : (co || fi ? (e.pic || '') : self), e.cat, '',\n    '',\n    fstd ? frac(hmOf(e.min)) : '',\n    (!fstd && e.ldgD > 0) ? e.ldgD : '', (!fstd && e.ldgN > 0) ? e.ldgN : '',\n    '', '', '',\n    co ? frac(hmOf(e.min)) : '',\n    '',\n    fi ? frac(hmOf(e.min)) : '',\n    e.note || ''\n  ];\n  if (row.length !== 21) throw new Error('Internal error: expected exactly 21 columns.');\n  var f = ['dd.MM.yyyy', 'General', 'hh:mm', 'General', 'hh:mm', 'General', 'General', 'General', 'General', 'General'];\n  for (var c = 11; c <= 20; c++) f.push('hh:mm');\n  f.splice(12, 2, 'General', 'General');\n  f.push('General');\n  var rg = sh.getRange(r, 1, 1, 21);\n  rg.setValues([row]);\n  rg.setNumberFormats([f.slice(0, 21)]);\n  setFormulaCells(sh, r, fstd, co || fi);\n}\nfunction setFormulaCells(sh, r, fstd, cofi) {\n  var s = String(r);\n  sh.getRange(r, 11).setFormula('=IF(OR(I' + s + '=\"SEP\";I' + s + '=\"MEP\";I' + s + '=\"ME IR\";I' + s + '=\"SE IR\");MOD(E' + s + '-C' + s + ';1);\"\")');\n  if (!fstd) sh.getRange(r, 12).setFormula('=IF(I' + s + '=\"FSTD\";MOD(E' + s + '-C' + s + ';1);\"\")');\n  sh.getRange(r, 15).setFormula('=IF(ISNUMBER(N' + s + ');K' + s + ';\"\")');\n  sh.getRange(r, 16).setFormula('=IF(OR(I' + s + '=\"ME IR\";I' + s + '=\"SE IR\");K' + s + ';IF(I' + s + '=\"FSTD\";L' + s + ';\"\"))');\n  if (!cofi) {\n    sh.getRange(r, 17).setFormula('=IF(H' + s + '=\"SELF\";K' + s + ';\"\")');\n    sh.getRange(r, 19).setFormula('=IF(H' + s + '<>\"SELF\";K' + s + ';\"\")');\n  }\n}\nfunction repairBroken(ss) {\n  var n = LAST - FIRST + 1, fixed = 0;\n  pages(ss).forEach(function (p) {\n    var rg = p.sh.getRange(FIRST, 1, n, 21), val = rg.getValues(), dis = rg.getDisplayValues();\n    for (var i = 0; i < n; i++) {\n      if (!(val[i][0] instanceof Date)) continue;\n      var bad = false;\n      [10, 11, 14, 15, 16, 18].forEach(function (c) { if (/^#|^Err/.test(String(dis[i][c]))) bad = true; });\n      if (!bad) continue;\n      setFormulaCells(p.sh, FIRST + i, String(val[i][8]).trim() === 'FSTD', !!(val[i][17] || val[i][19]));\n      fixed++;\n    }\n  });\n  if (fixed) SpreadsheetApp.flush();\n  return fixed;\n}\nfunction repairFormulas() { return repairBroken(SpreadsheetApp.getActiveSpreadsheet()); }\nfunction hmOf(min) {\n  min = +min || 0;\n  return ('0' + Math.floor(min / 60)).slice(-2) + ':' + ('0' + (min % 60)).slice(-2);\n}\nfunction resetRow(sh, r) {\n  sh.getRange(r, 1, 1, 21).setValues([new Array(21).fill('')]);\n  setFormulaCells(sh, r, false, false);\n}\nfunction nextFree(sh) {\n  var a = sh.getRange(FIRST, 1, LAST - FIRST + 1, 1).getValues(), last = -1;\n  for (var i = 0; i < a.length; i++) if (a[i][0] instanceof Date) last = i;\n  var r = FIRST + last + 1;\n  return r <= LAST ? r : 0;\n}\nfunction newPage(ss, last) {\n  var n = last.n + 1, sh = last.sh.copyTo(ss);\n  sh.setName('Seite ' + n);\n  ss.setActiveSheet(sh);\n  ss.moveActiveSheet(ss.getNumSheets());\n  for (var r = FIRST; r <= LAST; r++) resetRow(sh, r);\n  var cols = 'KLMNOPQRST'.split('');\n  var f = cols.map(function (c) { return \"='Seite \" + last.n + \"'!\" + c + '26'; });\n  sh.getRange(25, 11, 1, 10).setFormulas([f]);\n  return { n: n, sh: sh };\n}\nfunction appendEntries(ss, list) {\n  var have = {}, blocked = {}, ps = pages(ss), added = 0;\n  rowsOf(ss).forEach(function (x) { have[keyOf(x.e)] = 1; });\n  \n  if (!ps.length) throw new Error('No sheets named “Seite 1”, “Seite 2” etc. found. Please use the existing logbook template.');\n  list.forEach(function (e) {\n    var k = keyOf(e);\n    if (have[k]) return;\n    have[k] = 1;\n    var last = ps[ps.length - 1], r = nextFree(last.sh);\n    if (!r) { last = newPage(ss, last); ps.push(last); r = FIRST; }\n    writeRow(last.sh, r, e);\n    added++;\n  });\n  SpreadsheetApp.flush();\n  return added;\n}\nfunction findRow(ss, key) {\n  var all = rowsOf(ss);\n  for (var i = 0; i < all.length; i++) if (keyOf(all[i].e) === key) return all[i];\n  return null;\n}\nfunction updateEntry(ss, oldKey, e) {\n  var x = findRow(ss, oldKey), newKey = keyOf(e);\n  // Ein Update darf niemals als Ersatz-Append für einen fehlenden/gelöschten Flug dienen.\n  if (!x) return false;\n  writeRow(x.sh, x.row, e);\n  if (oldKey && oldKey !== newKey) markDeleted(ss, oldKey);\n  SpreadsheetApp.flush();\n  return true;\n}\nfunction deleteEntry(ss, key) {\n  var x = findRow(ss, key);\n  if (x) resetRow(x.sh, x.row);\n  markDeleted(ss, key);\n  SpreadsheetApp.flush();\n  return !!x;\n}\n";
+  var GS="var TOKEN = 'ENTER-YOUR-OWN-PASSWORD-HERE';\nvar FIRST = 4, LAST = 23;\n\nfunction doPost(e) {\n  var res, lock = LockService.getScriptLock();\n  try {\n    lock.waitLock(25000);\n    var q = JSON.parse(e.postData.contents);\n    if (q.token !== TOKEN) throw new Error('Wrong password');\n    var ss = SpreadsheetApp.getActiveSpreadsheet();\n    if (q.action !== 'delete' && String(q.action).indexOf('doc') !== 0) repairBroken(ss);\n    if (q.action === 'get') res = { ok: true, entries: rowsOf(ss).map(function (x) { return x.e; }), deleted: deletedKeys(ss) };\n    else if (q.action === 'append') res = { ok: true, added: appendEntries(ss, q.entries) };\n    else if (q.action === 'update') res = { ok: true, done: updateEntry(ss, q.oldKey, q.entry) };\n    else if (q.action === 'delete') res = { ok: true, done: deleteEntry(ss, q.key) };\n    else if (q.action === 'docsGet') res = { ok: true, docs: docsGet(ss) };\n    else if (q.action === 'docUpsert') res = { ok: true, done: docUpsert(ss, q.doc) };\n    else if (q.action === 'docDelete') res = { ok: true, done: docDelete(ss, q.id) };\n    else throw new Error('Unbekannte Aktion');\n  } catch (err) {\n    res = { ok: false, error: String(err.message || err) };\n  } finally {\n    try { lock.releaseLock(); } catch (x) {}\n  }\n  return ContentService.createTextOutput(JSON.stringify(res)).setMimeType(ContentService.MimeType.JSON);\n}\n\nfunction deleteLog(ss) {\n  var sh = ss.getSheetByName('_SyncDeletes');\n  if (!sh) {\n    sh = ss.insertSheet('_SyncDeletes');\n    sh.getRange(1, 1, 1, 2).setValues([['key', 'deletedAt']]);\n    sh.hideSheet();\n  }\n  return sh;\n}\nfunction deletedKeys(ss) {\n  var sh = ss.getSheetByName('_SyncDeletes');\n  if (!sh || sh.getLastRow() < 2) return [];\n  return sh.getRange(2, 1, sh.getLastRow() - 1, 1).getDisplayValues()\n    .map(function (r) { return String(r[0] || ''); }).filter(Boolean);\n}\nfunction isDeleted(ss, key) {\n  if (!key) return false;\n  return deletedKeys(ss).indexOf(String(key)) !== -1;\n}\nfunction markDeleted(ss, key) {\n  if (!key) return;\n  var sh = deleteLog(ss), last = sh.getLastRow();\n  if (last >= 2) {\n    var vals = sh.getRange(2, 1, last - 1, 1).getDisplayValues();\n    for (var i = 0; i < vals.length; i++) if (String(vals[i][0]) === String(key)) return;\n  }\n  sh.appendRow([String(key), new Date()]);\n}\n\nfunction pages(ss) {\n  return ss.getSheets().map(function (s) {\n    var m = /^Seite (\\d+)$/.exec(s.getName());\n    return m ? { n: +m[1], sh: s } : null;\n  }).filter(Boolean).sort(function (a, b) { return a.n - b.n; });\n}\nfunction toMin(v) {\n  v = String(v == null ? '' : v).trim();\n  var m = /^(\\d+):(\\d{2})/.exec(v);\n  if (m) return +m[1] * 60 + +m[2];\n  var f = parseFloat(v.replace(',', '.'));\n  return (isFinite(f) && f > 0 && f < 1) ? Math.round(f * 1440) : 0;\n}\nfunction hm(v) {\n  var m = /^(\\d{1,2}):(\\d{2})/.exec(String(v == null ? '' : v).trim());\n  return m ? ('0' + m[1]).slice(-2) + ':' + m[2] : '';\n}\nfunction frac(s) {\n  var m = /^(\\d{1,2}):(\\d{2})/.exec(String(s || ''));\n  return m ? (+m[1] * 60 + +m[2]) / 1440 : '';\n}\nfunction keyOf(e) {\n  return e.dep ? e.date + '|' + e.dep : e.date + '|' + e.cat + '|' + e.min + '|' + (e.note || '');\n}\n\nfunction rowsOf(ss) {\n  var tz = ss.getSpreadsheetTimeZone(), out = [], n = LAST - FIRST + 1;\n  pages(ss).forEach(function (p) {\n    var rg = p.sh.getRange(FIRST, 1, n, 21), val = rg.getValues(), dis = rg.getDisplayValues();\n    for (var i = 0; i < n; i++) {\n      var v = val[i], d = dis[i];\n      if (!(v[0] instanceof Date)) continue;\n      var t = { PIC: toMin(d[16]), CO: toMin(d[17]), DUAL: toMin(d[18]), FI: toMin(d[19]) }, role = 'PIC', best = 0;\n      for (var k in t) if (t[k] > best) { best = t[k]; role = k; }\n      var e = {\n        date: Utilities.formatDate(v[0], tz, 'yyyy-MM-dd'), from: d[1], dep: hm(d[2]), to: d[3], arr: hm(d[4]),\n        type: d[5], reg: d[6], pic: d[7], cat: String(d[8]).trim(), role: role,\n        min: toMin(d[10]) || toMin(d[11]), night: toMin(d[14]), ifr: toMin(d[15]),\n        ldgD: Number(v[12]) || 0, ldgN: Number(v[13]) || 0, note: String(d[20]).trim()\n      };\n      out.push({ sh: p.sh, row: FIRST + i, e: e });\n    }\n  });\n  return out;\n}\n\nfunction writeRow(sh, r, e) {\n  var d = e.date.split('-'), fstd = e.cat === 'FSTD';\n  var role = e.role || 'PIC', co = role === 'CO', fi = role === 'FI';\n  var self = role === 'PIC' ? 'SELF' : (e.pic || '');\n  var row = [\n    Utilities.parseDate(e.date, sh.getParent().getSpreadsheetTimeZone(), 'yyyy-MM-dd'), e.from || '', frac(e.dep), e.to || '', frac(e.arr),\n    e.type || '', e.reg || '', fstd ? '' : (co || fi ? (e.pic || '') : self), e.cat, '',\n    '',\n    fstd ? frac(hmOf(e.min)) : '',\n    (!fstd && e.ldgD > 0) ? e.ldgD : '', (!fstd && e.ldgN > 0) ? e.ldgN : '',\n    '', '', '',\n    co ? frac(hmOf(e.min)) : '',\n    '',\n    fi ? frac(hmOf(e.min)) : '',\n    e.note || ''\n  ];\n  if (row.length !== 21) throw new Error('Internal error: expected exactly 21 columns.');\n  var f = ['dd.MM.yyyy', 'General', 'hh:mm', 'General', 'hh:mm', 'General', 'General', 'General', 'General', 'General'];\n  for (var c = 11; c <= 20; c++) f.push('hh:mm');\n  f.splice(12, 2, 'General', 'General');\n  f.push('General');\n  var rg = sh.getRange(r, 1, 1, 21);\n  rg.setValues([row]);\n  rg.setNumberFormats([f.slice(0, 21)]);\n  setFormulaCells(sh, r, fstd, co || fi);\n}\nfunction setFormulaCells(sh, r, fstd, cofi) {\n  var s = String(r);\n  sh.getRange(r, 11).setFormula('=IF(OR(I' + s + '=\"SEP\";I' + s + '=\"MEP\";I' + s + '=\"ME IR\";I' + s + '=\"SE IR\");MOD(E' + s + '-C' + s + ';1);\"\")');\n  if (!fstd) sh.getRange(r, 12).setFormula('=IF(I' + s + '=\"FSTD\";MOD(E' + s + '-C' + s + ';1);\"\")');\n  sh.getRange(r, 15).setFormula('=IF(ISNUMBER(N' + s + ');K' + s + ';\"\")');\n  sh.getRange(r, 16).setFormula('=IF(OR(I' + s + '=\"ME IR\";I' + s + '=\"SE IR\");K' + s + ';IF(I' + s + '=\"FSTD\";L' + s + ';\"\"))');\n  if (!cofi) {\n    sh.getRange(r, 17).setFormula('=IF(H' + s + '=\"SELF\";K' + s + ';\"\")');\n    sh.getRange(r, 19).setFormula('=IF(H' + s + '<>\"SELF\";K' + s + ';\"\")');\n  }\n}\nfunction repairBroken(ss) {\n  var n = LAST - FIRST + 1, fixed = 0;\n  pages(ss).forEach(function (p) {\n    var rg = p.sh.getRange(FIRST, 1, n, 21), val = rg.getValues(), dis = rg.getDisplayValues();\n    for (var i = 0; i < n; i++) {\n      if (!(val[i][0] instanceof Date)) continue;\n      var bad = false;\n      [10, 11, 14, 15, 16, 18].forEach(function (c) { if (/^#|^Err/.test(String(dis[i][c]))) bad = true; });\n      if (!bad) continue;\n      setFormulaCells(p.sh, FIRST + i, String(val[i][8]).trim() === 'FSTD', !!(val[i][17] || val[i][19]));\n      fixed++;\n    }\n  });\n  if (fixed) SpreadsheetApp.flush();\n  return fixed;\n}\nfunction repairFormulas() { return repairBroken(SpreadsheetApp.getActiveSpreadsheet()); }\nfunction hmOf(min) {\n  min = +min || 0;\n  return ('0' + Math.floor(min / 60)).slice(-2) + ':' + ('0' + (min % 60)).slice(-2);\n}\nfunction resetRow(sh, r) {\n  sh.getRange(r, 1, 1, 21).setValues([new Array(21).fill('')]);\n  setFormulaCells(sh, r, false, false);\n}\nfunction nextFree(sh) {\n  var a = sh.getRange(FIRST, 1, LAST - FIRST + 1, 1).getValues(), last = -1;\n  for (var i = 0; i < a.length; i++) if (a[i][0] instanceof Date) last = i;\n  var r = FIRST + last + 1;\n  return r <= LAST ? r : 0;\n}\nfunction newPage(ss, last) {\n  var n = last.n + 1, sh = last.sh.copyTo(ss);\n  sh.setName('Seite ' + n);\n  ss.setActiveSheet(sh);\n  ss.moveActiveSheet(ss.getNumSheets());\n  for (var r = FIRST; r <= LAST; r++) resetRow(sh, r);\n  var cols = 'KLMNOPQRST'.split('');\n  var f = cols.map(function (c) { return \"='Seite \" + last.n + \"'!\" + c + '26'; });\n  sh.getRange(25, 11, 1, 10).setFormulas([f]);\n  return { n: n, sh: sh };\n}\nfunction appendEntries(ss, list) {\n  var have = {}, blocked = {}, ps = pages(ss), added = 0;\n  rowsOf(ss).forEach(function (x) { have[keyOf(x.e)] = 1; });\n  \n  if (!ps.length) throw new Error('No sheets named “Seite 1”, “Seite 2” etc. found. Please use the existing logbook template.');\n  list.forEach(function (e) {\n    var k = keyOf(e);\n    if (have[k]) return;\n    have[k] = 1;\n    var last = ps[ps.length - 1], r = nextFree(last.sh);\n    if (!r) { last = newPage(ss, last); ps.push(last); r = FIRST; }\n    writeRow(last.sh, r, e);\n    added++;\n  });\n  SpreadsheetApp.flush();\n  return added;\n}\nfunction findRow(ss, key) {\n  var all = rowsOf(ss);\n  for (var i = 0; i < all.length; i++) if (keyOf(all[i].e) === key) return all[i];\n  return null;\n}\nfunction updateEntry(ss, oldKey, e) {\n  var x = findRow(ss, oldKey), newKey = keyOf(e);\n  // Ein Update darf niemals als Ersatz-Append für einen fehlenden/gelöschten Flug dienen.\n  if (!x) return false;\n  writeRow(x.sh, x.row, e);\n  if (oldKey && oldKey !== newKey) markDeleted(ss, oldKey);\n  SpreadsheetApp.flush();\n  return true;\n}\nfunction deleteEntry(ss, key) {\n  var x = findRow(ss, key);\n  if (x) resetRow(x.sh, x.row);\n  markDeleted(ss, key);\n  SpreadsheetApp.flush();\n  return !!x;\n}\n\n// ---------------------------------------------------------------\n// DOKUMENTE / LIZENZEN: landen in einer EIGENEN Google-Tabelle,\n// nicht im Logbuch. Trage hier die ID der Dokumente-Tabelle ein\n// (Adresse: docs.google.com/spreadsheets/d/<ID>/edit).\n// ---------------------------------------------------------------\nvar DOCS_FILE_ID = 'PASTE-DOCS-SHEET-ID-HERE';\nvar DOCS_SHEET = 'Dokumente';\n\nfunction docsSheet() {\n  if (!DOCS_FILE_ID || DOCS_FILE_ID.indexOf('PASTE-') === 0) throw new Error('DOCS_FILE_ID im Script eintragen (ID der Dokumente-Tabelle).');\n  var t = SpreadsheetApp.openById(DOCS_FILE_ID);\n  var sh = t.getSheetByName(DOCS_SHEET);\n  if (!sh) {\n    sh = t.insertSheet(DOCS_SHEET);\n    sh.getRange(1, 1, 1, 6).setValues([['ID', 'Dokument', 'Nummer', 'Gültig bis', 'Erinnerung (Tage)', 'Geändert']]).setFontWeight('bold');\n    sh.setFrozenRows(1);\n    var first = t.getSheets()[0];\n    if (first.getSheetId() !== sh.getSheetId() && first.getLastRow() === 0 && /^(Tabelle1|Sheet1)$/.test(first.getName())) t.deleteSheet(first);\n  }\n  return sh;\n}\nfunction docRowOf(sh, id) {\n  var n = sh.getLastRow() - 1;\n  if (n < 1) return 0;\n  var ids = sh.getRange(2, 1, n, 1).getValues();\n  for (var i = 0; i < n; i++) if (String(ids[i][0]) === String(id)) return i + 2;\n  return 0;\n}\nfunction docsGet(ss) {\n  var sh = docsSheet(), tz = sh.getParent().getSpreadsheetTimeZone(), n = sh.getLastRow() - 1;\n  if (n < 1) return [];\n  return sh.getRange(2, 1, n, 6).getValues().map(function (r) {\n    if (!r[0] || !(r[3] instanceof Date)) return null;\n    return { id: String(r[0]), title: String(r[1]), no: String(r[2]),\n             date: Utilities.formatDate(r[3], tz, 'yyyy-MM-dd'), notice: Number(r[4]) || 30 };\n  }).filter(Boolean);\n}\nfunction docUpsert(ss, d) {\n  if (!d || !d.id || !/^\\d{4}-\\d{2}-\\d{2}$/.test(d.date || '')) throw new Error('Ungültiges Dokument');\n  var sh = docsSheet(), r = docRowOf(sh, d.id) || sh.getLastRow() + 1;\n  sh.getRange(r, 3).setNumberFormat('@');\n  sh.getRange(r, 1, 1, 6).setValues([[String(d.id), d.title || '', d.no || '',\n    Utilities.parseDate(d.date, sh.getParent().getSpreadsheetTimeZone(), 'yyyy-MM-dd'), +d.notice || 30, new Date()]]);\n  sh.getRange(r, 4).setNumberFormat('dd.MM.yyyy');\n  sh.getRange(r, 6).setNumberFormat('dd.MM.yyyy HH:mm');\n  SpreadsheetApp.flush();\n  return true;\n}\nfunction docDelete(ss, id) {\n  var sh = docsSheet(), r = docRowOf(sh, id);\n  if (r) sh.deleteRow(r);\n  SpreadsheetApp.flush();\n  return !!r;\n}\n";
   $("gsCode").value=GS;
   $("gsCopy").addEventListener("click",function(){
     var t=$("gsCode");t.select();
@@ -877,7 +907,7 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
       mergeChanged=JSON.stringify(entries)!==before;
       if(mergeChanged)save();
       return "Synced: "+fresh+" new from the sheet, "+updated+" updated, "+removed+" local entries removed. Nothing was uploaded from old local data.";
-    });
+    }).then(function(msg){return docsMerge().then(function(t){return msg+t},function(e){return msg+" Documents not synced: "+e.message})});
   }
   $("syMerge").addEventListener("click",function(){run(function(){return doMerge(false)})});
   function armed(b,label,fn){
@@ -970,23 +1000,94 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
   calc();
 
   /* Documents (licence reminder) */
-  var DK="flugbuch:docs",docs=[],dp=null;
+  var DK="flugbuch:docs",docs=[],dp=null,dver=0;
   try{docs=JSON.parse(localStorage.getItem(DK)||"[]")}catch(e){}
-  function saveDocs(){try{localStorage.setItem(DK,JSON.stringify(docs))}catch(e){}renderDocs()}
+  function saveDocs(){dver++;try{localStorage.setItem(DK,JSON.stringify(docs))}catch(e){}renderDocs()}
+  function nid(){return"d"+Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+  function dstrip(x){return{id:x.id,title:x.title,no:x.no||"",date:x.date,notice:x.notice||30}}
+  (function(){var mg=false;docs.forEach(function(x){if(!x.id){x.id=nid();mg=true}});if(mg)try{localStorage.setItem(DK,JSON.stringify(docs))}catch(e){}})();
+  /* Documents: sync with the separate documents sheet (sheet is the source of truth; never-uploaded local documents are uploaded) */
+  function docsMerge(){
+    var d0=dver;
+    return call({action:"docsGet"}).then(function(j){
+      if(dver!==d0||qGet().length)return"";
+      var rem=(j.docs||[]).filter(function(r){return r&&r.id&&/^\d{4}-\d{2}-\d{2}$/.test(r.date)}),rid={},local={},out=[],up=[],added=0,removed=0;
+      rem.forEach(function(r){rid[r.id]=r});
+      docs.forEach(function(x){
+        local[x.id]=1;var r=rid[x.id];
+        if(r)out.push({id:r.id,title:String(r.title||"").trim()||x.title,no:String(r.no||""),date:r.date,notice:+r.notice||30,s:1});
+        else if(!x.s||!rem.length){up.push(x);out.push(x)}
+        else removed++;
+      });
+      rem.forEach(function(r){if(!local[r.id]){added++;out.push({id:r.id,title:String(r.title||"").trim()||"Document",no:String(r.no||""),date:r.date,notice:+r.notice||30,s:1})}});
+      var chain=Promise.resolve();
+      up.forEach(function(x){chain=chain.then(function(){return call({action:"docUpsert",doc:dstrip(x)})}).then(function(){x.s=1})});
+      return chain.then(function(){
+        var t=" Documents: "+added+" new from the sheet, "+up.length+" uploaded, "+removed+" removed.";
+        if(dver!==d0||qGet().length)return t;
+        if(JSON.stringify(out)!==JSON.stringify(docs)){docs=out;saveDocs()}
+        return t;
+      });
+    });
+  }
   function dd(x){var a=new Date();a.setHours(0,0,0,0);return Math.ceil((new Date(x+"T00:00:00")-a)/864e5)}
   function dcls(d){return d<0?"exp":d<=60?"warn":"good"}
   function dlab(d){return d<0?"Expired "+(-d)+(d===-1?" day":" days")+" ago":d===0?"Expires today":d+(d===1?" day":" days")+" remaining"}
   function renderDocs(){
+    closeMenu();
     $("docCount").textContent=docs.length+" tracked";
     var r=docs.map(function(x,i){return{x:x,i:i}}).sort(function(a,b){return a.x.date<b.x.date?-1:1});
     $("docList").innerHTML=r.length?r.map(function(o){var d=dd(o.x.date);
-      return'<div class="dit"><div><b>'+esc(o.x.title)+'</b><small>'+fd(o.x.date)+(o.x.no?" · "+esc(o.x.no):"")+'</small></div><div class="dr"><span class="pill '+dcls(d)+'">'+dlab(d)+'</span><button type="button" data-doc="'+o.i+'">Remove</button></div></div>'}).join(""):'<p class="empty">No expiry dates saved yet.</p>';
+      return'<div class="dit"><div><b>'+esc(o.x.title)+'</b><small>'+fd(o.x.date)+(o.x.no?" · "+esc(o.x.no):"")+'</small></div><div class="dr"><span class="pill '+dcls(d)+'">'+dlab(d)+'</span><button type="button" class="dots" data-doc="'+o.i+'" aria-label="Options" aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg></button></div></div>'}).join(""):'<p class="empty">No expiry dates saved yet.</p>';
+  }
+  var dmenu=null;
+  function closeMenu(){if(dmenu){dmenu.remove();dmenu=null}var o=document.querySelector(".dots[aria-expanded=true]");if(o)o.setAttribute("aria-expanded","false")}
+  function openMenu(b){
+    var i=+b.getAttribute("data-doc");closeMenu();
+    var m=document.createElement("div");m.className="pop";m.setAttribute("role","menu");
+    m.innerHTML='<button type="button" role="menuitem" data-a="edit"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg><span>Edit</span></button>'+
+      '<button type="button" role="menuitem" class="del" data-a="del"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg><span>Delete</span></button>';
+    document.body.appendChild(m);
+    var r=b.getBoundingClientRect(),w=m.offsetWidth,h=m.offsetHeight;
+    var left=Math.max(8,Math.min(window.innerWidth-w-8,r.right-w)),top=r.bottom+6;
+    if(top+h>window.innerHeight-8)top=Math.max(8,r.top-h-6);
+    m.style.left=left+"px";m.style.top=top+"px";
+    b.setAttribute("aria-expanded","true");dmenu=m;
+    m.addEventListener("click",function(e){
+      var a=e.target.closest("button");if(!a)return;
+      if(a.getAttribute("data-a")==="edit"){closeMenu();editDoc(i);return}
+      if(a.getAttribute("data-s")!=="1"){a.setAttribute("data-s","1");a.querySelector("span").textContent="Sure?";return}
+      closeMenu();var gone=docs.splice(i,1)[0];saveDocs();if(gone&&gone.id)qAdd({action:"docDelete",id:gone.id});
+    });
   }
   $("docList").addEventListener("click",function(e){
-    var b=e.target.closest("button"),i=b&&b.getAttribute("data-doc");if(i==null)return;
-    if(dp!==i){dp=i;b.textContent="Sure?";setTimeout(function(){if(dp===i){dp=null;renderDocs()}},4000);return}
-    dp=null;docs.splice(+i,1);saveDocs();
+    var b=e.target.closest("button.dots");if(!b)return;
+    if(b.getAttribute("aria-expanded")==="true")closeMenu();else openMenu(b);
   });
+  document.addEventListener("click",function(e){if(dmenu&&!dmenu.contains(e.target)&&!e.target.closest(".dots"))closeMenu()});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape")closeMenu()});
+  window.addEventListener("scroll",closeMenu,true);window.addEventListener("resize",closeMenu);
+  function editDoc(i){
+    var x=docs[i];if(!x)return;closeDm();
+    var ns=[90,60,30,14];if(ns.indexOf(x.notice||30)<0)ns.push(x.notice||30);
+    var ov=document.createElement("div");ov.className="dm";ov.id="dm";ov.setAttribute("role","dialog");ov.setAttribute("aria-modal","true");
+    ov.innerHTML='<div class="dmb"><h3>Edit document</h3><div style="display:grid;gap:12px;margin-top:12px">'+
+      '<label>Title<input id="edT" maxlength="40" value="'+esc(x.title)+'"></label>'+
+      '<label>Licence number (optional)<input id="edN" value="'+esc(x.no||"")+'" autocapitalize="characters" spellcheck="false"></label>'+
+      '<label>Expiry date<input id="edD" type="date" value="'+esc(x.date)+'"></label>'+
+      '<label>Remind me before<select id="edR">'+ns.map(function(n){return'<option value="'+n+'"'+(n===(x.notice||30)?" selected":"")+'>'+n+' days</option>'}).join("")+'</select></label>'+
+      '<p class="msg err" id="edM" hidden></p></div>'+
+      '<div class="row2" style="margin-top:14px"><button class="btn" id="edS" type="button">Save changes</button><button class="btn alt" id="edC" type="button">Cancel</button></div></div>';
+    ov.addEventListener("click",function(e){if(e.target===ov)closeDm()});
+    document.body.appendChild(ov);document.body.style.overflow="hidden";
+    $("edC").onclick=closeDm;
+    $("edS").onclick=function(){
+      var d=$("edD").value,t=$("edT").value.trim();
+      if(!d){var m=$("edM");m.textContent="Choose an expiry date.";m.hidden=false;return}
+      x.title=t||x.title;x.no=$("edN").value.trim();x.date=d;x.notice=+$("edR").value;
+      closeDm();saveDocs();qAdd({action:"docUpsert",doc:dstrip(x)});
+    };
+  }
   $("docType").addEventListener("change",function(){$("docNameWrap").hidden=this.value!=="Custom"});
   function closeDm(){var m=$("dm");if(m)m.remove();document.body.style.overflow=""}
   function dueCheck(){
@@ -1004,8 +1105,8 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
     ev.preventDefault();var date=$("docDate").value,m=$("docMsg");
     if(!date){m.textContent="Choose an expiry date.";m.className="msg wide err";return}
     var t=$("docType").value;
-    docs.push({title:t==="Custom"?($("docName").value.trim()||t):t,date:date,notice:+$("docNotice").value,no:$("docNo").value.trim()});
-    saveDocs();$("docName").value="";$("docNo").value="";$("docDate").value="";
+    var nd={id:nid(),title:t==="Custom"?($("docName").value.trim()||t):t,date:date,notice:+$("docNotice").value,no:$("docNo").value.trim()};docs.push(nd);
+    saveDocs();qAdd({action:"docUpsert",doc:dstrip(nd)});$("docName").value="";$("docNo").value="";$("docDate").value="";
     m.textContent="Reminder saved.";m.className="msg wide";dueCheck();
   });
   renderDocs();setTimeout(dueCheck,600);
