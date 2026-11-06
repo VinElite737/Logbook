@@ -107,6 +107,8 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
 .dg{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}.dg span{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
 .dg b{font-weight:600;word-break:break-word}.dg .w{grid-column:1/-1}
 .ca{display:flex;gap:10px;margin-top:14px}.ca .btn{flex:1}
+.exw{position:relative;border:2px dashed var(--muted);border-radius:18px;padding:24px 12px 12px;margin-top:14px;display:grid;gap:12px;pointer-events:none;-webkit-user-select:none;user-select:none}
+.exw .exl{position:absolute;top:-11px;left:18px;background:var(--paper);padding:0 10px;font:600 12px "Barlow Semi Condensed",sans-serif;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted)}
 .seg{gap:4px;margin-bottom:14px;background:var(--head);border-radius:12px;padding:4px}
 .seg button{flex:1;background:none;border:0;border-radius:9px;padding:9px;font:600 15px "Barlow",sans-serif;color:var(--muted);cursor:pointer}
 .seg button[aria-selected="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.25)}
@@ -158,6 +160,7 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
 .dr{display:flex;flex-direction:column;align-items:flex-end;gap:6px}.dr button{background:none;border:0;color:var(--muted);font:600 13px "Barlow",sans-serif;cursor:pointer;padding:0}
 .pill{font:600 13px "Barlow",sans-serif;border-radius:999px;padding:3px 10px;white-space:nowrap}
 .pill.good{background:var(--sky);color:var(--onsky)}.pill.warn{background:var(--gold);color:#14283d}.pill.exp{background:#8b1a3a;color:#fff}
+.exw .dlist{box-shadow:none}.exw .pop{position:static;margin:0 14px 12px auto;width:max-content;box-shadow:none}
 .dm{position:fixed;inset:0;z-index:60;background:rgba(5,15,25,.6);display:grid;place-items:center;padding:20px}
 .dmb{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;width:min(440px,100%);max-height:80vh;overflow:auto}.dmb h3{margin:0 0 6px;font:700 22px "Barlow Semi Condensed",sans-serif}
 .acw{position:relative;margin-bottom:14px}.acw label{font-size:11px;letter-spacing:.6px}
@@ -363,7 +366,7 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
 
 <section id="p-sync" hidden><button type="button" class="back" data-go="more">‹ More</button><div class="seg mob"><button type="button" data-go="exp">Export</button><button type="button" data-go="imp">Import</button><button type="button" data-go="sync">Sync</button></div>
   <h2>Write automatically to your Google Sheet logbook</h2>
-  <p class="msg">Every new, changed or deleted flight is transferred to your Google Sheet logbook automatically (new flights go to the next free row of the last page; when a page is full, “Seite 12” etc. is created automatically). This only works when the app runs from its own web address (hosted index.html), not in the Claude preview.</p>
+  <p class="msg">Every new, changed or deleted flight is transferred to your Google Sheet logbook automatically.</p>
   <details style="margin:12px 0">
     <summary style="cursor:pointer;font-weight:600">Setup (one time)</summary>
     <ol class="msg" style="padding-left:20px;line-height:1.6">
@@ -386,7 +389,12 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
     <button class="btn alt" type="button" id="syDown">Replace this device</button>
   </div>
   <p class="msg" id="syMsg"></p>
-  <p class="msg" style="margin-top:12px"><b>Automatic:</b> After every save, edit or delete the change is sent to the sheet immediately. Without internet it is remembered and sent later. The status is shown at the top of the page.<br><b>Sync now:</b> syncs new, changed and deleted flights in both directions. With automatic sync enabled this happens every 15 seconds while the app is open and online.<br><b>Replace this device:</b> this device gets exactly the state of the sheet.<br><b>Deleted:</b> the row in the sheet stays empty (a gap); the formulas are kept.</p>
+ <p class="msg" style="margin-top:12px">
+  <b>Automatic:</b> After every save, edit or delete the change is sent to the sheet immediately. Without internet it is remembered and sent later. The status is shown at the top of the page.<br><br>
+  <b>Sync now:</b> syncs new, changed and deleted flights in both directions. With automatic sync enabled this happens every 15 seconds while the app is open and online.<br><br>
+  <b>Replace this device:</b> this device gets exactly the state of the sheet.<br><br>
+  <b>Deleted:</b> the row in the sheet stays empty (a gap); the formulas are kept.
+</p>
 </section>
 
 <section id="p-exp" hidden><button type="button" class="back" data-go="more">‹ More</button><div class="seg mob"><button type="button" data-go="exp">Export</button><button type="button" data-go="imp">Import</button><button type="button" data-go="sync">Sync</button></div>
@@ -406,7 +414,7 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
 </section>
 <section id="p-docs" hidden>
   <h2 class="mh">Documents</h2>
-  <p class="msg" style="margin-bottom:12px">Track expiry dates and remaining days. Entries are stored on this device and, once Sync is set up, also in your separate Google Sheet for documents (not in the logbook).</p>
+  <p class="msg" style="margin-bottom:12px">Tracks expiration dates locally and syncs to your Google Sheet.</p>
   <form id="docForm" class="nf" autocomplete="off">
     <label class="mw">Licence / Document<select id="docType"><option>Class 1 Medical</option><option>Class 2 Medical</option><option>SEP Rating</option><option>MEP Rating</option><option>IR Rating</option><option>ICAO English / ELP</option><option>Passport</option><option>Custom</option></select></label>
     <label class="mw" id="docNameWrap" hidden>Label (optional)<input id="docName" placeholder="e.g. EASA licence"></label>
@@ -880,7 +888,7 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
   function saveBytes(name,bytes,mime){var bl=new Blob([bytes],{type:mime}),u=URL.createObjectURL(bl),l=document.createElement("a");l.href=u;l.download=name;document.body.appendChild(l);l.click();l.remove();setTimeout(function(){URL.revokeObjectURL(u)},4000)}
   function loadLib(url,test){return new Promise(function(ok,no){if(test())return ok();var sc=document.createElement("script");sc.src=url;sc.onload=function(){test()?ok():no(new Error("lib"))};sc.onerror=function(){no(new Error("lib"))};document.head.appendChild(sc)})}
   var XM="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-  var XH={pdf:"A4 landscape (EASA) or Letter landscape (FAA), 20 flights per page with page totals. Fits the page when printed at 100%.",xlsx:"One sheet per page (“Seite 1”, “Seite 2” …) with totals, ready to print in landscape.",csv:"All flights as a table, one row per flight.",gsheet:"Downloads the Excel file with the chosen layout. In Google Sheets choose File › Import › Upload and it opens as a Google Sheet with the same layout.",json:"Complete backup of all entries. Import it again under Import."};
+  var XH={pdf:"A4 landscape (EASA) or Letter landscape (FAA), 20 flights per page with page totals.",xlsx:"One sheet per page (“Seite 1”, “Seite 2” …) with totals, ready to print in landscape.",csv:"All flights as a table, one row per flight.",gsheet:"Downloads the Excel file with the chosen layout. In Google Sheets choose File › Import › Upload and it opens as a Google Sheet with the same layout.",json:"Complete backup of all entries. Import it again under Import."};
   function xUi(){var f=$("xFmt").value;$("xLayW").hidden=f==="json";$("xHint").textContent=XH[f]}
   $("xFmt").addEventListener("change",xUi);xUi();
   $("xGo").addEventListener("click",async function(){
@@ -1239,17 +1247,21 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
     var tm=0;rows.forEach(function(e){if(e.cat!=="FSTD")tm+=e.min});
     $("fSum").textContent=rows.length+(rows.length===1?" flight":" flights")+" · "+fmt(tm)+" h"+(rows.length<total?" (filtered)":"");
     $("fClr").hidden=!(fF||fT);
-    if(!rows.length){$("cards").innerHTML='<p class="empty">'+(total?"No flights in this period.":"No entries yet. Tap + to add your first flight.")+'</p>';return}
+    var emptyHtml=rows.length?"":'<p class="empty">'+(total?"No flights in this period.":"No entries yet. Tap + to add your first flight.")+'</p>';
+    var ex=!total?'<div class="exw" aria-label="Example entries"><span class="exl">Example entries</span>'+
+      cardHtml({date:iso(new Date(Date.now()-3*864e5)),cat:"SEP",role:"PIC",from:"EDDS",dep:"08:15",to:"EDDM",arr:"09:10",type:"C172",reg:"D-EXMP",min:55,night:0,ifr:0,ldgD:1,ldgN:0,note:""},false,true)+
+      cardHtml({date:iso(new Date(Date.now()-10*864e5)),cat:"SEP",role:"PIC",from:"EDDS",dep:"14:00",to:"EDNY",arr:"14:50",type:"PA-28",reg:"D-EABC",pic:"SELF",min:50,night:0,ifr:0,ldgD:2,ldgN:0,note:"Example: crosswind landing practice"},true,true)+'</div>':"";
+    $("cards").innerHTML=rows.length?rows.slice().reverse().map(function(e){return cardHtml(e,String(e.id)===String(openId))}).join(""):emptyHtml+ex;
+  }
+  function cardHtml(e,isOpen,demo){
     function k(l,v,w){return'<div'+(w?' class="w"':'')+'><span>'+l+'</span><b>'+(esc(v)||"—")+'</b></div>'}
-    $("cards").innerHTML=rows.slice().reverse().map(function(e){
-      var F=e.cat==="FSTD",ld=(e.ldgD||0)+(e.ldgN||0);
-      return'<article class="card'+(e.role==="PIC"?"":" np")+(String(e.id)===String(openId)?" open":"")+'" data-c="'+e.id+'">'+
+    var F=e.cat==="FSTD",ld=(e.ldgD||0)+(e.ldgN||0);
+    return'<article class="card'+(e.role==="PIC"?"":" np")+(isOpen?" open":"")+'"'+(demo?'':' data-c="'+e.id+'"')+'>'+
         '<div class="c1"><span class="cd">'+fd(e.date)+'</span><span class="chip">'+esc(F?"FSTD":e.reg||"—")+'</span></div>'+
         '<div class="c2"><div class="ap"><b>'+esc(e.from||"—")+'</b><small>'+esc(F?"":e.dep||"")+'</small></div><div class="mid"><span class="ty">'+esc(F?"Simulator":e.type||"")+'</span><div class="ln"><i></i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div><span class="bt">'+hh(e.min)+'</span></div><div class="ap r"><b>'+esc(e.to||"—")+'</b><small>'+esc(F?"":e.arr||"")+'</small></div></div>'+
         '<div class="c3"><span class="cm">'+esc(F?"FSTD":ROLES[e.role]||e.role)+' · '+ld+' LND</span></div>'+
         '<div class="cdet"><div class="dg">'+k("Date",fd(e.date))+k("Category",e.cat)+k("From",e.from)+k("Departure",e.dep)+k("To",e.to)+k("Arrival",e.arr)+k("Aircraft type",e.type)+k("Registration",e.reg)+k("Function",ROLES[e.role])+k("PIC name",e.pic)+k("Total time",hh(e.min)+" h")+k("Night",e.night?hh(e.night)+" h":"")+k("IFR",e.ifr?hh(e.ifr)+" h":"")+k("Landings day / night",(e.ldgD||0)+" / "+(e.ldgN||0))+k("Remarks",e.note,1)+'</div>'+
-        '<div class="ca"><button class="btn alt" type="button" data-edit="'+e.id+'">Edit</button><button class="btn alt" type="button" data-id="'+e.id+'" style="color:var(--danger)">Delete</button></div></div></article>';
-    }).join("");
+        '<div class="ca"><button class="btn alt" type="button"'+(demo?' tabindex="-1"':' data-edit="'+e.id+'"')+'>Edit</button><button class="btn alt" type="button"'+(demo?' tabindex="-1"':' data-id="'+e.id+'"')+' style="color:var(--danger)">Delete</button></div></div></article>';
   }
   $("cards").addEventListener("click",function(ev){
     var b=ev.target.closest("button"),c=ev.target.closest(".card");
@@ -1323,8 +1335,14 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
     closeMenu();
     $("docCount").textContent=docs.length+" tracked";
     var r=docs.map(function(x,i){return{x:x,i:i}}).sort(function(a,b){return a.x.date<b.x.date?-1:1});
-    $("docList").innerHTML=r.length?r.map(function(o){var d=dd(o.x.date);
-      return'<div class="dit"><div><b>'+esc(o.x.title)+'</b><small>'+fd(o.x.date)+(o.x.no?" · "+esc(o.x.no):"")+'</small></div><div class="dr"><span class="pill '+dcls(d)+'">'+dlab(d)+'</span><button type="button" class="dots" data-doc="'+o.i+'" aria-label="Options" aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg></button></div></div>'}).join(""):'<p class="empty">No expiry dates saved yet.</p>';
+    function row(x,i,demo){var d=dd(x.date);
+      return'<div class="dit"><div><b>'+esc(x.title)+'</b><small>'+fd(x.date)+(x.no?" · "+esc(x.no):"")+'</small></div><div class="dr"><span class="pill '+dcls(d)+'">'+dlab(d)+'</span><button type="button" class="dots"'+(demo?' tabindex="-1" aria-expanded="'+(demo===2?"true":"false")+'"':' data-doc="'+i+'" aria-label="Options" aria-haspopup="menu" aria-expanded="false"')+'><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg></button></div></div>'}
+    if(r.length){$("docList").className="dlist";$("docList").innerHTML=r.map(function(o){return row(o.x,o.i)}).join("");return}
+    $("docList").className="";
+    $("docList").innerHTML='<p class="empty">No expiry dates saved yet.</p><div class="exw" aria-label="Example entries"><span class="exl">Example entries</span>'+
+      '<div class="dlist">'+row({title:"Class 2 Medical",date:iso(new Date(Date.now()+200*864e5)),no:"DE.MED.123456"},0,1)+'</div>'+
+      '<div class="dlist">'+row({title:"SEP rating (land)",date:iso(new Date(Date.now()+45*864e5)),no:"DE.FCL.123456"},0,2)+
+      '<div class="pop" role="presentation"><button type="button" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg><span>Edit</span></button><button type="button" tabindex="-1" class="del"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg><span>Delete</span></button></div></div></div>';
   }
   var dmenu=null;
   function closeMenu(){if(dmenu){dmenu.remove();dmenu=null}var o=document.querySelector(".dots[aria-expanded=true]");if(o)o.setAttribute("aria-expanded","false")}
