@@ -15,6 +15,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="myAeroLog">
 <meta name="theme-color" content="#14283d">
+<script>try{var _t=localStorage.getItem("flugbuch:theme");if(_t==="light"||_t==="dark")document.documentElement.setAttribute("data-theme",_t)}catch(e){}</script>
 <link rel="manifest" href="./manifest.json">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
 <link rel="apple-touch-icon" href="./icon-192.png">
@@ -101,13 +102,7 @@ td button{background:none;border:0;color:var(--danger);font:inherit;cursor:point
 .c1,.c3{display:flex;justify-content:space-between;align-items:flex-end}
 .cd{font:600 13px "Barlow Semi Condensed",sans-serif;letter-spacing:1px;color:var(--muted);text-transform:uppercase}
 .chip{font:600 12px "Barlow Semi Condensed",sans-serif;border:1px solid var(--line);border-radius:6px;padding:2px 8px}
-.c2{display:flex;align-items:center;gap:10px;margin:8px 0 6px}
-.c2 b{font:700 26px "Barlow Semi Condensed",sans-serif;letter-spacing:.5px}
-.c2 i{flex:1;min-width:0;text-align:center;font:normal 12px "Barlow Semi Condensed",sans-serif;color:var(--muted);border-bottom:1px solid var(--line);height:9px;line-height:0}
-.c2 i span{background:var(--card);padding:0 6px}
 .cm{font:600 12px "Barlow Semi Condensed",sans-serif;letter-spacing:.5px;color:var(--muted)}
-.blk{text-align:right}.blk small{display:block;font-size:10px;letter-spacing:1px;color:var(--muted)}
-.blk b{font:700 26px "Barlow Semi Condensed",sans-serif;color:var(--sky);letter-spacing:1px;font-variant-numeric:tabular-nums}
 .cdet{display:none;margin-top:12px;border-top:1px solid var(--line);padding-top:12px}.card.open .cdet{display:block}
 .dg{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}.dg span{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
 .dg b{font-weight:600;word-break:break-word}.dg .w{grid-column:1/-1}
@@ -207,6 +202,40 @@ form.nf .rt input{padding:0 12px;text-align:center;text-transform:uppercase;lett
 .pth{align-self:end;height:52px;display:flex;align-items:center;gap:5px;color:var(--sky);min-width:0}
 .pth i{flex:1;height:0;border-top:2px dashed var(--muted);min-width:6px;opacity:.85}
 .pth svg{width:24px;height:24px;fill:currentColor;transform:rotate(90deg);flex:none}
+
+/* tap highlight off */
+*{-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
+button,.card,.mrow,[data-go]{-webkit-user-select:none;user-select:none;touch-action:manipulation}
+button:focus:not(:focus-visible),.card:focus{outline:none}
+/* flight cards */
+.c2{display:flex;align-items:center;gap:10px;margin:10px 0 8px}
+.c2 .ap{display:flex;flex-direction:column;align-items:flex-start;min-width:54px}
+.c2 .ap.r{align-items:flex-end}
+.c2 .ap b{font:700 26px "Barlow Semi Condensed",sans-serif;letter-spacing:.5px;line-height:1.1}
+.c2 .ap small{font:500 13px "Barlow Semi Condensed",sans-serif;color:var(--muted);letter-spacing:.4px;line-height:1.2;min-height:16px;font-variant-numeric:tabular-nums}
+.c2 .mid{flex:1;min-width:0;display:flex;flex-direction:column;align-items:stretch;gap:3px}
+.c2 .mid .ty,.c2 .mid .bt{text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.c2 .mid .ty{font:500 13px "Barlow Semi Condensed",sans-serif;color:var(--muted);letter-spacing:.3px}
+.c2 .mid .bt{font:700 26px "Barlow Semi Condensed",sans-serif;color:var(--sky);letter-spacing:1px;line-height:1.1;font-variant-numeric:tabular-nums}
+.c2 .ln{display:flex;align-items:center;gap:5px;color:var(--sky)}
+.c2 .ln i{flex:1;height:0;border-top:2px dashed var(--muted);opacity:.85;min-width:6px}
+.c2 .ln svg{width:18px;height:18px;fill:currentColor;transform:rotate(90deg);flex:none}
+/* settings */
+.seg3{display:flex;gap:4px;background:var(--head);border-radius:12px;padding:4px;margin-top:8px}
+.seg3 button{flex:1;background:none;border:0;border-radius:9px;padding:11px;font:600 15px "Barlow",sans-serif;color:var(--muted);cursor:pointer}
+.seg3 button[aria-selected="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.dsk{display:none}
+/* Desktop: permanent sidebar left */
+@media (min-width:701px){
+  body{padding-left:260px}
+  .top{margin-left:-260px}
+  #bnav,#scrim,.burger{display:none!important}
+  nav#tabs{top:61px;width:260px;transform:none;visibility:visible;box-shadow:none;transition:none;z-index:25;padding-bottom:80px}
+  .dh{display:none}
+  main{padding-bottom:48px}
+  .back,.seg.mob{display:none!important}
+  #p-more .mrow{display:none}
+}
 </style>
 </head>
 <body>
@@ -217,18 +246,21 @@ form.nf .rt input{padding:0 12px;text-align:center;text-transform:uppercase;lett
 </header>
 <div id="scrim" hidden></div>
 <nav role="tablist" id="tabs" aria-label="Main menu">
-  <div class="dh"><svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#e0b45a"/><g transform="translate(20 20) rotate(45) translate(-12 -12)"><path fill="#14283d" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></g></svg><div>myAeroLog<small>by ufuk Tezerdi</small></div></div>
+  <div class="dh"><svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#e0b45a"/><g transform="translate(20 20) rotate(45) translate(-12 -12)"><path fill="#14283d" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></g></svg><div>myAeroLog</div></div>
   <button role="tab" data-t="ov" aria-selected="true">Overview</button>
   <button role="tab" data-t="log" aria-selected="false">Logbook</button>
   <button role="tab" data-t="new" aria-selected="false">New flight</button>
+  <button role="tab" data-t="docs" aria-selected="false">Documents</button>
+  <button role="tab" data-t="metar" aria-selected="false">METAR</button>
   <div class="grp" id="grp">
     <button type="button" class="gt" id="grpBtn" aria-expanded="false">Data<span class="chev">▾</span></button>
     <div class="msub">
+      <button role="tab" data-t="exp" aria-selected="false">Export</button>
       <button role="tab" data-t="imp" aria-selected="false">Import</button>
       <button role="tab" data-t="sync" aria-selected="false">Sync</button>
-      <button role="tab" data-t="exp" aria-selected="false">Export</button>
     </div>
   </div>
+  <button role="tab" data-t="set" aria-selected="false" class="gt">Settings</button>
 </nav>
 <main id="main">
 <div id="syBadge" class="msg" style="text-align:right;padding:0 0 8px;min-height:18px"></div>
@@ -251,14 +283,14 @@ form.nf .rt input{padding:0 12px;text-align:center;text-transform:uppercase;lett
     <h3 class="fh" style="--o:1">General info</h3>
     <label class="ic" style="--o:2">Date<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><input type="date" id="date" required></label>
     <label style="--o:5">Category
-      <select id="cat"><option>SEP</option><option>SE IR</option><option>MEP</option><option>ME IR</option><option value="FSTD">FSTD (Simulator)</option></select>
+      <select id="cat"><option>SEP</option><option>SE IR</option><option>MEP</option><option selected>ME IR</option><option value="FSTD">FSTD (Simulator)</option></select>
     </label>
     <label style="--o:6">Function
       <select id="role"><option value="PIC">PIC</option><option value="CO">Co-Pilot</option><option value="DUAL">Dual</option><option value="FI">FI</option></select>
     </label>
     <h3 class="fh" style="--o:7">Crew</h3>
     <label class="ic mw" style="--o:8">PIC name<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><input id="pic" placeholder="SELF" maxlength="30"></label>
-    <label class="ic mw" style="--o:4">Aircraft type<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4l4 7H8z"/><circle cx="7" cy="17" r="3"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg><input id="type" placeholder="Aquila A210" maxlength="24"></label>
+    <label class="ic mw" style="--o:4">Aircraft type<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><input id="type" placeholder="Aquila A210" maxlength="24"></label>
     <label class="ic" style="--o:3">Registration<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><input id="reg" placeholder="D-EUAU" maxlength="16" autocapitalize="characters"></label>
     <h3 class="fh" style="--o:9">Route</h3>
     <div class="rt" style="--o:10"><label>From<input id="from" placeholder="EDTE" maxlength="8" autocapitalize="characters"></label><div class="pth" aria-hidden="true"><i></i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg><i class="ar"></i></div><label>To<input id="to" placeholder="EDTE" maxlength="8" autocapitalize="characters"></label></div>
@@ -266,8 +298,8 @@ form.nf .rt input{padding:0 12px;text-align:center;text-transform:uppercase;lett
     <label style="--o:14"><span>Departure <small>(off block)</small></span><input type="time" id="start"></label>
     
     <label style="--o:15"><span>Arrival <small>(on block)</small></span><input type="time" id="end"></label>
-    <label style="--o:16">Night time<input id="night" inputmode="numeric" placeholder="h:mm" maxlength="6"></label>
-    <label style="--o:17">IFR time<input id="ifr" inputmode="numeric" placeholder="h:mm" maxlength="6"></label>
+    <label style="--o:16">Night time<input id="night" class="tm" inputmode="numeric" placeholder="h:mm" maxlength="6"></label>
+    <label style="--o:17">IFR time<input id="ifr" class="tm" inputmode="numeric" placeholder="h:mm" maxlength="6"></label>
     <h3 class="fh" style="--o:18">Landings</h3>
     <div class="stp" style="--o:19"><span class="dk">Landings day</span><span class="mb">Day</span><div class="sr"><button type="button" class="mob" data-s="ldgD" data-d="-1" aria-label="Fewer">−</button><input type="number" id="ldgD" min="0" value="1" inputmode="numeric" aria-label="Landings day"><button type="button" class="mob" data-s="ldgD" data-d="1" aria-label="More">+</button></div></div>
     <div class="stp" style="--o:20"><span class="dk">Landings night</span><span class="mb">Night</span><div class="sr"><button type="button" class="mob" data-s="ldgN" data-d="-1" aria-label="Fewer">−</button><input type="number" id="ldgN" min="0" value="0" inputmode="numeric" aria-label="Landings night"><button type="button" class="mob" data-s="ldgN" data-d="1" aria-label="More">+</button></div></div>
@@ -297,9 +329,9 @@ form.nf .rt input{padding:0 12px;text-align:center;text-transform:uppercase;lett
     <label>Departure<input type="time" id="e_start"></label>
     <label>To<input id="e_to" maxlength="8" autocapitalize="characters"></label>
     <label>Arrival<input type="time" id="e_end"></label>
-    <label>Duration<input id="e_dur" inputmode="numeric" placeholder="h:mm" maxlength="6"></label>
-    <label>Night time<input id="e_night" inputmode="numeric" placeholder="h:mm" maxlength="6"></label>
-    <label>IFR time<input id="e_ifr" inputmode="numeric" placeholder="h:mm" maxlength="6"></label>
+    <label>Duration<input id="e_dur" class="tm" inputmode="numeric" placeholder="h:mm" maxlength="6"></label>
+    <label>Night time<input id="e_night" class="tm" inputmode="numeric" placeholder="h:mm" maxlength="6"></label>
+    <label>IFR time<input id="e_ifr" class="tm" inputmode="numeric" placeholder="h:mm" maxlength="6"></label>
     <label>Landings day<input type="number" id="e_ldgD" min="0" inputmode="numeric"></label>
     <label>Landings night<input type="number" id="e_ldgN" min="0" inputmode="numeric"></label>
     <label class="wide">Remarks<input id="e_note" maxlength="120"></label>
@@ -309,11 +341,16 @@ form.nf .rt input{padding:0 12px;text-align:center;text-transform:uppercase;lett
   </form>
 </section>
 
-<section id="p-imp" hidden><button type="button" class="back" data-go="more">‹ More</button><div class="seg mob"><button type="button" data-go="imp">Import</button><button type="button" data-go="sync">Sync</button><button type="button" data-go="exp">Export</button></div>
+<section id="p-imp" hidden><button type="button" class="back" data-go="more">‹ More</button><div class="seg mob"><button type="button" data-go="exp">Export</button><button type="button" data-go="imp">Import</button><button type="button" data-go="sync">Sync</button></div>
   <h2>Import Excel</h2>
-  <p class="msg">Choose one or more Excel files (.xlsx). The header row is detected automatically, including the two-row logbook template with departure/arrival. Before importing you see what was recognised. Entries with the same date and departure time are never duplicated, and new entries are sorted by date automatically.</p>
+  <p class="msg">Choose one or more Excel files (.xlsx) or a JSON backup. The header row is detected automatically, including the two-row logbook template with departure/arrival. Before importing you see what was recognised. Entries with the same date and departure time are never duplicated, and new entries are sorted by date automatically.</p>
   <div style="display:grid;gap:12px;margin-top:12px">
-    <label>Excel files<input type="file" id="xmlIn" accept=".xlsx,.xls,.csv" multiple></label>
+    <div class="row2" style="margin:0"><button class="btn alt" type="button" id="tplGo">Download XLSX template</button></div>
+    <p class="msg" style="margin:0">The template has exactly the EASA logbook layout. Fill it in and import it here for the best result.</p>
+    <label>Files (.xlsx, .csv or .json backup)<input type="file" id="xmlIn" accept=".xlsx,.xls,.csv,.json,application/json" multiple></label>
+    <label>Import mode
+      <select id="impMode"><option value="add">Add to existing logbook</option><option value="replace">Replace existing logbook</option></select>
+    </label>
     <label>Category, if the file has none
       <select id="impCat"><option value="">Detect automatically</option><option>SEP</option><option>SE IR</option><option>MEP</option><option>ME IR</option><option value="FSTD">FSTD (Simulator)</option></select>
     </label>
@@ -324,7 +361,7 @@ form.nf .rt input{padding:0 12px;text-align:center;text-transform:uppercase;lett
   <p class="msg">Duration is read as h:mm, decimal hours (1.5) or minutes (90); dates as Excel dates or DD.MM.YYYY. Rows without a date, such as total rows, are ignored.</p>
 </section>
 
-<section id="p-sync" hidden><button type="button" class="back" data-go="more">‹ More</button><div class="seg mob"><button type="button" data-go="imp">Import</button><button type="button" data-go="sync">Sync</button><button type="button" data-go="exp">Export</button></div>
+<section id="p-sync" hidden><button type="button" class="back" data-go="more">‹ More</button><div class="seg mob"><button type="button" data-go="exp">Export</button><button type="button" data-go="imp">Import</button><button type="button" data-go="sync">Sync</button></div>
   <h2>Write automatically to your Google Sheet logbook</h2>
   <p class="msg">Every new, changed or deleted flight is transferred to your Google Sheet logbook automatically (new flights go to the next free row of the last page; when a page is full, “Seite 12” etc. is created automatically). This only works when the app runs from its own web address (hosted index.html), not in the Claude preview.</p>
   <details style="margin:12px 0">
@@ -352,14 +389,18 @@ form.nf .rt input{padding:0 12px;text-align:center;text-transform:uppercase;lett
   <p class="msg" style="margin-top:12px"><b>Automatic:</b> After every save, edit or delete the change is sent to the sheet immediately. Without internet it is remembered and sent later. The status is shown at the top of the page.<br><b>Sync now:</b> syncs new, changed and deleted flights in both directions. With automatic sync enabled this happens every 15 seconds while the app is open and online.<br><b>Replace this device:</b> this device gets exactly the state of the sheet.<br><b>Deleted:</b> the row in the sheet stays empty (a gap); the formulas are kept.</p>
 </section>
 
-<section id="p-exp" hidden><button type="button" class="back" data-go="more">‹ More</button><div class="seg mob"><button type="button" data-go="imp">Import</button><button type="button" data-go="sync">Sync</button><button type="button" data-go="exp">Export</button></div>
+<section id="p-exp" hidden><button type="button" class="back" data-go="more">‹ More</button><div class="seg mob"><button type="button" data-go="exp">Export</button><button type="button" data-go="imp">Import</button><button type="button" data-go="sync">Sync</button></div>
   <h2>Export</h2>
-  <div class="row2">
-    <button class="btn" id="bCsv" type="button">Logbook as CSV (Excel)</button>
-    <button class="btn alt" id="bJson" type="button">Backup as file</button>
+  <div style="display:grid;gap:12px">
+    <label>Format
+      <select id="xFmt"><option value="pdf">PDF</option><option value="xlsx">Excel (.xlsx)</option><option value="csv">CSV</option><option value="gsheet">Google Sheet</option><option value="json">JSON (backup)</option></select>
+    </label>
+    <label id="xLayW">Layout
+      <select id="xLay"><option value="easa">EASA</option><option value="faa">FAA</option></select>
+    </label>
   </div>
-  <h2>Load backup</h2>
-  <label>Choose backup file<input type="file" id="fileIn" accept=".json,application/json"></label>
+  <div class="row2"><button class="btn" id="xGo" type="button">Export</button></div>
+  <p class="msg" id="xHint"></p>
   <p class="msg" id="emsg" style="margin-top:10px"></p>
   <textarea id="fallback" rows="8" hidden readonly></textarea>
 </section>
@@ -381,7 +422,16 @@ form.nf .rt input{padding:0 12px;text-align:center;text-transform:uppercase;lett
 <section id="p-more" hidden>
   <h2 class="mh">More</h2>
   <button type="button" class="mrow" data-go="metar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a4 4 0 0 1-.5-8A6 6 0 0 1 18 9a4.5 4.5 0 0 1 0 9z"/></svg><div><b>METAR</b><small>Current weather report for any airport</small></div><i>›</i></button>
-  <button type="button" class="mrow" data-go="imp"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg><div><b>Data</b><small>Import, Sync and Export</small></div><i>›</i></button>
+  <button type="button" class="mrow" data-go="exp"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg><div><b>Data</b><small>Export, Import and Sync</small></div><i>›</i></button>
+  <button type="button" class="mrow" data-go="set"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg><div><b>Settings</b><small>Light / dark mode</small></div><i>›</i></button>
+</section>
+<section id="p-set" hidden>
+  <button type="button" class="back" data-go="more">‹ More</button>
+  <h2 class="mh">Settings</h2>
+  <div class="dlist" style="padding:14px"><b style="font:600 17px 'Barlow Semi Condensed',sans-serif">Appearance</b>
+    <div class="msg" style="margin-top:2px">Choose light, dark or follow your device.</div>
+    <div class="seg3" id="thSeg"><button type="button" data-th="auto">Auto</button><button type="button" data-th="light">Light</button><button type="button" data-th="dark">Dark</button></div>
+  </div>
 </section>
 <section id="p-metar" hidden>
   <button type="button" class="back" data-go="more">‹ More</button>
@@ -421,14 +471,15 @@ form.nf .rt input{padding:0 12px;text-align:center;text-transform:uppercase;lett
   function save(){ver++;try{localStorage.setItem(K2,JSON.stringify(entries))}catch(e){}}
 
   /* Tabs */
+  var lastTab="ov";
   function show(t){
-    ["ov","log","new","edit","imp","sync","exp","docs","more","metar"].forEach(function(x){$("p-"+x).hidden=x!==t});
+    ["ov","log","new","edit","imp","sync","exp","docs","more","metar","set"].forEach(function(x){$("p-"+x).hidden=x!==t});
     var cur=t==="edit"?"log":t;
     Array.prototype.forEach.call($("tabs").querySelectorAll("[data-t]"),function(b){b.setAttribute("aria-selected",b.getAttribute("data-t")===cur)});
     if(/^(imp|sync|exp)$/.test(t))grp(true);
     $("main").classList.toggle("wide",t==="log");
     menu(false);
-    navSel(t);if(t==="metar")metarEnter();window.scrollTo(0,0);
+    navSel(t);if(t==="metar")metarEnter();window.scrollTo(0,0);lastTab=t==="edit"?"log":t;try{sessionStorage.setItem("flugbuch:tab",JSON.stringify({t:lastTab,y:0}))}catch(e){}
   }
   function menu(o){$("tabs").classList.toggle("open",o);$("scrim").hidden=!o;$("menuBtn").setAttribute("aria-expanded",o);$("menuBtn").setAttribute("aria-label",o?"Close menu":"Open menu")}
   function grp(o){$("grp").classList.toggle("open",o);$("grpBtn").setAttribute("aria-expanded",o)}
@@ -580,15 +631,232 @@ form.nf .rt input{padding:0 12px;text-align:center;text-transform:uppercase;lett
 
   /* Export */
   function csvCell(v){v=String(v==null?"":v);return/[;"\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}
-  function toCsv(){
-    var h=["Date","From","Departure","To","Arrival","Aircraft type","Registration","PIC name","Category","Total time","FSTD","Landings day","Landings night","Night","IFR","PIC","Co-pilot","Dual","FI","Remarks"];
-    var L=[h.join(";")];
-    sorted().forEach(function(e){
-      var f=e.cat==="FSTD",r={PIC:"",CO:"",DUAL:"",FI:""};if(!f)r[e.role]=fmt(e.min);
-      L.push([dmy(e.date),e.from,e.dep,e.to,e.arr,f?"FSTD":e.type,e.reg,e.pic,e.cat,f?"":fmt(e.min),f?fmt(e.min):"",e.ldgD||0,e.ldgN||0,f0(e.night),f0(e.ifr),r.PIC,r.CO,r.DUAL,r.FI,e.note].map(csvCell).join(";"));
-    });
-    return"\uFEFF"+L.join("\r\n");
+  /* ===== Export engine (EASA / FAA layouts) ===== */
+  var ROWS=20,CERT="I certify that the statements made by me on this are true.";
+  function wa(s){return String(s==null?"":s).replace(/[\u2013\u2014]/g,"-").replace(/[\u2018\u2019]/g,"'").replace(/[\u201c\u201d]/g,'"').replace(/[^\u0020-\u007e\u00a0-\u00ff\n]/g,"?")}
+  function clsOf(c){return c==="FSTD"?"FSTD":/^ME/.test(c)?"AMEL":"ASEL"}
+  function mdy(d){var p=d.split("-");return p[1]+"/"+p[2]+"/"+p[0]}
+  function ten(m){return Math.round((m||0)/6)}
+  var EH="DATE\n(DD/MM/YY)";
+  var LY={
+    easa:{paper:[841.89,595.28],mg:14,hH:[32,48],rH:39,tH:39,lab:[7,8],vf:9,vt:19,sig:20,
+      labs:["TOTAL FROM THIS PAGE","TOTAL FROM PREVIOUS PAGE","TOTAL TO DATE"],
+      cols:[{w:92,k:"date",u:"txt"},{w:69,k:"from",u:"txt"},{w:54,k:"dep",u:"time"},{w:69,k:"to",u:"txt"},{w:54,k:"arr",u:"time"},
+        {w:114,k:"type",u:"txt",wr:1},{w:102,k:"reg",u:"txt"},{w:134,k:"pic",u:"txt"},{w:84,k:"cat",u:"txt",dv:1},{w:92,k:"multi",u:"txt"},
+        {w:89,k:"tot",u:"dur",s:1,g:1,f:function(r){return'IF(OR(C'+r+'="",E'+r+'=""),"",MOD(E'+r+'-C'+r+',1))'}},{w:92,k:"fstd",u:"dur",s:1},{w:45,k:"ld",u:"int",s:1},{w:46,k:"ln",u:"int",s:1},
+        {w:69,k:"night",u:"dur",s:1,g:1},{w:69,k:"ifr",u:"dur",s:1},{w:69,k:"tpic",u:"dur",s:1,g:1},{w:69,k:"tco",u:"dur",s:1},{w:69,k:"tdual",u:"dur",s:1,g:1},{w:69,k:"tfi",u:"dur",s:1},
+        {w:250,k:"note",u:"txt",al:"l"}],
+      head:[[{t:EH,rs:2},{t:"DEPARTURE",cs:2,g:1},{t:"ARRIVAL",cs:2,g:1},{t:"AIRCRAFT",cs:2,g:1},{t:"NAME(S) PIC",rs:2},{t:"SINGLE\nPILOT TIME",rs:2},{t:"MULTI PILOT\nTIME",rs:2},{t:"TOTAL TIME\nOF FLIGHT",rs:2},{t:"FSTD\nSESSION",g:1},{t:"NO.\nLDG.",cs:2,g:1},{t:"CONDITIONS",cs:2,g:1},{t:"PILOT FUNCTION TIME",cs:4,g:1},{t:"REMARKS AND ENDORSEMENTS",rs:2}],
+        [{t:"PLACE",sub:1},{t:"TIME\n(hh:mm)",sub:1},{t:"PLACE",sub:1},{t:"TIME\n(hh:mm)",sub:1},{t:"MAKE, MODEL,\nVARIANT",sub:1},{t:"REGISTRATION",sub:1},{t:"TOTAL TIME\nOF SESSION",sub:1},{t:"DAY",sub:1},{t:"NIGHT",sub:1},{t:"NIGHT",sub:1},{t:"IFR",sub:1},{t:"PIC",sub:1},{t:"CO-PILOT",sub:1},{t:"DUAL",sub:1},{t:"FI",sub:1}]],
+      csvH:["Date","Departure place","Departure time","Arrival place","Arrival time","Aircraft make model variant","Aircraft registration","Name(s) PIC","Single pilot time","Multi pilot time","Total time of flight","FSTD session total time of session","No. LDG. day","No. LDG. night","Conditions night","Conditions IFR","Pilot function time PIC","Pilot function time CO-PILOT","Pilot function time DUAL","Pilot function time FI","Remarks and endorsements"]},
+    faa:{paper:[792,612],mg:24,hH:[30,46],rH:30,tH:30,lab:[0,5],vf:6,vt:15,sig:16,
+      labs:["TOTALS THIS PAGE","AMOUNT FORWARDED","TOTAL TO DATE"],
+      cols:[{w:80,k:"date",u:"txt"},{w:118,k:"type",u:"txt",wr:1},{w:80,k:"reg",u:"txt"},{w:58,k:"from",u:"txt"},{w:58,k:"to",u:"txt"},{w:66,k:"cat",u:"txt"},
+        {w:42,k:"ld",u:"int",s:1},{w:42,k:"ln",u:"int",s:1},{w:62,k:"night",u:"dec",s:1},{w:66,k:"ifr",u:"dec",s:1},{w:66,k:"sim",u:"dec",s:1},
+        {w:62,k:"tdual",u:"dec",s:1},{w:62,k:"tpic",u:"dec",s:1},{w:62,k:"tco",u:"dec",s:1},{w:62,k:"tfi",u:"dec",s:1},{w:76,k:"tot",u:"dec",s:1,g:1},{w:220,k:"note",u:"txt",al:"l"}],
+      head:[[{t:"DATE\n(MM/DD/YYYY)",rs:2},{t:"AIRCRAFT\nMAKE & MODEL",rs:2},{t:"AIRCRAFT\nIDENT",rs:2},{t:"ROUTE OF FLIGHT",cs:2,g:1},{t:"CATEGORY\n/ CLASS",rs:2},{t:"NO. OF LDGS",cs:2,g:1},{t:"CONDITIONS OF FLIGHT",cs:3,g:1},{t:"TYPE OF PILOTING TIME",cs:4,g:1},{t:"TOTAL DURATION\nOF FLIGHT",rs:2},{t:"REMARKS AND ENDORSEMENTS",rs:2}],
+        [{t:"FROM",sub:1},{t:"TO",sub:1},{t:"DAY",sub:1},{t:"NIGHT",sub:1},{t:"NIGHT",sub:1},{t:"ACTUAL\nINSTRUMENT",sub:1},{t:"FLIGHT\nSIMULATOR",sub:1},{t:"DUAL\nRECEIVED",sub:1},{t:"PIC",sub:1},{t:"SIC",sub:1},{t:"DUAL\nGIVEN",sub:1}]],
+      csvH:["Date","Aircraft make & model","Aircraft ident","From","To","Category/class","Landings day","Landings night","Night","Actual instrument","Flight simulator","Dual received","PIC","SIC","Dual given","Total duration of flight","Remarks and endorsements"]}
+  };
+  function vals(id,e){
+    var F=e.cat==="FSTD",m=e.min||0,o={},r=e.role;
+    if(id==="easa"){
+      o={date:dmy(e.date),from:e.from||"",dep:e.dep||"",to:e.to||"",arr:e.arr||"",type:e.type||"",reg:e.reg||"",pic:e.pic||"",cat:e.cat,multi:"",
+        tot:F?0:m,fstd:F?m:0,ld:F?0:(e.ldgD||0),ln:F?0:(e.ldgN||0),night:e.night||0,ifr:e.ifr||0,
+        tpic:!F&&r==="PIC"?m:0,tco:!F&&r==="CO"?m:0,tdual:!F&&r==="DUAL"?m:0,tfi:!F&&r==="FI"?m:0,note:e.note||""};
+    }else{
+      o={date:mdy(e.date),type:e.type||"",reg:e.reg||"",from:e.from||"",to:e.to||"",cat:clsOf(e.cat),
+        ld:F?0:(e.ldgD||0),ln:F?0:(e.ldgN||0),night:ten(e.night),ifr:F?0:ten(e.ifr),sim:F?ten(m):0,
+        tdual:!F&&r==="DUAL"?ten(m):0,tpic:!F&&r==="PIC"?ten(m):0,tco:!F&&r==="CO"?ten(m):0,tfi:!F&&r==="FI"?ten(m):0,tot:F?0:ten(m),note:e.note||""};
+    }
+    return o;
   }
+  function disp(c,v,tot){
+    if(c.u==="dur")return v||tot?hh(v||0):"";
+    if(c.u==="int")return v||tot?String(v||0):"";
+    if(c.u==="dec")return v||tot?((v||0)/10).toFixed(1):"";
+    return v==null?"":String(v);
+  }
+  function unf(u){return u==="dur"?"[hh]:mm":u==="time"?"hh:mm":u==="dec"?"0.0":null}
+  function xv(c,v,tot){
+    if(c.u==="dur")return v||tot?v/1440:null;
+    if(c.u==="int")return v||tot?v:null;
+    if(c.u==="dec")return v||tot?v/10:null;
+    if(c.u==="time"){var m=/^(\d{1,2}):(\d{2})$/.exec(v||"");return m?(+m[1]*60+ +m[2])/1440:null}
+    return null;
+  }
+  function colL(i){return String.fromCharCode(65+i)}
+  function buildGrid(id,list,prev,tpl){
+    var L=LY[id],g={W:L.cols.map(function(c){return c.w}),H:[],cells:[],dv:[]},occ={},r0=L.head.length,i,t;
+    L.head.forEach(function(row,ri){
+      g.H.push(L.hH[ri]);var ci=0;
+      row.forEach(function(it){
+        while(occ[ri+","+ci])ci++;
+        var rs=it.rs||1,cs=it.cs||1;
+        g.cells.push({r:ri,c:ci,rs:rs,cs:cs,t:it.t,b:!it.sub,sz:it.sub?9:10,al:"c",fill:it.g?"h":null,bd:"tttt",wrap:1});
+        for(var a=0;a<rs;a++)for(var b=0;b<cs;b++)occ[(ri+a)+","+(ci+b)]=1;
+        ci+=cs;
+      });
+    });
+    for(i=0;i<ROWS;i++){
+      g.H.push(L.rH);var e=list[i],v=e?vals(id,e):null;
+      L.cols.forEach(function(col,ci){
+        var cell={r:r0+i,c:ci,t:"",sz:11,al:col.al||"c",fill:col.g?"g":null,bd:i===ROWS-1?"ttmt":"tttt",wrap:col.wr?1:0,nf:unf(col.u)};
+        if(v){cell.t=disp(col,v[col.k],false);var x=xv(col,v[col.k],false);if(x!=null)cell.x=x}
+        if(tpl&&col.f)cell.f=col.f(r0+i+1);
+        g.cells.push(cell);
+      });
+    }
+    L.cols.forEach(function(col,ci){if(col.dv)g.dv.push({c:ci,r1:r0,r2:r0+ROWS-1,list:"SEP,SE IR,MEP,ME IR,FSTD"})});
+    var tr0=r0+ROWS,pg={},td={},pv=prev||{};
+    L.cols.forEach(function(c){if(c.s){var s=0;list.forEach(function(e){s+=vals(id,e)[c.k]||0});pg[c.k]=s;td[c.k]=s+(pv[c.k]||0)}});
+    var TR=[pg,pv,td];
+    for(t=0;t<3;t++){
+      g.H.push(L.tH);
+      g.cells.push({r:tr0+t,c:L.lab[0],cs:L.lab[1]-L.lab[0]+1,rs:1,t:L.labs[t],sz:9,al:"r",bd:"nnnn"});
+      for(var ci=L.vf;ci<=L.vt;ci++){
+        var col=L.cols[ci],cell={r:tr0+t,c:ci,t:"",sz:11,al:"c",fill:col.g?"g":null,bd:"tttt",nf:unf(col.u)};
+        if(col.s){var raw=TR[t][col.k]||0;cell.t=disp(col,raw,true);cell.x=xv(col,raw,true);
+          if(tpl){var X=colL(ci);if(t===0)cell.f="SUM("+X+(r0+1)+":"+X+(r0+ROWS)+")";else if(t===2)cell.f=X+(tr0+1)+"+"+X+(tr0+2)}}
+        g.cells.push(cell);
+      }
+      g.cells.push({r:tr0+t,c:L.sig,t:t===0?CERT:t===2?"PILOT'S SIGNATURE":"",sz:7,al:"l",va:t===2?"b":"t",wrap:1,bd:["ttnt","ntnt","tttt"][t]});
+    }
+    g.totals=td;
+    return g;
+  }
+  function pagesOf(id,list){
+    var out=[],prev={};
+    if(!list.length)list=[];
+    var n=Math.max(1,Math.ceil(list.length/ROWS));
+    for(var p=0;p<n;p++){var g=buildGrid(id,list.slice(p*ROWS,(p+1)*ROWS),prev,false);out.push(g);prev=g.totals}
+    return out;
+  }
+  /* ---- XLSX writer (own minimal implementation, with styles) ---- */
+  var CT=(function(){var t=[],n,k;for(n=0;n<256;n++){var c=n;for(k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
+  function crc(b){var c=0xFFFFFFFF;for(var i=0;i<b.length;i++)c=CT[(c^b[i])&255]^(c>>>8);return(c^0xFFFFFFFF)>>>0}
+  function zip(files){
+    var enc=new TextEncoder(),parts=[],cd=[],off=0;
+    files.forEach(function(f){
+      var nm=enc.encode(f.name),d=enc.encode(f.data),cr=crc(d),h=new DataView(new ArrayBuffer(30));
+      h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint16(6,0x0800,true);h.setUint16(8,0,true);h.setUint16(10,0,true);h.setUint16(12,0x21,true);
+      h.setUint32(14,cr,true);h.setUint32(18,d.length,true);h.setUint32(22,d.length,true);h.setUint16(26,nm.length,true);h.setUint16(28,0,true);
+      parts.push(new Uint8Array(h.buffer),nm,d);
+      var c=new DataView(new ArrayBuffer(46));
+      c.setUint32(0,0x02014b50,true);c.setUint16(4,20,true);c.setUint16(6,20,true);c.setUint16(8,0x0800,true);c.setUint16(10,0,true);c.setUint16(12,0,true);c.setUint16(14,0x21,true);
+      c.setUint32(16,cr,true);c.setUint32(20,d.length,true);c.setUint32(24,d.length,true);c.setUint16(28,nm.length,true);c.setUint32(42,off,true);
+      cd.push(new Uint8Array(c.buffer),nm);off+=30+nm.length+d.length;
+    });
+    var cs=0;cd.forEach(function(x){cs+=x.length});
+    var e=new DataView(new ArrayBuffer(22));e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,cs,true);e.setUint32(16,off,true);
+    var all=parts.concat(cd,[new Uint8Array(e.buffer)]),n=0;all.forEach(function(x){n+=x.length});
+    var out=new Uint8Array(n),p=0;all.forEach(function(x){out.set(x,p);p+=x.length});return out;
+  }
+  function xe(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+  function xlsxFrom(grids,id){
+    var L=LY[id],F=[],FL=[],B=[],NF=[],XF=[],ix={};
+    function reg(arr,key,xml){var i=arr.indexOf(key);if(i<0){i=arr.length;arr.push(key);arr.xml=arr.xml||[];arr.xml[i]=xml}return i}
+    var fx={};F.xml=[];FL.xml=[];B.xml=[];
+    function font(sz,b){var k=sz+"|"+(b?1:0);return reg(F,k,'<font>'+(b?'<b/>':'')+'<sz val="'+sz+'"/><name val="Arial"/><family val="2"/></font>')}
+    function fill(c){if(!c)return 0;return 2+reg(FL,c,'<fill><patternFill patternType="solid"><fgColor rgb="FF'+(c==="g"?"D9D9D9":"EDEDED")+'"/><bgColor indexed="64"/></patternFill></fill>')}
+    function bord(s){var m={n:"",t:"thin",m:"medium"},k=s||"nnnn";if(k==="nnnn")return 0;
+      var side=function(nm,ch){return m[ch]?'<'+nm+' style="'+m[ch]+'"><color rgb="FF000000"/></'+nm+'>':'<'+nm+'/>'};
+      return 1+reg(B,k,'<border>'+side("left",k[3])+side("right",k[1])+side("top",k[0])+side("bottom",k[2])+'<diagonal/></border>')}
+    function nfid(f){if(!f)return 0;var i=NF.indexOf(f);if(i<0){i=NF.length;NF.push(f)}return 164+i}
+    font(10,0);
+    function sty(c){
+      var o=[font(c.sz||10,c.b),fill(c.fill),bord(c.bd),nfid(c.nf),c.al||"c",c.va||"c",c.wrap?1:0],k=o.join("|");
+      if(ix[k]===undefined){ix[k]=XF.length+1;XF.push('<xf numFmtId="'+o[3]+'" fontId="'+o[0]+'" fillId="'+o[1]+'" borderId="'+o[2]+'" xfId="0" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="'+({l:"left",c:"center",r:"right"})[o[4]]+'" vertical="'+({t:"top",c:"center",b:"bottom"})[o[5]]+'"'+(o[6]?' wrapText="1"':'')+'/></xf>')}
+      return ix[k];
+    }
+    var sheets=[];
+    grids.forEach(function(g,gi){
+      var rows={},merges=[],cl=[];
+      function put(r,c,x){(rows[r]=rows[r]||{})[c]=x}
+      g.cells.forEach(function(c){
+        var s=sty(c),ref=colL(c.c)+(c.r+1),x;
+        if(c.f)x='<c r="'+ref+'" s="'+s+'"><f>'+xe(c.f)+'</f></c>';
+        else if(c.x!=null&&c.x!==undefined)x='<c r="'+ref+'" s="'+s+'"><v>'+c.x+'</v></c>';
+        else if(c.t!=="")x='<c r="'+ref+'" s="'+s+'" t="inlineStr"><is><t xml:space="preserve">'+xe(c.t)+'</t></is></c>';
+        else x='<c r="'+ref+'" s="'+s+'"/>';
+        put(c.r,c.c,x);
+        var rs=c.rs||1,cs=c.cs||1;
+        if(rs>1||cs>1){
+          merges.push(ref+":"+colL(c.c+cs-1)+(c.r+rs));
+          for(var a=0;a<rs;a++)for(var b=0;b<cs;b++)if(a||b)put(c.r+a,c.c+b,'<c r="'+colL(c.c+b)+(c.r+a+1)+'" s="'+s+'"/>');
+        }
+      });
+      var sd="";
+      g.H.forEach(function(h,ri){
+        var cs=rows[ri]||{},keys=Object.keys(cs).map(Number).sort(function(a,b){return a-b});
+        sd+='<row r="'+(ri+1)+'" ht="'+(h*0.75)+'" customHeight="1">'+keys.map(function(k){return cs[k]}).join("")+'</row>';
+      });
+      var cols=g.W.map(function(w,i){return'<col min="'+(i+1)+'" max="'+(i+1)+'" width="'+((w-5)/7).toFixed(2)+'" customWidth="1"/>'}).join("");
+      var dv=g.dv.length?'<dataValidations count="'+g.dv.length+'">'+g.dv.map(function(d){return'<dataValidation type="list" allowBlank="1" showErrorMessage="1" sqref="'+colL(d.c)+(d.r1+1)+':'+colL(d.c)+(d.r2+1)+'"><formula1>"'+d.list+'"</formula1></dataValidation>'}).join("")+'</dataValidations>':"";
+      sheets.push('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetPr><pageSetUpPr fitToPage="1"/></sheetPr><sheetViews><sheetView workbookViewId="0"'+(gi?'':' tabSelected="1"')+'/></sheetViews><sheetFormatPr defaultRowHeight="15"/><cols>'+cols+'</cols><sheetData>'+sd+'</sheetData>'+(merges.length?'<mergeCells count="'+merges.length+'">'+merges.map(function(m){return'<mergeCell ref="'+m+'"/>'}).join("")+'</mergeCells>':"")+dv+'<printOptions horizontalCentered="1"/><pageMargins left="0.4" right="0.4" top="0.5" bottom="0.5" header="0.3" footer="0.3"/><pageSetup paperSize="'+(id==="faa"?1:9)+'" orientation="landscape" fitToWidth="1" fitToHeight="1"/></worksheet>');
+    });
+    var NS='xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"',R='xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"',H='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
+    var styles=H+'<styleSheet '+NS+'>'+(NF.length?'<numFmts count="'+NF.length+'">'+NF.map(function(f,i){return'<numFmt numFmtId="'+(164+i)+'" formatCode="'+xe(f)+'"/>'}).join("")+'</numFmts>':"")+
+      '<fonts count="'+F.length+'">'+F.xml.join("")+'</fonts><fills count="'+(FL.length+2)+'"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill>'+FL.xml.join("")+'</fills>'+
+      '<borders count="'+(B.length+1)+'"><border><left/><right/><top/><bottom/><diagonal/></border>'+B.xml.join("")+'</borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>'+
+      '<cellXfs count="'+(XF.length+1)+'"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>'+XF.join("")+'</cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>';
+    var files=[
+      {name:"[Content_Types].xml",data:H+'<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>'+sheets.map(function(s,i){return'<Override PartName="/xl/worksheets/sheet'+(i+1)+'.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'}).join("")+'</Types>'},
+      {name:"_rels/.rels",data:H+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'},
+      {name:"xl/workbook.xml",data:H+'<workbook '+NS+' '+R+'><bookViews><workbookView/></bookViews><sheets>'+sheets.map(function(s,i){return'<sheet name="Seite '+(i+1)+'" sheetId="'+(i+1)+'" r:id="rId'+(i+1)+'"/>'}).join("")+'</sheets><calcPr fullCalcOnLoad="1"/></workbook>'},
+      {name:"xl/_rels/workbook.xml.rels",data:H+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+sheets.map(function(s,i){return'<Relationship Id="rId'+(i+1)+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet'+(i+1)+'.xml"/>'}).join("")+'<Relationship Id="rId'+(sheets.length+1)+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>'},
+      {name:"xl/styles.xml",data:styles}
+    ];
+    sheets.forEach(function(s,i){files.push({name:"xl/worksheets/sheet"+(i+1)+".xml",data:s})});
+    return zip(files);
+  }
+  /* ---- PDF writer (pdf-lib, loaded on demand) ---- */
+  async function pdfFrom(grids,id){
+    var P=PDFLib,doc=await P.PDFDocument.create(),fR=await doc.embedFont(P.StandardFonts.Helvetica),fB=await doc.embedFont(P.StandardFonts.HelveticaBold),L=LY[id];
+    var pw=L.paper[0],ph=L.paper[1],mg=L.mg,G=P.rgb(.85,.85,.85),Hd=P.rgb(.93,.93,.93),K=P.rgb(0,0,0);
+    grids.forEach(function(g){
+      var pg=doc.addPage([pw,ph]),W=0,i;g.W.forEach(function(w){W+=w});
+      var s=(pw-2*mg)/W,xs=[0],ys=[0];
+      g.W.forEach(function(w,i){xs.push(xs[i]+w*s)});g.H.forEach(function(h,i){ys.push(ys[i]+h*s)});
+      var X=function(c){return mg+xs[c]},Y=function(r){return ph-mg-ys[r]};
+      g.cells.forEach(function(c){
+        if(!c.fill)return;var x0=X(c.c),x1=X(c.c+(c.cs||1)),y0=Y(c.r),y1=Y(c.r+(c.rs||1));
+        pg.drawRectangle({x:x0,y:y1,width:x1-x0,height:y0-y1,color:c.fill==="g"?G:Hd});
+      });
+      g.cells.forEach(function(c){
+        var x0=X(c.c),x1=X(c.c+(c.cs||1)),y0=Y(c.r),y1=Y(c.r+(c.rs||1)),w=x1-x0,h=y0-y1,pad=3*s*1.2;
+        var text=wa(c.t);if(!text)return;
+        var f=c.b?fB:fR,size=c.sz/0.75*s,lines;
+        function wrapAt(sz){var out=[];text.split("\n").forEach(function(par){
+          if(!c.wrap&&!/\n/.test(text)){out.push(par);return}
+          var cur="";par.split(" ").forEach(function(wd){var t=cur?cur+" "+wd:wd;if(cur&&f.widthOfTextAtSize(t,sz)>w-2*pad){out.push(cur);cur=wd}else cur=t});out.push(cur)});return out}
+        lines=wrapAt(size);
+        for(var n=0;n<40;n++){
+          var mx=0;lines.forEach(function(l){mx=Math.max(mx,f.widthOfTextAtSize(l,size))});
+          if(mx<=w-2*pad&&lines.length*size*1.18<=h-2*s)break;
+          size*=0.93;lines=wrapAt(size);
+        }
+        var lh=size*1.18,tot=lines.length*lh,top=c.va==="t"?y0-pad:c.va==="b"?y1+tot+pad*0.6:y0-(h-tot)/2;
+        lines.forEach(function(l,k){
+          var tw=f.widthOfTextAtSize(l,size),tx=c.al==="l"?x0+pad:c.al==="r"?x1-pad-tw:x0+(w-tw)/2;
+          pg.drawText(l,{x:tx,y:top-(k+0.82)*lh,size:size,font:f,color:K});
+        });
+      });
+      g.cells.forEach(function(c){
+        var bd=c.bd||"nnnn",x0=X(c.c),x1=X(c.c+(c.cs||1)),y0=Y(c.r),y1=Y(c.r+(c.rs||1));
+        function ln(a,b,c2,d,ch){if(ch==="n")return;pg.drawLine({start:{x:a,y:b},end:{x:c2,y:d},thickness:ch==="m"?1.4:0.6,color:K})}
+        ln(x0,y0,x1,y0,bd[0]);ln(x1,y0,x1,y1,bd[1]);ln(x0,y1,x1,y1,bd[2]);ln(x0,y0,x0,y1,bd[3]);
+      });
+    });
+    return await doc.save();
+  }
+  /* ---- CSV ---- */
+  function toCsv(id){
+    id=id||"easa";var L=LY[id],o=[L.csvH.map(csvCell).join(";")];
+    sorted().forEach(function(e){var v=vals(id,e);o.push(L.cols.map(function(c){return csvCell(disp(c,v[c.k],false))}).join(";"))});
+    return"\uFEFF"+o.join("\r\n");
+  }
+
   function msg(t,bad){var m=$("emsg");m.textContent=t;m.className="msg"+(bad?" err":"")}
   async function out(name,text){
     $("fallback").hidden=true;
@@ -609,21 +877,29 @@ form.nf .rt input{padding:0 12px;text-align:center;text-transform:uppercase;lett
       msg("Saving is not possible here. Copy the text below and paste it into a file.",true);
     }
   }
-  $("bCsv").addEventListener("click",function(){out("logbook.csv",toCsv())});
-  $("bJson").addEventListener("click",function(){out("logbook-backup.json",JSON.stringify(entries))});
-  $("fileIn").addEventListener("change",function(ev){
-    var f=ev.target.files&&ev.target.files[0];if(!f)return;
-    var r=new FileReader();
-    r.onload=function(){
-      try{
-        var a=JSON.parse(r.result);if(!Array.isArray(a))throw 0;
-        var r2=addAll(a.filter(function(e){return e&&e.date&&typeof e.min==="number"}));renderAll();
-        msg(r2.added+" entries added from backup, "+r2.dups+" duplicates skipped.");
-      }catch(e){msg("This file is not a valid backup.",true)}
-    };
-    r.readAsText(f);ev.target.value="";
+  function saveBytes(name,bytes,mime){var bl=new Blob([bytes],{type:mime}),u=URL.createObjectURL(bl),l=document.createElement("a");l.href=u;l.download=name;document.body.appendChild(l);l.click();l.remove();setTimeout(function(){URL.revokeObjectURL(u)},4000)}
+  function loadLib(url,test){return new Promise(function(ok,no){if(test())return ok();var sc=document.createElement("script");sc.src=url;sc.onload=function(){test()?ok():no(new Error("lib"))};sc.onerror=function(){no(new Error("lib"))};document.head.appendChild(sc)})}
+  var XM="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+  var XH={pdf:"A4 landscape (EASA) or Letter landscape (FAA), 20 flights per page with page totals. Fits the page when printed at 100%.",xlsx:"One sheet per page (“Seite 1”, “Seite 2” …) with totals, ready to print in landscape.",csv:"All flights as a table, one row per flight.",gsheet:"Downloads the Excel file with the chosen layout. In Google Sheets choose File › Import › Upload and it opens as a Google Sheet with the same layout.",json:"Complete backup of all entries. Import it again under Import."};
+  function xUi(){var f=$("xFmt").value;$("xLayW").hidden=f==="json";$("xHint").textContent=XH[f]}
+  $("xFmt").addEventListener("change",xUi);xUi();
+  $("xGo").addEventListener("click",async function(){
+    if(!entries.length){msg("There is nothing to export yet.",true);return}
+    var f=$("xFmt").value,id=$("xLay").value,base="myAeroLog-"+id.toUpperCase();
+    try{
+      if(f==="json"){out("logbook-backup.json",JSON.stringify(entries));return}
+      if(f==="csv"){out(base+".csv",toCsv(id));return}
+      var gr=pagesOf(id,sorted());
+      if(f==="pdf"){
+        msg("Creating PDF …");
+        await loadLib("https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js",function(){return typeof PDFLib!=="undefined"});
+        saveBytes(base+".pdf",await pdfFrom(gr,id),"application/pdf");msg("PDF downloaded.");return;
+      }
+      saveBytes(base+(f==="gsheet"?"-GoogleSheet":"")+".xlsx",xlsxFrom(gr,id),XM);
+      msg(f==="gsheet"?"Excel file downloaded. Upload it in Google Sheets (File › Import) to get a Google Sheet.":"Excel file downloaded.");
+    }catch(e){msg("Export failed"+(e&&e.message==="lib"?": the PDF library could not be loaded (internet needed once).":"."),true)}
   });
-
+  $("tplGo").addEventListener("click",function(){saveBytes("myAeroLog-template-EASA.xlsx",xlsxFrom([buildGrid("easa",[],null,true)],"easa"),XM);impMsg("Template downloaded.")});
   /* Duplikate, Sortierung */
   function key(e){return e.dep?e.date+"|"+e.dep:e.date+"|"+e.cat+"|"+e.min+"|"+(e.note||"")}
   function cmp(a,b){var x=a.dep||"99:99",y=b.dep||"99:99";return a.date<b.date?-1:a.date>b.date?1:x<y?-1:x>y?1:a.id-b.id}
@@ -642,8 +918,8 @@ form.nf .rt input{padding:0 12px;text-align:center;text-transform:uppercase;lett
     date:["date","datum","dateddmmyy","flightdate","flugdatum","departuredate","startdate","logdate","day"],
     from:["from","von","departureplace","departureairport","departureicao","depplace","origin","fromairport","fromicao","departureaerodrome","airportfrom","startplace","departure","dep"],
     to:["to","nach","arrivalplace","arrivalairport","arrivalicao","arrplace","destination","toairport","toicao","arrivalaerodrome","airportto","dest","arrival","arr"],
-    dep:["departuretime","deptime","abflug","abflugzeit","offblock","blockoff","timeout","timeoff","takeoff","starttime","outtime","departure","dep"],
-    arr:["arrivaltime","arrtime","ankunft","ankunftszeit","onblock","blockon","timein","timeon","landing","endtime","intime","arrival","arr"],
+    dep:["departuretimehhmm","departuretime","deptime","abflug","abflugzeit","offblock","blockoff","timeout","timeoff","takeoff","starttime","outtime","departure","dep"],
+    arr:["arrivaltimehhmm","arrivaltime","arrtime","ankunft","ankunftszeit","onblock","blockon","timein","timeon","landing","endtime","intime","arrival","arr"],
     dur:["totaltimeofflight","totalflighttime","totaltime","totalduration","flighttime","duration","dauer","blocktime","gesamtzeit","flugzeit","airtime","hours","total"],
     type:["aircraftmakemodelvariant","aircrafttype","type","makemodelvariant","aircraftmodel","model","muster","makemodel","aircraftmake","aircraft","flugzeugtyp","flugzeug"],
     reg:["registration","reg","aircraftregistration","aircraftident","aircraftid","tailnumber","tail","kennzeichen","ident"],
@@ -673,7 +949,7 @@ form.nf .rt input{padding:0 12px;text-align:center;text-transform:uppercase;lett
     var m;s=(s||"").trim();
     if(/^\d{5}$/.test(s)&&+s>20000&&+s<80000&&typeof XLSX!=="undefined"){var q0=XLSX.SSF.parse_date_code(+s);return q0.y+"-"+p2(q0.m)+"-"+p2(q0.d)}
     if((m=/^(\d{4})-(\d{2})-(\d{2})/.exec(s))||(m=/^(\d{4})(\d{2})(\d{2})$/.exec(s)))return +m[2]>0&&+m[2]<13&&+m[3]>0&&+m[3]<32?m[1]+"-"+m[2]+"-"+m[3]:null;
-    if((m=/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{2}|\d{4})/.exec(s))&&+m[2]>0&&+m[2]<13&&+m[1]>0&&+m[1]<32)return(m[3].length===2?"20"+m[3]:m[3])+"-"+p2(m[2])+"-"+p2(m[1]);
+    if((m=/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{4}|\d{2})/.exec(s))&&+m[2]>0&&+m[2]<13&&+m[1]>0&&+m[1]<32)return(m[3].length===2?"20"+m[3]:m[3])+"-"+p2(m[2])+"-"+p2(m[1]);
     return null;
   }
   function pt(s){
@@ -733,7 +1009,7 @@ form.nf .rt input{padding:0 12px;text-align:center;text-transform:uppercase;lett
     var s=String(raw||"").toUpperCase().replace(/[-_]/g," ").replace(/\s+/g," ").trim(),m;
     if(!s)return null;
     if(/FSTD|FNPT|SIM/.test(s))return"FSTD";
-    if((m=/(SEP|MEP)\s*(IR)?/.exec(s)))return m[1]+(m[2]?" IR":"");
+    if((m=/\b(SE|ME)P?\s*(IR)?\b/.exec(s)))return m[2]?m[1]+" IR":m[1]+"P";
     return null;
   }
   function rec(o,defCat){
@@ -748,8 +1024,8 @@ form.nf .rt input{padding:0 12px;text-align:center;text-transform:uppercase;lett
     var cat=mapCat(pick(o,A.cat))||(fs&&!dur?"FSTD":null)||(/fnpt|fstd|simulator/i.test(type)?"FSTD":null);
     var isF=cat==="FSTD",min=isF?(fs||dur):dur;
     if(!min)return{bad:"no recognizable duration"};
-    var ifr=pm(pick(o,A.ifr,isN))||0,night=pm(pick(o,A.night,isN))||0;
-    if(!cat){cat=defCat||((/p2006|da ?42|da ?62|seneca|baron|duchess|twin/i.test(type)?"MEP":"SEP")+(ifr>=min?" IR":""))}
+    var ifr=pm(pick(o,A.ifr,isN))||0,night=pm(pick(o,A.night.slice(0,-1),isN)||(o.noldgnight===undefined&&o.noldgday===undefined?pick(o,["night"],isN):undefined))||0;
+    if(!cat){var me=/p2006|da ?42|da ?62|seneca|baron|duchess|twin/i.test(type);cat=defCat||(ifr>=min?(me?"ME IR":"SE IR"):(me?"MEP":"SEP"))}
     var role="PIC",rr=String(pick(o,A.role)||"").toUpperCase();
     if(/DUAL/.test(rr))role="DUAL";else if(/^(FI|FLIGHT INSTR)/.test(rr))role="FI";else if(/CO|SIC|P2/.test(rr))role="CO";else if(/PIC|P1|SELF/.test(rr))role="PIC";
     else{
@@ -765,9 +1041,15 @@ form.nf .rt input{padding:0 12px;text-align:center;text-transform:uppercase;lett
   function impMsg(t,bad){var m=$("impMsg");m.textContent=t;m.className="msg"+(bad?" err":"")}
   function runImp(){
     staged=[];var bad=[],seen={},dups=0,skip=0,exist={},dbg="";
-    entries.forEach(function(e){exist[key(e)]=1});
+    if($("impMode").value!=="replace")entries.forEach(function(e){exist[key(e)]=1});
     if(files.length&&typeof XLSX==="undefined"){impMsg("The Excel library could not be loaded. Please reload the page.",true);return}
     files.forEach(function(f){
+      if(/\.json$/i.test(f.name)){
+        try{var ja=JSON.parse(new TextDecoder().decode(f.buf));if(!Array.isArray(ja))throw 0;
+          ja.forEach(function(e){if(!e||!e.date||typeof e.min!=="number")return;var k=key(e);if(exist[k]||seen[k]){dups++;return}seen[k]=1;staged.push(e)});
+        }catch(x){bad.push(f.name+": not a valid backup")}
+        return;
+      }
       var wb,found=false;
       try{wb=XLSX.read(f.buf,{type:"array",cellNF:true})}catch(x){bad.push(f.name+": not a readable Excel file");return}
       wb.SheetNames.forEach(function(sn){
@@ -795,8 +1077,12 @@ form.nf .rt input{padding:0 12px;text-align:center;text-transform:uppercase;lett
     if(!l.length)return;
     Promise.all(l.map(readFile)).then(function(r){files=r;runImp()});
   });
-  $("impCat").addEventListener("change",runImp);
+  $("impCat").addEventListener("change",runImp);$("impMode").addEventListener("change",runImp);
   $("impGo").addEventListener("click",function(){
+    if($("impMode").value==="replace"){
+      if(!confirm("Replace your existing logbook? All current entries will be deleted and replaced by the imported ones."))return;
+      var old=entries.slice();entries=[];save();old.forEach(function(x){qDelete(x)});
+    }
     var r=addAll(staged);renderAll();files=[];runImp();
     impMsg(r.added+" entries imported"+(r.dups?", "+r.dups+" duplicates skipped":"")+". The logbook is sorted by date and departure time.");
   });
@@ -959,8 +1245,8 @@ form.nf .rt input{padding:0 12px;text-align:center;text-transform:uppercase;lett
       var F=e.cat==="FSTD",ld=(e.ldgD||0)+(e.ldgN||0);
       return'<article class="card'+(e.role==="PIC"?"":" np")+(String(e.id)===String(openId)?" open":"")+'" data-c="'+e.id+'">'+
         '<div class="c1"><span class="cd">'+fd(e.date)+'</span><span class="chip">'+esc(F?"FSTD":e.reg||"—")+'</span></div>'+
-        '<div class="c2"><b>'+esc(e.from||"—")+'</b><i><span>'+esc(F?"Simulator":e.type||"")+'</span></i><b>'+esc(e.to||"—")+'</b></div>'+
-        '<div class="c3"><span class="cm">'+esc(F?"FSTD":ROLES[e.role]||e.role)+' · '+ld+' LND</span><span class="blk"><small>BLOCK</small><b>'+hh(e.min)+'</b></span></div>'+
+        '<div class="c2"><div class="ap"><b>'+esc(e.from||"—")+'</b><small>'+esc(F?"":e.dep||"")+'</small></div><div class="mid"><span class="ty">'+esc(F?"Simulator":e.type||"")+'</span><div class="ln"><i></i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div><span class="bt">'+hh(e.min)+'</span></div><div class="ap r"><b>'+esc(e.to||"—")+'</b><small>'+esc(F?"":e.arr||"")+'</small></div></div>'+
+        '<div class="c3"><span class="cm">'+esc(F?"FSTD":ROLES[e.role]||e.role)+' · '+ld+' LND</span></div>'+
         '<div class="cdet"><div class="dg">'+k("Date",fd(e.date))+k("Category",e.cat)+k("From",e.from)+k("Departure",e.dep)+k("To",e.to)+k("Arrival",e.arr)+k("Aircraft type",e.type)+k("Registration",e.reg)+k("Function",ROLES[e.role])+k("PIC name",e.pic)+k("Total time",hh(e.min)+" h")+k("Night",e.night?hh(e.night)+" h":"")+k("IFR",e.ifr?hh(e.ifr)+" h":"")+k("Landings day / night",(e.ldgD||0)+" / "+(e.ldgN||0))+k("Remarks",e.note,1)+'</div>'+
         '<div class="ca"><button class="btn alt" type="button" data-edit="'+e.id+'">Edit</button><button class="btn alt" type="button" data-id="'+e.id+'" style="color:var(--danger)">Delete</button></div></div></article>';
     }).join("");
@@ -976,7 +1262,7 @@ form.nf .rt input{padding:0 12px;text-align:center;text-transform:uppercase;lett
     if(c){var id2=c.getAttribute("data-c");openId=String(openId)===id2?null:id2;c.classList.toggle("open",String(openId)===id2)}
   });
   function navSel(t){
-    var cur=t==="edit"?"log":t,dat=/^(more|metar|imp|sync|exp)$/.test(t);
+    var cur=t==="edit"?"log":t,dat=/^(more|metar|imp|sync|exp|set)$/.test(t);
     Array.prototype.forEach.call(document.querySelectorAll("[data-go]"),function(b){var g=b.getAttribute("data-go");b.setAttribute("aria-selected",b.hasAttribute("data-grp")?dat:g===cur)});
   }
   document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-go]");if(b)show(b.getAttribute("data-go"))});
@@ -1266,6 +1552,46 @@ form.nf .rt input{padding:0 12px;text-align:center;text-transform:uppercase;lett
   var t=new Date();
   $("date").value=t.getFullYear()+"-"+String(t.getMonth()+1).padStart(2,"0")+"-"+String(t.getDate()).padStart(2,"0");
   load();entries.sort(cmp);renderAll();syInit();
+
+  /* Theme */
+  function applyTheme(m){var r=document.documentElement;if(m==="light"||m==="dark")r.setAttribute("data-theme",m);else r.removeAttribute("data-theme");
+    try{localStorage.setItem("flugbuch:theme",m)}catch(e){}
+    var dark=m==="dark"||(m!=="light"&&window.matchMedia&&matchMedia("(prefers-color-scheme:dark)").matches);
+    var tc=document.querySelector('meta[name="theme-color"]');if(tc)tc.setAttribute("content",dark?"#1e3349":"#14283d");
+    Array.prototype.forEach.call(document.querySelectorAll("#thSeg button"),function(b){b.setAttribute("aria-selected",b.getAttribute("data-th")===(m==="light"||m==="dark"?m:"auto"))})}
+  $("thSeg").addEventListener("click",function(e){var t=e.target.getAttribute("data-th");if(t)applyTheme(t)});
+  var th0="auto";try{th0=localStorage.getItem("flugbuch:theme")||"auto"}catch(e){}applyTheme(th0);
+
+  /* h:mm entry on touch keyboards (no colon on the number pad): 130 -> 1:30 */
+  if(window.matchMedia&&matchMedia("(pointer:coarse)").matches){
+    Array.prototype.forEach.call(document.querySelectorAll("input.tm"),function(el){
+      el.addEventListener("input",function(){
+        if(el.readOnly)return;
+        var d=el.value.replace(/\D/g,"").replace(/^0+/,"");
+        if(!d){el.value="";return}
+        while(d.length<3)d="0"+d;
+        el.value=d.slice(0,-2)+":"+d.slice(-2);
+      });
+    });
+  }
+
+  /* Draft of the new-flight form survives reloads */
+  var DRK="flugbuch:draft",DRF=["date","cat","role","pic","type","reg","from","to","start","end","night","ifr","ldgD","ldgN","note"];
+  function draftSave(){var o={};DRF.forEach(function(k){o[k]=$(k).value});try{localStorage.setItem(DRK,JSON.stringify(o))}catch(e){}}
+  try{var dr=JSON.parse(localStorage.getItem(DRK)||"null");if(dr)DRF.forEach(function(k){if(dr[k])$(k).value=dr[k]})}catch(e){}
+  $("f").addEventListener("input",draftSave);$("f").addEventListener("change",draftSave);
+  $("f").addEventListener("submit",function(){setTimeout(function(){if(!$("fmsg").textContent){try{localStorage.removeItem(DRK)}catch(e){}}},0)});
+  calc();
+
+  /* Restore last page + scroll position */
+  var ty=0;
+  function posSave(){try{sessionStorage.setItem("flugbuch:tab",JSON.stringify({t:lastTab,y:window.scrollY||0}))}catch(e){}}
+  var st=null;window.addEventListener("scroll",function(){clearTimeout(st);st=setTimeout(posSave,200)},{passive:true});
+  document.addEventListener("visibilitychange",function(){if(document.hidden)posSave()});
+  window.addEventListener("pagehide",posSave);
+  try{var sv=JSON.parse(sessionStorage.getItem("flugbuch:tab")||"null");
+    if(sv&&/^(ov|log|new|docs|more|metar|set|imp|sync|exp)$/.test(sv.t)){show(sv.t);
+      if(sv.y){var n=0,tr=setInterval(function(){window.scrollTo(0,sv.y);if(++n>5)clearInterval(tr)},60)}}}catch(e){}
 })();
 </script>
 
