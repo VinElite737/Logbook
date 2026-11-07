@@ -237,8 +237,87 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
   .dh{display:none}
   main{padding-bottom:48px}
   .back,.seg.mob{display:none!important}
-  #p-more .mrow{display:none}
 }
+
+/* scan bar */
+.scanbar{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px 10px 16px;margin-bottom:10px}
+.scanbar b{display:block;font:600 17px "Barlow Semi Condensed",sans-serif}.scanbar small{color:var(--muted);font-size:13px;line-height:1.3;display:block}
+.scanb{width:48px;height:48px;flex:none;border-radius:50%;border:1px solid var(--line);background:var(--head);color:var(--sky);display:grid;place-items:center;cursor:pointer;padding:0}
+.scanb svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.scanb.busy{opacity:.6;animation:scp 1s ease-in-out infinite}
+@keyframes scp{50%{transform:scale(.92)}}
+.scanmsg{margin:0 2px 10px}
+.scantxt{margin:0 0 12px;font-size:14px;color:var(--muted)}.scantxt summary{cursor:pointer;padding:4px 2px}
+.scantxt .mraw{font-size:12px;margin-top:6px;max-height:180px;overflow:auto}
+form.nf input.scanfill,form.nf select.scanfill{border-color:var(--gold);box-shadow:0 0 0 3px rgba(224,180,90,.35);transition:box-shadow .4s,border-color .4s}
+/* More: speed dial */
+#dial{position:fixed;inset:0;z-index:33;visibility:hidden;pointer-events:none;transition:visibility 0s linear .35s}
+#dial.open{visibility:visible;pointer-events:auto;transition-delay:0s}
+#dial .dsc{position:absolute;inset:0;background:rgba(5,15,25,.6);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);opacity:0;transition:opacity .25s}
+#dial.open .dsc{opacity:1}
+#dial .dst{position:absolute;left:0;right:0;max-width:640px;margin:0 auto;bottom:calc(84px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;align-items:flex-end;gap:18px;padding-right:calc((100% - 92px)/8 - 24px);pointer-events:none}
+.ditem{display:flex;align-items:center;gap:14px;background:none;border:0;padding:0;color:#fff;cursor:pointer;pointer-events:auto;opacity:0;transform:translateY(56px) scale(.6);transition:opacity .18s ease,transform .25s ease}
+#dial.open .ditem{opacity:1;transform:none;transition:opacity .25s ease,transform .45s cubic-bezier(.2,1.25,.35,1);transition-delay:calc(var(--i)*80ms + 60ms)}
+.ditem .dl{font:600 19px "Barlow",sans-serif;text-shadow:0 1px 8px rgba(0,0,0,.7)}
+.ditem .dc{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:rgba(var(--rgb),.22);border:1px solid rgba(var(--rgb),.65);box-shadow:0 4px 18px rgba(var(--rgb),.25);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.ditem .dc svg{width:26px;height:26px;fill:none;stroke:rgb(var(--rgb));stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ditem:active .dc{transform:scale(.93)}
+#bnav button svg.xi{display:none}
+#bnav button.xo{color:var(--gold)}
+#bnav button.xo svg.di{display:none}
+#bnav button.xo svg.xi{display:block;animation:xin .3s ease}
+@keyframes xin{from{transform:rotate(-90deg);opacity:0}to{transform:none;opacity:1}}
+@media (min-width:701px){#dial{display:none!important}}
+.grid>div:last-child:nth-child(odd){grid-column:1/-1;border-right:0}
+/* Airports */
+.aptsearch{position:relative}
+.aptsearch svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:20px;height:20px;fill:none;stroke:var(--muted);stroke-width:1.9;stroke-linecap:round;pointer-events:none}
+.aptsearch input{height:50px;border-radius:999px;background:var(--card);padding:0 16px 0 46px;font-size:17px}
+.sech{margin:20px 4px 8px;font:700 13px "Barlow Semi Condensed",sans-serif;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted)}
+.alist{display:grid;gap:10px}
+.afe{display:flex;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.afe svg,.astar svg{width:28px;height:28px;flex:none;fill:none;stroke:var(--muted);stroke-width:1.7;stroke-linejoin:round}
+.afe p{margin:0;color:var(--muted);font-size:15px;line-height:1.4}
+.acard{display:block;width:100%;text-align:left;font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;cursor:pointer}
+.acard:active{background:var(--head)}
+.ah{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.at{display:flex;align-items:baseline;gap:10px}.at b,.ait b{font:700 30px "Barlow Semi Condensed",sans-serif;letter-spacing:.5px;line-height:1.1}
+.at span,.ait span{font:600 17px "Barlow Semi Condensed",sans-serif;color:var(--muted)}
+.ar{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.ar small{display:inline-flex;align-items:center;gap:5px;color:var(--muted);font-size:14px}.ar small svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round}
+.ac2{color:var(--muted);font-size:16px;margin-top:-2px}
+.araw{margin:10px 0 0;font:15px/1.45 "Barlow",sans-serif;letter-spacing:.2px;word-break:break-word;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.araw.dim{color:var(--muted)}
+.afl{margin-top:10px;font:600 13px "Barlow Semi Condensed",sans-serif;letter-spacing:.8px;color:var(--sky);text-transform:uppercase}
+.fc{display:inline-block;font:700 14px "Barlow Semi Condensed",sans-serif;letter-spacing:1px;padding:4px 14px;border-radius:999px;border:1px solid currentColor}
+.fc.VFR{color:#22a35b;background:rgba(34,163,91,.14)}.fc.MVFR{color:#3f7de8;background:rgba(63,125,232,.15)}.fc.IFR{color:#e0383e;background:rgba(224,56,62,.14)}.fc.LIFR{color:#c21fd4;background:rgba(194,31,212,.14)}
+.mh2 .fc{align-self:center}
+.atop{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.rbtn{width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);display:grid;place-items:center;cursor:pointer;padding:0;flex:none}
+.rbtn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.apill{display:flex;align-items:center;gap:2px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px}
+.apill button{display:flex;align-items:center;gap:8px;background:none;border:0;border-radius:999px;height:40px;padding:0 12px;color:var(--muted);font:600 16px "Barlow",sans-serif;cursor:pointer}
+.apill button svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.apill button span{display:none}
+.apill button[aria-selected="true"]{background:var(--head);color:var(--ink)}.apill button[aria-selected="true"] svg{color:var(--sky)}.apill button[aria-selected="true"] span{display:inline}
+.ahd{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px}
+.ait{display:flex;align-items:baseline;gap:10px}.ahd .ait b{font-size:36px}
+.an{font:600 19px "Barlow",sans-serif;margin-top:2px}.ac3{color:var(--muted);font-size:16px}
+.astar{background:none;border:0;padding:4px;cursor:pointer;flex:none}.astar svg{width:34px;height:34px}
+.astar.on svg{fill:var(--gold);stroke:var(--gold)}
+.soon{background:var(--card);border:1px dashed var(--line);border-radius:16px;padding:28px 16px;text-align:center}
+.soon b{font:700 22px "Barlow Semi Condensed",sans-serif}.soon p{margin:6px 0 0;color:var(--muted)}
+.nth{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px}
+.nth b{font:600 14px "Barlow Semi Condensed",sans-serif;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted)}
+.nth button{background:none;border:1px solid var(--line);border-radius:10px;color:var(--ink);font:600 13px "Barlow",sans-serif;padding:6px 12px;cursor:pointer}
+.ntc{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--sky);border-radius:14px;padding:12px 14px;margin-bottom:10px}
+.ntc.up{border-left-color:var(--gold)}
+.ntc .nh{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.ntc .nh b{font:600 17px "Barlow Semi Condensed",sans-serif;letter-spacing:.5px}
+.ntc .nv{color:var(--muted);font-size:12px;margin:2px 0 8px}
+.ntc .ne{white-space:pre-wrap;word-break:break-word;font:13px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;margin:0;color:var(--ink)}
+.ntc details{margin-top:8px}.ntc summary{color:var(--sky);font-size:12px;cursor:pointer}.ntc details .ne{color:var(--muted);margin-top:6px}
+.ntf{color:var(--muted);font-size:12px;margin:10px 2px 0}.ntf a{color:var(--sky)}
 </style>
 </head>
 <body>
@@ -254,7 +333,7 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
   <button role="tab" data-t="log" aria-selected="false">Logbook</button>
   <button role="tab" data-t="new" aria-selected="false">New flight</button>
   <button role="tab" data-t="docs" aria-selected="false">Documents</button>
-  <button role="tab" data-t="metar" aria-selected="false">METAR</button>
+  <button role="tab" data-t="apt" aria-selected="false">Airports</button>
   <div class="grp" id="grp">
     <button type="button" class="gt" id="grpBtn" aria-expanded="false">Data<span class="chev">▾</span></button>
     <div class="msub">
@@ -282,6 +361,9 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
 </section>
 
 <section id="p-new" hidden>
+  <div class="scanbar"><div><b>Scan logbook</b><small>Photo of a logbook line fills the empty fields. Nothing is saved.</small></div><button type="button" id="scanBtn" class="scanb" aria-label="Scan logbook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M8 9h8M8 12h8M8 15h5"/></svg></button><input type="file" id="scanFile" accept="image/*" hidden></div>
+  <p class="msg scanmsg" id="scanMsg" hidden></p>
+  <details id="scanTxt" class="scantxt" hidden><summary>Recognised text</summary><pre class="mraw" id="scanPre"></pre></details>
   <form id="f" class="nf" autocomplete="off">
     <h3 class="fh" style="--o:1">General info</h3>
     <label class="ic" style="--o:2">Date<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><input type="date" id="date" required></label>
@@ -289,7 +371,7 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
       <select id="cat"><option>SEP</option><option>SE IR</option><option>MEP</option><option selected>ME IR</option><option value="FSTD">FSTD (Simulator)</option></select>
     </label>
     <label style="--o:6">Function
-      <select id="role"><option value="PIC">PIC</option><option value="CO">Co-Pilot</option><option value="DUAL">Dual</option><option value="FI">FI</option></select>
+      <select id="role"><option value="PIC">PIC</option><option value="SIC">SIC</option><option value="EXAM">Examiner</option><option value="INSTR">Instructor</option><option value="DUAL">Dual</option><option value="SPIC">SPIC</option><option value="PICUS">PICUS</option></select>
     </label>
     <h3 class="fh" style="--o:7">Crew</h3>
     <label class="ic mw" style="--o:8">PIC name<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><input id="pic" placeholder="SELF" maxlength="30"></label>
@@ -323,7 +405,7 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
       <select id="e_cat"><option>SEP</option><option>SE IR</option><option>MEP</option><option>ME IR</option><option value="FSTD">FSTD (Simulator)</option></select>
     </label>
     <label>Function
-      <select id="e_role"><option value="PIC">PIC</option><option value="CO">Co-Pilot</option><option value="DUAL">Dual</option><option value="FI">FI</option></select>
+      <select id="e_role"><option value="PIC">PIC</option><option value="SIC">SIC</option><option value="EXAM">Examiner</option><option value="INSTR">Instructor</option><option value="DUAL">Dual</option><option value="SPIC">SPIC</option><option value="PICUS">PICUS</option></select>
     </label>
     <label>PIC name<input id="e_pic" maxlength="30"></label>
     <label>Aircraft type<input id="e_type" maxlength="24"></label>
@@ -344,7 +426,7 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
   </form>
 </section>
 
-<section id="p-imp" hidden><button type="button" class="back" data-go="more">‹ More</button><div class="seg mob"><button type="button" data-go="exp">Export</button><button type="button" data-go="imp">Import</button><button type="button" data-go="sync">Sync</button></div>
+<section id="p-imp" hidden><button type="button" class="back" data-back="1">‹ Back</button><div class="seg mob"><button type="button" data-go="exp">Export</button><button type="button" data-go="imp">Import</button><button type="button" data-go="sync">Sync</button></div>
   <h2>Import Excel</h2>
   <p class="msg">Choose one or more Excel files (.xlsx) or a JSON backup. The header row is detected automatically, including the two-row logbook template with departure/arrival. Before importing you see what was recognised. Entries with the same date and departure time are never duplicated, and new entries are sorted by date automatically.</p>
   <div style="display:grid;gap:12px;margin-top:12px">
@@ -364,7 +446,7 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
   <p class="msg">Duration is read as h:mm, decimal hours (1.5) or minutes (90); dates as Excel dates or DD.MM.YYYY. Rows without a date, such as total rows, are ignored.</p>
 </section>
 
-<section id="p-sync" hidden><button type="button" class="back" data-go="more">‹ More</button><div class="seg mob"><button type="button" data-go="exp">Export</button><button type="button" data-go="imp">Import</button><button type="button" data-go="sync">Sync</button></div>
+<section id="p-sync" hidden><button type="button" class="back" data-back="1">‹ Back</button><div class="seg mob"><button type="button" data-go="exp">Export</button><button type="button" data-go="imp">Import</button><button type="button" data-go="sync">Sync</button></div>
   <h2>Write automatically to your Google Sheet logbook</h2>
   <p class="msg">Every new, changed or deleted flight is transferred to your Google Sheet logbook automatically.</p>
   <details style="margin:12px 0">
@@ -397,7 +479,7 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
 </p>
 </section>
 
-<section id="p-exp" hidden><button type="button" class="back" data-go="more">‹ More</button><div class="seg mob"><button type="button" data-go="exp">Export</button><button type="button" data-go="imp">Import</button><button type="button" data-go="sync">Sync</button></div>
+<section id="p-exp" hidden><button type="button" class="back" data-back="1">‹ Back</button><div class="seg mob"><button type="button" data-go="exp">Export</button><button type="button" data-go="imp">Import</button><button type="button" data-go="sync">Sync</button></div>
   <h2>Export</h2>
   <div style="display:grid;gap:12px">
     <label>Format
@@ -427,24 +509,30 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
   <h2>My documents <span class="tag" id="docCount"></span></h2>
   <div class="dlist" id="docList"></div>
 </section>
-<section id="p-more" hidden>
-  <h2 class="mh">More</h2>
-  <button type="button" class="mrow" data-go="metar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a4 4 0 0 1-.5-8A6 6 0 0 1 18 9a4.5 4.5 0 0 1 0 9z"/></svg><div><b>METAR</b><small>Current weather report for any airport</small></div><i>›</i></button>
-  <button type="button" class="mrow" data-go="exp"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg><div><b>Data</b><small>Export, Import and Sync</small></div><i>›</i></button>
-  <button type="button" class="mrow" data-go="set"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg><div><b>Settings</b><small>Light / dark mode</small></div><i>›</i></button>
-</section>
 <section id="p-set" hidden>
-  <button type="button" class="back" data-go="more">‹ More</button>
+  <button type="button" class="back" data-back="1">‹ Back</button>
   <h2 class="mh">Settings</h2>
   <div class="dlist" style="padding:14px"><b style="font:600 17px 'Barlow Semi Condensed',sans-serif">Appearance</b>
     <div class="msg" style="margin-top:2px">Choose light, dark or follow your device.</div>
     <div class="seg3" id="thSeg"><button type="button" data-th="auto">Auto</button><button type="button" data-th="light">Light</button><button type="button" data-th="dark">Dark</button></div>
   </div>
 </section>
-<section id="p-metar" hidden>
-  <button type="button" class="back" data-go="more">‹ More</button>
-  <div class="acw"><label>Airport / ICAO code<input id="mIcao" type="text" placeholder="e.g. EDDS, Stuttgart or STR" autocomplete="off" autocapitalize="off" spellcheck="false" role="combobox" aria-expanded="false"></label><div class="ac-list" id="mList" hidden></div></div>
-  <div id="mOut"><p class="msg">Search an airport and pick it from the suggestions. The METAR loads automatically.</p></div>
+<section id="p-apt" hidden>
+  <div id="aptList">
+    <div class="acw"><div class="aptsearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="mIcao" type="text" placeholder="Search by ICAO, IATA or city" aria-label="Search airport" autocomplete="off" autocapitalize="off" spellcheck="false" role="combobox" aria-expanded="false"></div><div class="ac-list" id="mList" hidden></div></div>
+    <h3 class="sech">Favourites</h3><div id="aptFav" class="alist"></div>
+    <h3 class="sech">Recent</h3><div id="aptRec" class="alist"></div>
+  </div>
+  <div id="aptDet" hidden>
+    <div class="atop"><button type="button" class="rbtn" id="aptBack" aria-label="Back to airports"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <div class="apill" id="aptTabs" role="tablist">
+        <button type="button" role="tab" data-at="wx" aria-label="Weather"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a4 4 0 0 1-.5-8A6 6 0 0 1 18 9a4.5 4.5 0 0 1 0 9z"/></svg><span>Weather</span></button>
+        <button type="button" role="tab" data-at="notam" aria-label="NOTAMs"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg><span>NOTAMs</span></button>
+        <button type="button" role="tab" data-at="stats" aria-label="Stats"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 20V11M12 20V5M18 20v-7"/></svg><span>Stats</span></button>
+      </div></div>
+    <div id="aptHead" class="ahd"></div>
+    <div id="aptBody"></div>
+  </div>
 </section>
 </main>
 <nav id="bnav" aria-label="Main navigation">
@@ -452,14 +540,26 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
   <button type="button" data-go="log" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h11a2 2 0 0 1 2 2v14H8a2 2 0 0 1-2-2V4z"/><path d="M6 18a2 2 0 0 1 2-2h11"/></svg><span>Logbook</span></button>
   <button type="button" class="fab" data-go="new" aria-label="New flight"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
   <button type="button" data-go="docs" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg><span>Docs</span></button>
-  <button type="button" data-go="more" data-grp="1" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="19" cy="12" r="1.7" fill="currentColor"/></svg><span>More</span></button>
+  <button type="button" data-go="more" data-grp="1" aria-selected="false" aria-expanded="false" aria-controls="dial"><svg class="di" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="19" cy="12" r="1.7" fill="currentColor"/></svg><svg class="xi" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg><span>More</span></button>
 </nav>
+
+<div id="dial" aria-hidden="true">
+  <div class="dsc"></div>
+  <div class="dst">
+    <button type="button" class="ditem" data-go="set" style="--i:2;--rgb:224,180,90"><span class="dl">Settings</span><span class="dc"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg></span></button>
+    <button type="button" class="ditem" data-go="exp" style="--i:1;--rgb:170,140,235"><span class="dl">Data</span><span class="dc"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg></span></button>
+    <button type="button" class="ditem" data-go="apt" style="--i:0;--rgb:47,179,150"><span class="dl">Airports</span><span class="dc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21V11M15 21V11M7 11h10l1.5-5h-13zM9 15h6M5 21h14M12 6V3"/></svg></span></button>
+  </div>
+</div>
 
 <script>
 (function(){
   var K2="flugbuch:v2",K1="flugbuch:v1",entries=[],pending=null,ver=0;
   var CATS=["SEP","SE IR","MEP","ME IR"];
-  var ROLES={PIC:"PIC",CO:"Co-Pilot",DUAL:"Dual",FI:"FI"};
+  var ROLES={PIC:"PIC",SIC:"SIC",EXAM:"Examiner",INSTR:"Instructor",DUAL:"Dual",SPIC:"SPIC",PICUS:"PICUS"};
+  var RKEYS=["PIC","SIC","EXAM","INSTR","DUAL","SPIC","PICUS"];
+  function normRole(r){r=String(r||"").toUpperCase();if(r==="CO")return"SIC";if(r==="FI")return"INSTR";return ROLES[r]?r:"PIC"}
+  function sheetRole(r){return({SIC:"CO",INSTR:"FI",EXAM:"FI",SPIC:"PIC",PICUS:"PIC"})[r]||r}
   var $=function(i){return document.getElementById(i)};
   function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
   function hm(s){var m=/^(\d{1,3}):([0-5]\d)$/.exec((s||"").trim());return m?+m[1]*60+ +m[2]:null}
@@ -467,27 +567,30 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
   function f0(n){return n?fmt(n):""}
   function clk(s){var p=(s||"").split(":");return p.length===2?+p[0]*60+ +p[1]:null}
   function dmy(d){return d.split("-").reverse().join(".")}
-  function mig(e){return{id:e.id,date:e.date,cat:"SEP",from:e.from||"",dep:"",to:e.to||"",arr:"",type:e.type||"",reg:e.reg||"",pic:"",min:e.min,night:0,ifr:0,role:e.role==="SIC"?"CO":e.role==="Dual"?"DUAL":"PIC",ldgD:e.ldg||0,ldgN:0,note:e.note||""}}
+  function mig(e){return{id:e.id,date:e.date,cat:"SEP",from:e.from||"",dep:"",to:e.to||"",arr:"",type:e.type||"",reg:e.reg||"",pic:"",min:e.min,night:0,ifr:0,role:e.role==="SIC"?"SIC":e.role==="Dual"?"DUAL":"PIC",ldgD:e.ldg||0,ldgN:0,note:e.note||""}}
   function load(){
     try{
       var r=localStorage.getItem(K2);
       if(r){entries=JSON.parse(r)}
       else{var o=localStorage.getItem(K1);if(o){entries=JSON.parse(o).map(mig);save()}}
       if(!Array.isArray(entries))entries=[];
+      entries.forEach(function(e){e.role=normRole(e.role)});
     }catch(e){entries=[]}
   }
   function save(){ver++;try{localStorage.setItem(K2,JSON.stringify(entries))}catch(e){}}
 
   /* Tabs */
-  var lastTab="ov";
+  var lastTab="ov",baseTab="ov",popping=false;
   function show(t){
-    ["ov","log","new","edit","imp","sync","exp","docs","more","metar","set"].forEach(function(x){$("p-"+x).hidden=x!==t});
+    ["ov","log","new","edit","imp","sync","exp","docs","apt","set"].forEach(function(x){$("p-"+x).hidden=x!==t});
     var cur=t==="edit"?"log":t;
     Array.prototype.forEach.call($("tabs").querySelectorAll("[data-t]"),function(b){b.setAttribute("aria-selected",b.getAttribute("data-t")===cur)});
     if(/^(imp|sync|exp)$/.test(t))grp(true);
     $("main").classList.toggle("wide",t==="log");
     menu(false);
-    navSel(t);if(t==="metar")metarEnter();window.scrollTo(0,0);lastTab=t==="edit"?"log":t;try{sessionStorage.setItem("flugbuch:tab",JSON.stringify({t:lastTab,y:0}))}catch(e){}
+    if(!/^(apt|imp|sync|exp|set)$/.test(t))baseTab=t==="edit"?"log":t;
+    if(!popping){if(!history.state||history.state.t!==t||history.state.d)try{history.pushState({t:t},"")}catch(e){}}
+    dialOpen(false);navSel(t);if(t==="apt")aptEnter();window.scrollTo(0,0);lastTab=t==="edit"?"log":t;try{sessionStorage.setItem("flugbuch:tab",JSON.stringify({t:lastTab,y:0}))}catch(e){}
   }
   function menu(o){$("tabs").classList.toggle("open",o);$("scrim").hidden=!o;$("menuBtn").setAttribute("aria-expanded",o);$("menuBtn").setAttribute("aria-label",o?"Close menu":"Open menu")}
   function grp(o){$("grp").classList.toggle("open",o);$("grpBtn").setAttribute("aria-expanded",o)}
@@ -499,14 +602,15 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
 
   /* Auswertung */
   function sums(){
-    var s={tot:0,fstd:0,n:0,nf:0,ld:0,ln:0,pic:0,co:0,dual:0,fi:0,night:0,ifr:0,d30:0,d365:0,c:{}};
+    var s={tot:0,fstd:0,n:0,nf:0,ld:0,ln:0,r:{},night:0,ifr:0,d30:0,d365:0,c:{}};
+    RKEYS.forEach(function(k){s.r[k]=0});
     CATS.forEach(function(c){s.c[c]=0});
     var now=Date.now();
     entries.forEach(function(e){
       s.ld+=e.ldgD||0;s.ln+=e.ldgN||0;s.night+=e.night||0;s.ifr+=e.ifr||0;
       if(e.cat==="FSTD"){s.fstd+=e.min;s.nf++;return}
       s.n++;s.tot+=e.min;s.c[e.cat]=(s.c[e.cat]||0)+e.min;
-      if(e.role==="PIC")s.pic+=e.min;else if(e.role==="CO")s.co+=e.min;else if(e.role==="DUAL")s.dual+=e.min;else if(e.role==="FI")s.fi+=e.min;
+      if(s.r[e.role]!==undefined)s.r[e.role]+=e.min;
       var t=new Date(e.date+"T12:00:00").getTime();
       if(now-t<=30*864e5)s.d30+=e.min;
       if(now-t<=365*864e5)s.d365+=e.min;
@@ -528,12 +632,17 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
       '</div>'+
       '<h2>By function and condition</h2>'+
       '<div class="grid">'+
-        stat("PIC","Pilot in command",fmt(s.pic)+" h")+
-        stat("Dual","With instructor",fmt(s.dual)+" h")+
-        stat("Co-Pilot","",fmt(s.co)+" h")+
+        stat("PIC","Pilot in command",fmt(s.r.PIC)+" h")+
+        stat("SIC","Second in command",fmt(s.r.SIC)+" h")+
+        stat("Dual","With instructor",fmt(s.r.DUAL)+" h")+
+        stat("Instructor","Flight instructor",fmt(s.r.INSTR)+" h")+
+        stat("Examiner","",fmt(s.r.EXAM)+" h")+
+        stat("SPIC","Student pilot in command",fmt(s.r.SPIC)+" h")+
+        stat("PICUS","PIC under supervision",fmt(s.r.PICUS)+" h")+
+      '</div>'+
+      '<div class="grid">'+
         stat("Night","",fmt(s.night)+" h")+
         stat("IFR","incl. simulator",fmt(s.ifr)+" h")+
-        stat("FI","Flight instructor",fmt(s.fi)+" h")+
       '</div>'+
       '<h2>Recent</h2>'+
       '<div class="grid">'+stat("Last 30 days","",fmt(s.d30)+" h")+stat("Last 12 months","",fmt(s.d365)+" h")+'</div>';
@@ -544,18 +653,18 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
   function renderLog(){
     var all=sorted(),rows=view();renderCards(rows,all.length);
     if(!rows.length){$("tbl").innerHTML='<tbody><tr><td class="empty">'+(all.length?"No flights in this period.":"No entries yet. Add your first flight under “New flight”.")+'</td></tr></tbody>';return}
-    var T={tot:0,fstd:0,ld:0,ln:0,night:0,ifr:0,pic:0,co:0,dual:0,fi:0};
+    var T={tot:0,fstd:0,ld:0,ln:0,night:0,ifr:0,r:{}};RKEYS.forEach(function(k){T.r[k]=0});
     var body=rows.map(function(e){
       var isF=e.cat==="FSTD",fl=isF?0:e.min;
       T.tot+=fl;T.fstd+=isF?e.min:0;T.ld+=e.ldgD||0;T.ln+=e.ldgN||0;T.night+=e.night||0;T.ifr+=e.ifr||0;
-      var r={PIC:0,CO:0,DUAL:0,FI:0};if(!isF)r[e.role]=e.min;
-      T.pic+=r.PIC;T.co+=r.CO;T.dual+=r.DUAL;T.fi+=r.FI;
+      var r={};RKEYS.forEach(function(k){r[k]=0});if(!isF&&r[e.role]!==undefined)r[e.role]=e.min;
+      RKEYS.forEach(function(k){T.r[k]+=r[k]});
       return'<tr><td>'+dmy(e.date)+'</td><td>'+esc(e.from)+'</td><td>'+esc(e.dep)+'</td><td>'+esc(e.to)+'</td><td>'+esc(e.arr)+'</td><td>'+esc(isF?"FSTD":e.type)+'</td><td>'+esc(e.reg)+'</td><td>'+esc(e.pic)+'</td><td>'+esc(e.cat)+'</td>'+
         '<td class="n">'+f0(fl)+'</td><td class="n">'+f0(isF?e.min:0)+'</td><td class="n">'+(e.ldgD||"")+'</td><td class="n">'+(e.ldgN||"")+'</td><td class="n">'+f0(e.night)+'</td><td class="n">'+f0(e.ifr)+'</td>'+
-        '<td class="n">'+f0(r.PIC)+'</td><td class="n">'+f0(r.CO)+'</td><td class="n">'+f0(r.DUAL)+'</td><td class="n">'+f0(r.FI)+'</td><td>'+esc(e.note)+'</td><td><button type="button" data-edit="'+e.id+'" style="color:var(--sky)">Edit</button> <button type="button" data-id="'+e.id+'">Delete</button></td></tr>';
+        RKEYS.map(function(k){return'<td class="n">'+f0(r[k])+'</td>'}).join("")+'<td>'+esc(e.note)+'</td><td><button type="button" data-edit="'+e.id+'" style="color:var(--sky)">Edit</button> <button type="button" data-id="'+e.id+'">Delete</button></td></tr>';
     }).join("");
-    $("tbl").innerHTML='<thead><tr><th>Date</th><th>From</th><th>Dep</th><th>To</th><th>Arr</th><th>Type</th><th>Reg.</th><th>PIC name</th><th>Cat.</th><th class="n">Total</th><th class="n">FSTD</th><th class="n">Ldg day</th><th class="n">Ldg night</th><th class="n">Night</th><th class="n">IFR</th><th class="n">PIC</th><th class="n">Co</th><th class="n">Dual</th><th class="n">FI</th><th>Remarks</th><th></th></tr></thead><tbody>'+body+'</tbody>'+
-      '<tfoot><tr><td colspan="9">Total</td><td class="n">'+fmt(T.tot)+'</td><td class="n">'+fmt(T.fstd)+'</td><td class="n">'+T.ld+'</td><td class="n">'+T.ln+'</td><td class="n">'+fmt(T.night)+'</td><td class="n">'+fmt(T.ifr)+'</td><td class="n">'+fmt(T.pic)+'</td><td class="n">'+fmt(T.co)+'</td><td class="n">'+fmt(T.dual)+'</td><td class="n">'+fmt(T.fi)+'</td><td colspan="2"></td></tr></tfoot>';
+    $("tbl").innerHTML='<thead><tr><th>Date</th><th>From</th><th>Dep</th><th>To</th><th>Arr</th><th>Type</th><th>Reg.</th><th>PIC name</th><th>Cat.</th><th class="n">Total</th><th class="n">FSTD</th><th class="n">Ldg day</th><th class="n">Ldg night</th><th class="n">Night</th><th class="n">IFR</th><th class="n">PIC</th><th class="n">SIC</th><th class="n">Exam.</th><th class="n">Instr.</th><th class="n">Dual</th><th class="n">SPIC</th><th class="n">PICUS</th><th>Remarks</th><th></th></tr></thead><tbody>'+body+'</tbody>'+
+      '<tfoot><tr><td colspan="9">Total</td><td class="n">'+fmt(T.tot)+'</td><td class="n">'+fmt(T.fstd)+'</td><td class="n">'+T.ld+'</td><td class="n">'+T.ln+'</td><td class="n">'+fmt(T.night)+'</td><td class="n">'+fmt(T.ifr)+'</td>'+RKEYS.map(function(k){return'<td class="n">'+fmt(T.r[k])+'</td>'}).join("")+'<td colspan="2"></td></tr></tfoot>';
   }
   $("tbl").addEventListener("click",function(ev){
     var b=ev.target,id=b.getAttribute&&b.getAttribute("data-id");
@@ -667,7 +776,7 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
       csvH:["Date","Aircraft make & model","Aircraft ident","From","To","Category/class","Landings day","Landings night","Night","Actual instrument","Flight simulator","Dual received","PIC","SIC","Dual given","Total duration of flight","Remarks and endorsements"]}
   };
   function vals(id,e){
-    var F=e.cat==="FSTD",m=e.min||0,o={},r=e.role;
+    var F=e.cat==="FSTD",m=e.min||0,o={},r=sheetRole(e.role);
     if(id==="easa"){
       o={date:dmy(e.date),from:e.from||"",dep:e.dep||"",to:e.to||"",arr:e.arr||"",type:e.type||"",reg:e.reg||"",pic:e.pic||"",cat:e.cat,multi:"",
         tot:F?0:m,fstd:F?m:0,ld:F?0:(e.ldgD||0),ln:F?0:(e.ldgN||0),night:e.night||0,ifr:e.ifr||0,
@@ -868,7 +977,7 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
   function msg(t,bad){var m=$("emsg");m.textContent=t;m.className="msg"+(bad?" err":"")}
   async function out(name,text){
     $("fallback").hidden=true;
-    if(!entries.length){msg("There is nothing to export yet.",true);return}
+    if(!entries.length&&!docs.length){msg("There is nothing to export yet.",true);return}
     try{
       if(typeof claude==="undefined"){
         var bl=new Blob([text],{type:"text/plain;charset=utf-8"}),u=URL.createObjectURL(bl),l=document.createElement("a");
@@ -888,14 +997,14 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
   function saveBytes(name,bytes,mime){var bl=new Blob([bytes],{type:mime}),u=URL.createObjectURL(bl),l=document.createElement("a");l.href=u;l.download=name;document.body.appendChild(l);l.click();l.remove();setTimeout(function(){URL.revokeObjectURL(u)},4000)}
   function loadLib(url,test){return new Promise(function(ok,no){if(test())return ok();var sc=document.createElement("script");sc.src=url;sc.onload=function(){test()?ok():no(new Error("lib"))};sc.onerror=function(){no(new Error("lib"))};document.head.appendChild(sc)})}
   var XM="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-  var XH={pdf:"A4 landscape (EASA) or Letter landscape (FAA), 20 flights per page with page totals.",xlsx:"One sheet per page (“Seite 1”, “Seite 2” …) with totals, ready to print in landscape.",csv:"All flights as a table, one row per flight.",gsheet:"Downloads the Excel file with the chosen layout. In Google Sheets choose File › Import › Upload and it opens as a Google Sheet with the same layout.",json:"Complete backup of all entries. Import it again under Import."};
+  var XH={pdf:"A4 landscape (EASA) or Letter landscape (FAA), 20 flights per page with page totals.",xlsx:"One sheet per page (“Seite 1”, “Seite 2” …) with totals, ready to print in landscape.",csv:"All flights as a table, one row per flight.",gsheet:"Downloads the Excel file with the chosen layout. In Google Sheets choose File › Import › Upload and it opens as a Google Sheet with the same layout.",json:"Complete backup of all entries and your documents (licences). Import it again under Import."};
   function xUi(){var f=$("xFmt").value;$("xLayW").hidden=f==="json";$("xHint").textContent=XH[f]}
   $("xFmt").addEventListener("change",xUi);xUi();
   $("xGo").addEventListener("click",async function(){
-    if(!entries.length){msg("There is nothing to export yet.",true);return}
     var f=$("xFmt").value,id=$("xLay").value,base="myAeroLog-"+id.toUpperCase();
+    if(!entries.length&&!(f==="json"&&docs.length)){msg("There is nothing to export yet.",true);return}
     try{
-      if(f==="json"){out("logbook-backup.json",JSON.stringify(entries));return}
+      if(f==="json"){out("logbook-backup.json",JSON.stringify({app:"myAeroLog",version:2,exported:new Date().toISOString(),entries:entries,docs:docs.map(dstrip)}));return}
       if(f==="csv"){out(base+".csv",toCsv(id));return}
       var gr=pagesOf(id,sorted());
       if(f==="pdf"){
@@ -945,7 +1054,7 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
     ldgN:["noldgnight","landungennacht","landingsnight","landingnight","ldgnight","nightlandings","nightldg","ldgn","nolandingsnight"],
     note:["bemerkung","bemerkungen","remarks","remark","notes","note","comments","comment","remarksandendorsements"]
   };
-  var files=[],staged=[];
+  var files=[],staged=[],stagedDocs=[];
   function nk(s){return String(s).toLowerCase().replace(/[^a-z0-9]/g,"")}
   function p2(n){return(n<10?"0":"")+(+n)}
   function isT(v){return/\d:\d\d/.test(v)}
@@ -1035,9 +1144,9 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
     var ifr=pm(pick(o,A.ifr,isN))||0,night=pm(pick(o,A.night.slice(0,-1),isN)||(o.noldgnight===undefined&&o.noldgday===undefined?pick(o,["night"],isN):undefined))||0;
     if(!cat){var me=/p2006|da ?42|da ?62|seneca|baron|duchess|twin/i.test(type);cat=defCat||(ifr>=min?(me?"ME IR":"SE IR"):(me?"MEP":"SEP"))}
     var role="PIC",rr=String(pick(o,A.role)||"").toUpperCase();
-    if(/DUAL/.test(rr))role="DUAL";else if(/^(FI|FLIGHT INSTR)/.test(rr))role="FI";else if(/CO|SIC|P2/.test(rr))role="CO";else if(/PIC|P1|SELF/.test(rr))role="PIC";
+    if(/PICUS/.test(rr))role="PICUS";else if(/SPIC|STUDENT/.test(rr))role="SPIC";else if(/DUAL/.test(rr))role="DUAL";else if(/EXAM/.test(rr))role="EXAM";else if(/^(FI|INSTR|FLIGHT INSTR)/.test(rr))role="INSTR";else if(/CO|SIC|P2/.test(rr))role="SIC";else if(/PIC|P1|SELF/.test(rr))role="PIC";
     else{
-      var t={PIC:pm(pick(o,A.tPic,isN))||0,CO:pm(pick(o,A.tCo,isN))||0,DUAL:pm(pick(o,A.tDual,isN))||0,FI:pm(pick(o,A.tFi,isN))||0},bm=0;
+      var t={PIC:pm(pick(o,A.tPic,isN))||0,SIC:pm(pick(o,A.tCo,isN))||0,DUAL:pm(pick(o,A.tDual,isN))||0,INSTR:pm(pick(o,A.tFi,isN))||0},bm=0;
       Object.keys(t).forEach(function(k){if(t[k]>bm){bm=t[k];role=k}});
       if(!bm&&pic&&!/^(self|selbst|eigen)/i.test(pic))role="DUAL";
     }
@@ -1048,12 +1157,19 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
   }
   function impMsg(t,bad){var m=$("impMsg");m.textContent=t;m.className="msg"+(bad?" err":"")}
   function runImp(){
-    staged=[];var bad=[],seen={},dups=0,skip=0,exist={},dbg="";
+    staged=[];stagedDocs=[];var bad=[],seen={},dups=0,skip=0,exist={},dbg="";
     if($("impMode").value!=="replace")entries.forEach(function(e){exist[key(e)]=1});
     if(files.length&&typeof XLSX==="undefined"){impMsg("The Excel library could not be loaded. Please reload the page.",true);return}
     files.forEach(function(f){
       if(/\.json$/i.test(f.name)){
-        try{var ja=JSON.parse(new TextDecoder().decode(f.buf));if(!Array.isArray(ja))throw 0;
+        try{var jo=JSON.parse(new TextDecoder().decode(f.buf)),ja=Array.isArray(jo)?jo:(jo&&Array.isArray(jo.entries)?jo.entries:null);if(!ja)throw 0;
+          if(jo&&!Array.isArray(jo)&&Array.isArray(jo.docs))jo.docs.forEach(function(x){
+            if(!x||!x.title||!/^\d{4}-\d{2}-\d{2}$/.test(x.date||""))return;
+            var dk=String(x.title).toLowerCase()+"|"+x.date+"|"+(x.no||"");
+            if(docs.some(function(y){return(x.id&&y.id===x.id)||(String(y.title).toLowerCase()+"|"+y.date+"|"+(y.no||""))===dk}))return;
+            if(stagedDocs.some(function(y){return(String(y.title).toLowerCase()+"|"+y.date+"|"+(y.no||""))===dk}))return;
+            stagedDocs.push({id:x.id&&!docs.some(function(y){return y.id===x.id})?String(x.id):nid(),title:String(x.title),no:String(x.no||""),date:x.date,notice:+x.notice||30});
+          });
           ja.forEach(function(e){if(!e||!e.date||typeof e.min!=="number")return;var k=key(e);if(exist[k]||seen[k]){dups++;return}seen[k]=1;staged.push(e)});
         }catch(x){bad.push(f.name+": not a valid backup")}
         return;
@@ -1073,11 +1189,11 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
       if(!found)bad.push(f.name+": no header row with “Date” found");
     });
     staged.sort(cmp);
-    $("impGo").hidden=!staged.length;$("impGo").textContent=staged.length+(staged.length===1?" entry to import":" entries to import");
+    var nDoc=stagedDocs.length;$("impGo").hidden=!staged.length&&!nDoc;$("impGo").textContent=staged.length+(staged.length===1?" entry":" entries")+(nDoc?" + "+nDoc+(nDoc===1?" document":" documents"):"")+" to import";
     var rows=staged.slice(0,8).map(function(e){return"<tr><td>"+dmy(e.date)+"</td><td>"+esc(e.dep)+"</td><td>"+esc(e.from)+"</td><td>"+esc(e.to)+"</td><td>"+esc(e.cat)+"</td><td class=\"n\">"+fmt(e.min)+"</td></tr>"}).join("");
     $("impList").innerHTML=rows?"<div class=\"scroll\"><table><thead><tr><th>Date</th><th>Dep</th><th>From</th><th>To</th><th>Cat.</th><th class=\"n\">Duration</th></tr></thead><tbody>"+rows+"</tbody></table></div>"+(staged.length>8?"<p class=\"msg\">… and "+(staged.length-8)+" more</p>":""):"";
     if(!files.length){impMsg("");return}
-    impMsg(staged.length+" new, "+dups+" already present (skipped), "+bad.length+" unreadable"+(skip?", "+skip+" rows without a date ignored (e.g. totals)":"")+"."+(bad.length?" "+bad.slice(0,4).join("; ")+(bad.length>4?" …":""):"")+(!staged.length&&dbg?" Detected (first row): "+dbg:""),!staged.length&&bad.length>0);
+    impMsg(staged.length+" new"+(stagedDocs.length?" (+"+stagedDocs.length+" new documents)":"")+", "+dups+" already present (skipped), "+bad.length+" unreadable"+(skip?", "+skip+" rows without a date ignored (e.g. totals)":"")+"."+(bad.length?" "+bad.slice(0,4).join("; ")+(bad.length>4?" …":""):"")+(!staged.length&&dbg?" Detected (first row): "+dbg:""),!staged.length&&bad.length>0);
   }
   function readFile(f){return new Promise(function(ok){var r=new FileReader();r.onload=function(){ok({name:f.name,buf:r.result})};r.onerror=function(){ok({name:f.name,buf:new ArrayBuffer(0)})};r.readAsArrayBuffer(f)})}
   $("xmlIn").addEventListener("change",function(ev){
@@ -1091,8 +1207,10 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
       if(!confirm("Replace your existing logbook? All current entries will be deleted and replaced by the imported ones."))return;
       var old=entries.slice();entries=[];save();old.forEach(function(x){qDelete(x)});
     }
-    var r=addAll(staged);renderAll();files=[];runImp();
-    impMsg(r.added+" entries imported"+(r.dups?", "+r.dups+" duplicates skipped":"")+". The logbook is sorted by date and departure time.");
+    var r=addAll(staged),nD=stagedDocs.length;
+    if(nD){stagedDocs.forEach(function(x){docs.push(x);qAdd({action:"docUpsert",doc:dstrip(x)})});saveDocs()}
+    renderAll();files=[];runImp();
+    impMsg(r.added+" entries imported"+(nD?" and "+nD+(nD===1?" document":" documents"):"")+(r.dups?", "+r.dups+" duplicates skipped":"")+". The logbook is sorted by date and departure time.");
   });
 
   /* Google-Sheet-Sync: schreibt direkt in dein Logbuch */
@@ -1115,7 +1233,7 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
     el.textContent=msg?"☁ "+msg:(n?"☁ "+n+(n===1?" change":" changes")+" not in the sheet yet":"☁ Saved to Google Sheet");
     el.className="msg"+(((msg&&msg!=="Sending …")||(!msg&&n>0))?" err":"");
   }
-  function strip(e){var o={};["date","cat","role","pic","type","reg","from","dep","to","arr","min","night","ifr","ldgD","ldgN","note"].forEach(function(f){o[f]=e[f]});return o}
+  function strip(e){var o={};["date","cat","role","pic","type","reg","from","dep","to","arr","min","night","ifr","ldgD","ldgN","note"].forEach(function(f){o[f]=e[f]});o.role=sheetRole(o.role);return o}
   function call(body){
     saveCfg();var c=cfg();
     if(!c.url||!c.token)return Promise.reject(new Error("Please enter address and password."));
@@ -1159,7 +1277,7 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
     var d=String(x.date||"").slice(0,10);if(!/^\d{4}-\d{2}-\d{2}$/.test(d))return null;
     var min=Math.round(+x.min);if(!(min>0))return null;
     var n=function(v){return Math.max(0,Math.round(+v)||0)},s=function(v){return String(v==null?"":v).trim()};
-    return{id:0,date:d,cat:/^(SEP|SE IR|MEP|ME IR|FSTD)$/.test(x.cat)?x.cat:"SEP",role:/^(PIC|CO|DUAL|FI)$/.test(x.role)?x.role:"PIC",
+    return{id:0,date:d,cat:/^(SEP|SE IR|MEP|ME IR|FSTD)$/.test(x.cat)?x.cat:"SEP",role:normRole(x.role),
       pic:s(x.pic),type:s(x.type),reg:s(x.reg),from:s(x.from),dep:normT(x.dep),to:s(x.to),arr:normT(x.arr),min:min,
       night:n(x.night),ifr:n(x.ifr),ldgD:n(x.ldgD),ldgN:n(x.ldgN),note:s(x.note),upd:0};
   }
@@ -1274,10 +1392,20 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
     if(c){var id2=c.getAttribute("data-c");openId=String(openId)===id2?null:id2;c.classList.toggle("open",String(openId)===id2)}
   });
   function navSel(t){
-    var cur=t==="edit"?"log":t,dat=/^(more|metar|imp|sync|exp|set)$/.test(t);
+    var cur=t==="edit"?"log":t,dat=/^(apt|imp|sync|exp|set)$/.test(t);
     Array.prototype.forEach.call(document.querySelectorAll("[data-go]"),function(b){var g=b.getAttribute("data-go");b.setAttribute("aria-selected",b.hasAttribute("data-grp")?dat:g===cur)});
   }
-  document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-go]");if(b)show(b.getAttribute("data-go"))});
+  /* More: round icons slide up one after another */
+  var dial=$("dial"),moreBtn=document.querySelector("#bnav [data-grp]");
+  function dialOpen(o){dial.classList.toggle("open",o);dial.setAttribute("aria-hidden",!o);moreBtn.classList.toggle("xo",o);moreBtn.setAttribute("aria-expanded",o)}
+  dial.querySelector(".dsc").addEventListener("click",function(){dialOpen(false)});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape")dialOpen(false)});
+  document.addEventListener("click",function(e){
+    var bk=e.target.closest&&e.target.closest("[data-back]");if(bk){show(baseTab);return}
+    var b=e.target.closest&&e.target.closest("[data-go]");if(!b)return;
+    if(b.hasAttribute("data-grp")){dialOpen(!dial.classList.contains("open"));return}
+    show(b.getAttribute("data-go"));
+  });
   var AC=null;
   function ding(){
     try{
@@ -1480,7 +1608,7 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
     });
     sc.sort(function(x,y){return y[0]-x[0]});return sc.slice(0,n||8).map(function(x){return x[1]});
   }
-  var mIn=$("mIcao"),mList=$("mList"),mItems=[],mAct=-1,mSeq=0,mTimer=null,mLoaded=false;
+  var mIn=$("mIcao"),mList=$("mList"),mItems=[],mAct=-1,mSeq=0,mTimer=null;
   function mClose(){mList.hidden=true;mIn.setAttribute("aria-expanded","false");mAct=-1}
   function mPaint(){Array.prototype.forEach.call(mList.querySelectorAll(".ac-item"),function(el,i){el.classList.toggle("active",i===mAct);if(i===mAct)el.scrollIntoView({block:"nearest"})})}
   async function mRun(){
@@ -1492,24 +1620,21 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
     mItems=searchAp(q);mAct=mItems.length?0:-1;
     mList.innerHTML=mItems.length?mItems.map(function(a,i){return'<div class="ac-item'+(i===0?" active":"")+'" role="option" data-i="'+i+'"><span class="ac-code">'+esc(a.icao)+'</span><span class="ac-main"><b>'+esc(a.name)+'</b><small>'+esc([a.city,a.cc].filter(Boolean).join(", "))+(a.iata?" · "+esc(a.iata):"")+'</small></span></div>'}).join(""):'<div class="ac-msg">No matches. Try another spelling, a city name or an airport code.</div>';
   }
-  function mPick(i){var a=mItems[i];if(!a)return;mClose();mSeq++;mIn.value=a.icao+" – "+a.name;loadMetar(a.icao,a.name)}
+  function apByIcao(c){return(adb&&adb.filter(function(x){return x.icao===c})[0])||{icao:c,iata:"",name:"",city:"",cc:""}}
+  function mPick(i){var a=mItems[i];if(!a)return;mClose();mSeq++;mIn.value="";mIn.blur();openApt(a)}
   mIn.addEventListener("input",function(){clearTimeout(mTimer);mTimer=setTimeout(mRun,180)});
   mIn.addEventListener("focus",function(){mIn.select();ensureDb().catch(function(){})});
   mIn.addEventListener("keydown",function(e){
+    function typed(){var c=mIn.value.trim().toUpperCase();mClose();mSeq++;mIn.value="";mIn.blur();openApt(apByIcao(c))}
     if(e.key==="Escape"){mClose();return}
-    if(mList.hidden){if(e.key==="Enter"&&/^[A-Za-z]{4}$/.test(mIn.value.trim())){e.preventDefault();loadMetar(mIn.value.trim().toUpperCase(),"")}return}
+    if(mList.hidden){if(e.key==="Enter"&&/^[A-Za-z]{4}$/.test(mIn.value.trim())){e.preventDefault();typed()}return}
     if(e.key==="ArrowDown"&&mItems.length){e.preventDefault();mAct=(mAct+1)%mItems.length;mPaint()}
     else if(e.key==="ArrowUp"&&mItems.length){e.preventDefault();mAct=(mAct-1+mItems.length)%mItems.length;mPaint()}
-    else if(e.key==="Enter"){e.preventDefault();if(mAct>=0)mPick(mAct);else if(/^[A-Za-z]{4}$/.test(mIn.value.trim())){mClose();loadMetar(mIn.value.trim().toUpperCase(),"")}}
+    else if(e.key==="Enter"){e.preventDefault();if(mAct>=0)mPick(mAct);else if(/^[A-Za-z]{4}$/.test(mIn.value.trim()))typed()}
   });
   mList.addEventListener("mousedown",function(e){e.preventDefault()});
   mList.addEventListener("click",function(e){var el=e.target.closest(".ac-item");if(el)mPick(+el.getAttribute("data-i"))});
   document.addEventListener("pointerdown",function(e){if(e.target!==mIn&&!mList.contains(e.target))mClose()});
-  function metarEnter(){
-    if(mLoaded)return;var s;
-    try{s=JSON.parse(localStorage.getItem("flugbuch:metar")||"null")}catch(e){}
-    if(s&&s.c){mIn.value=s.c+(s.n?" – "+s.n:"");loadMetar(s.c,s.n)}
-  }
   var WXN={"-RA":"Light rain","RA":"Rain","+RA":"Heavy rain","-SN":"Light snow","SN":"Snow","+SN":"Heavy snow","TS":"Thunderstorm","TSRA":"Thunderstorm with rain","FG":"Fog","BR":"Mist","HZ":"Haze","DZ":"Drizzle","SHRA":"Rain showers","VCSH":"Showers nearby","FZRA":"Freezing rain","GR":"Hail","GS":"Small hail"};
   function mParse(raw,j){
     var tk=raw.toUpperCase().split(/\s+/),o={raw:raw},m,i,up=raw.toUpperCase();
@@ -1543,28 +1668,265 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
   }
   var MI={clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',temp:'<path d="M10 4a2 2 0 0 1 4 0v10a4 4 0 1 1-4 0z"/>',wind:'<path d="M3 8h11a3 3 0 1 0-3-3M3 12h16a3 3 0 1 1-3 3M3 16h8"/>',eye:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',cloud:'<path d="M7 18a4 4 0 0 1-.5-8A6 6 0 0 1 18 9a4.5 4.5 0 0 1 0 9z"/>',gauge:'<path d="M4 16a8 8 0 1 1 16 0"/><path d="M12 16l4-5"/>',drop:'<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>'};
   function mi(k){return'<svg viewBox="0 0 24 24" aria-hidden="true">'+MI[k]+'</svg>'}
-  function mRender(code,name,o){
+  /* Airports: favourites, recents, weather (NOTAMs and stats follow later) */
+  var AFK="flugbuch:apt_fav",ARK="flugbuch:apt_recent",AWK="flugbuch:apt_wx";
+  function aLoad(k){try{var x=JSON.parse(localStorage.getItem(k)||"[]");return Array.isArray(x)?x:[]}catch(e){return[]}}
+  function aSave(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+  var aFav=aLoad(AFK),aRec=aLoad(ARK),aWx={},aCur=null,aTab="wx",aSeq=0,aRSeq=0;
+  try{aWx=JSON.parse(localStorage.getItem(AWK)||"{}")||{}}catch(e){aWx={}}
+  function wxSave(){var o={};Object.keys(aWx).forEach(function(k){if(aWx[k]&&aWx[k].raw)o[k]=aWx[k]});try{localStorage.setItem(AWK,JSON.stringify(o))}catch(e){}}
+  function slim(a){return{icao:a.icao,iata:a.iata||"",name:a.name||"",city:a.city||"",cc:a.cc||""}}
+  function isFav(c){return aFav.some(function(x){return x.icao===c})}
+  function enrich(a){if(a.name&&a.cc)return a;var f=adb&&adb.filter(function(x){return x.icao===a.icao})[0];return f||a}
+  function flag(cc){return/^[A-Z]{2}$/.test(cc||"")?String.fromCodePoint(127397+cc.charCodeAt(0),127397+cc.charCodeAt(1)):""}
+  function fltCat(raw){
+    var tk=String(raw||"").toUpperCase().split(/\s+/),i=-1,k,m;
+    for(k=0;k<tk.length;k++)if(/^\d{6}Z$/.test(tk[k])){i=k;break}
+    if(i<0)return"";tk=tk.slice(i+1);
+    k=tk.findIndex(function(t){return/^(TEMPO|BECMG|RMK|NOSIG)$/.test(t)});if(k>-1)tk=tk.slice(0,k);
+    var vis=null,ceil=null;
+    tk.forEach(function(t,ix){
+      if(t==="CAVOK"){if(vis==null)vis=9999;return}
+      if(vis==null){
+        if(/^\d{4}$/.test(t))vis=+t;
+        else if((m=/^(?:P|M)?(\d+)(?:\/(\d+))?SM$/.exec(t))){var v=m[2]?+m[1]/+m[2]:+m[1];if(m[2]&&ix>0&&/^\d$/.test(tk[ix-1]))v+=+tk[ix-1];vis=v*1609}
+      }
+      if((m=/^(BKN|OVC|VV)(\d{3})/.exec(t))){var h=+m[2]*100;if(ceil==null||h<ceil)ceil=h}
+    });
+    if(vis==null&&ceil==null)return"";
+    var c1=vis==null?3:vis<1600?0:vis<4800?1:vis<=8047?2:3,c2=ceil==null?3:ceil<500?0:ceil<1000?1:ceil<=3000?2:3;
+    return["LIFR","IFR","MVFR","VFR"][Math.min(c1,c2)];
+  }
+  function obsAge(raw){
+    var m=/\b(\d{2})(\d{2})(\d{2})Z\b/.exec(raw||"");if(!m)return null;
+    var n=new Date(),d=new Date(Date.UTC(n.getUTCFullYear(),n.getUTCMonth(),+m[1],+m[2],+m[3]));
+    if(d-n>864e5)d=new Date(Date.UTC(n.getUTCFullYear(),n.getUTCMonth()-1,+m[1],+m[2],+m[3]));
+    return Math.max(0,Math.round((n-d)/6e4));
+  }
+  function ageTxt(m){return m<60?m+" min":m<1440?Math.floor(m/60)+" h":Math.floor(m/1440)+" d"}
+  function fcHtml(c){return c?'<span class="fc '+c+'">'+c+'</span>':""}
+  function withPre(r){return/^(METAR|SPECI)\s/.test(r)?r:"METAR "+r}
+  function aptCard(a,showFl){
+    var w=aWx[a.icao],raw=w&&w.raw?withPre(w.raw):"",cat=raw?fltCat(raw):"",ag=raw?obsAge(raw):null,
+      fl=showFl?entries.filter(function(e){return e.from===a.icao||e.to===a.icao}).length:0;
+    return'<button type="button" class="acard" data-ap="'+esc(a.icao)+'"><div class="ah"><div class="at"><b>'+esc(a.iata||a.icao)+'</b>'+(a.iata?'<span>'+esc(a.icao)+'</span>':'')+'</div><div class="ar">'+fcHtml(cat)+(ag!=null?'<small>'+mi("clock")+ageTxt(ag)+'</small>':'')+'</div></div>'+
+      '<div class="ac2">'+esc(a.city||a.name||"")+' '+flag(a.cc)+'</div>'+
+      (raw?'<p class="araw">'+esc(raw)+'</p>':'<p class="araw dim">'+(w&&w.fail?"No METAR available":"Loading weather…")+'</p>')+
+      (showFl?'<div class="afl">'+fl+(fl===1?" flight":" flights")+' here</div>':'')+'</button>';
+  }
+  var STAR='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9l-5.2 2.8 1-5.9L3.5 9.7l5.9-.8z"/></svg>';
+  function aptRenderList(){
+    $("aptFav").innerHTML=aFav.length?aFav.map(function(a){return aptCard(a,true)}).join(""):'<div class="afe">'+STAR+'<p>Open an airport and tap the star to keep it here, with its weather and your flights there.</p></div>';
+    $("aptRec").innerHTML=aRec.length?aRec.map(function(a){return aptCard(a,false)}).join(""):'<p class="msg" style="padding:4px 2px">Airports you open appear here.</p>';
+  }
+  async function aptRefresh(){
+    var ids=[];aFav.concat(aRec).forEach(function(a){if(ids.indexOf(a.icao)<0)ids.push(a.icao)});
+    var stale=ids.filter(function(c){return!aWx[c]||Date.now()-(aWx[c].t||0)>5*60000});if(!stale.length)return;
+    var my=++aRSeq,txt=await mwGet(["https://aviationweather.gov/api/data/metar?ids="+stale.join(",")+"&format=raw"],"text");
+    if(txt===null)return;
+    var lines=String(txt).split(/\r?\n/).map(function(l){return l.trim()}).filter(Boolean);
+    stale.forEach(function(c){
+      var re=new RegExp("(^|\\s)"+c+"\\s\\d{6}Z"),ln=lines.filter(function(l){return re.test(l)})[0];
+      aWx[c]=ln?{raw:ln,t:Date.now()}:{fail:true,t:Date.now()};
+    });
+    wxSave();
+    if(my===aRSeq&&!$("p-apt").hidden&&!$("aptList").hidden)aptRenderList();
+  }
+  function aptEnter(){aCur=null;aSeq++;$("aptDet").hidden=true;$("aptList").hidden=false;aptRenderList();aptRefresh()}
+  function openApt(a){
+    a=enrich(a);aCur=a;aTab="wx";
+    aRec=[slim(a)].concat(aRec.filter(function(x){return x.icao!==a.icao})).slice(0,8);aSave(ARK,aRec);
+    $("aptList").hidden=true;$("aptDet").hidden=false;aptDetail();window.scrollTo(0,0);try{history.pushState({t:"apt",d:1},"")}catch(e){}
+  }
+  function closeApt(){if(history.state&&history.state.d){history.back();return}closeAptUi()}
+  function closeAptUi(){aCur=null;aSeq++;$("aptDet").hidden=true;$("aptList").hidden=false;aptRenderList();aptRefresh()}
+  function aptDetail(){
+    var a=aCur;if(!a)return;
+    $("aptHead").innerHTML='<div><div class="ait"><b>'+esc(a.iata||a.icao)+'</b>'+(a.iata?'<span>'+esc(a.icao)+'</span>':'')+'</div>'+(a.name?'<div class="an">'+esc(a.name)+'</div>':'')+'<div class="ac3">'+esc(a.city||"")+' '+flag(a.cc)+'</div></div>'+
+      '<button type="button" class="astar'+(isFav(a.icao)?" on":"")+'" id="aptStar" aria-pressed="'+isFav(a.icao)+'" aria-label="Favourite">'+STAR+'</button>';
+    Array.prototype.forEach.call($("aptTabs").querySelectorAll("[data-at]"),function(b){b.setAttribute("aria-selected",b.getAttribute("data-at")===aTab)});
+    aSeq++;
+    if(aTab==="wx")loadWx(a);
+    else if(aTab==="notam")loadNotam(a);
+    else $("aptBody").innerHTML='<div class="soon"><b>Stats</b><p>Coming soon.</p></div>';
+  }
+  $("aptBack").addEventListener("click",closeApt);
+  $("aptTabs").addEventListener("click",function(e){var b=e.target.closest("[data-at]");if(!b)return;aTab=b.getAttribute("data-at");aptDetail()});
+  $("aptDet").addEventListener("click",function(e){
+    if(!e.target.closest("#aptStar")||!aCur)return;
+    if(isFav(aCur.icao))aFav=aFav.filter(function(x){return x.icao!==aCur.icao});else aFav.unshift(slim(aCur));
+    aSave(AFK,aFav);aptDetail();
+  });
+  $("aptList").addEventListener("click",function(e){
+    var c=e.target.closest(".acard");if(!c)return;
+    var ic=c.getAttribute("data-ap"),a=aFav.concat(aRec).filter(function(x){return x.icao===ic})[0];if(a)openApt(a);
+  });
+  function mRender(out,o){
     function chip(k,v){return v?'<span>'+mi(k)+esc(v)+'</span>':""}
     function row(k,l,v){return v?'<div class="mrw">'+mi(k)+'<div><span>'+l+'</span><b>'+esc(v)+'</b></div></div>':""}
-    var tmp=o.temp!=null?o.temp+"°C":"";
-    $("mOut").innerHTML='<div class="mh2"><span class="mt">METAR</span><small>'+esc(code)+(name?" · "+esc(name):"")+'</small></div>'+
+    var tmp=o.temp!=null?o.temp+"°C":"",cat=fltCat(o.raw),ag=obsAge(o.raw);
+    out.innerHTML='<div class="mh2"><span class="mt">METAR</span>'+fcHtml(cat)+(ag!=null?'<small>'+ageTxt(ag)+' ago</small>':'')+'</div>'+
       '<div class="mchips">'+chip("clock",o.time)+chip("temp",tmp)+chip("wind",o.windShort)+'</div>'+
       '<pre class="mraw">'+esc(o.raw)+'</pre><h4 class="mdet">DETAILS</h4>'+
       row("temp","Temperature",o.temp!=null?o.temp+"°C / "+o.dew+"°C (Dew)":"")+row("wind","Wind",o.wind)+row("eye","Visibility",o.vis)+row("drop","Weather",o.wx)+row("cloud","Clouds",o.clouds)+row("gauge","QNH",o.qnh);
   }
-  async function loadMetar(code,name){
-    mLoaded=true;var out=$("mOut");
+  async function loadWx(a){
+    var my=aSeq,out=$("aptBody"),code=a.icao;
     out.innerHTML='<p class="msg">Loading METAR for '+esc(code)+' …</p>';
-    try{localStorage.setItem("flugbuch:metar",JSON.stringify({c:code,n:name||""}))}catch(e){}
     var base="https://aviationweather.gov/api/data/metar?ids="+code,
       r=await Promise.all([mwGet([base+"&format=raw","https://metar.vatsim.net/metar.php?id="+code,"https://tgftp.nws.noaa.gov/data/observations/metar/stations/"+code+".TXT"],"text"),mwGet([base+"&format=json"],"json")]),
       j=Array.isArray(r[1])?r[1][0]:null,
       lines=r[0]?String(r[0]).trim().split(/\r?\n/).filter(Boolean):[],
       raw=lines.filter(function(l){return l.indexOf(code)>-1})[0]||lines[0]||(j&&j.rawOb)||"";
-    if(mIn.value.indexOf(code)!==0&&mIn.value.trim())return;
+    if(my!==aSeq)return;
     if(!raw){out.innerHTML='<p class="msg err">No current METAR available for '+esc(code)+'.</p>';return}
-    mRender(code,name,mParse(raw.trim(),j));
+    raw=raw.trim();aWx[code]={raw:raw,t:Date.now()};wxSave();
+    mRender(out,mParse(raw,j));
   }
+
+
+  /* NOTAMs: FAA PilotWeb (no API key), read through the same relays as METAR */
+  var aNt={},NTM=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  function ntUrl(c){return"https://pilotweb.nas.faa.gov/PilotWeb/notamRetrievalByICAOAction.do?method=displayByICAOs&reportType=RAW&formatType=ICAO&retrieveLocId="+encodeURIComponent(c)+"&actionType=notamRetrievalByICAOs"}
+  function ntTime(s){var m=/^(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/.exec(s||"");return m?Date.UTC(2000+ +m[1],+m[2]-1,+m[3],+m[4],+m[5]):null}
+  function ntFmt(ms){var d=new Date(ms);return p2(d.getUTCDate())+" "+NTM[d.getUTCMonth()]+" "+d.getUTCFullYear()+" "+p2(d.getUTCHours())+":"+p2(d.getUTCMinutes())+"Z"}
+  function ntParse(h){
+    var doc=new DOMParser().parseFromString(h,"text/html"),all=doc.body?doc.body.textContent:"",
+      pre=[].slice.call(doc.querySelectorAll("pre")).map(function(x){return x.textContent});
+    if(!pre.length&&/(^|\n)\s*[A-Z]\d{4}\/\d{2}\s+NOTAM[NRC]\b/.test(all))pre=[all];
+    if(!pre.length){
+      if(/not covered by the U\.S\. NOTAM/i.test(all))return{list:[],uncovered:true};
+      if(/\bno\s+(current\s+|active\s+)?notams?\b|\b0\s+notams?\b/i.test(all))return{list:[]};
+      return null;
+    }
+    var parts=[];
+    pre.forEach(function(t){
+      t.replace(/\r/g,"").split(/\n(?=[A-Z]\d{4}\/\d{2}\s+NOTAM[NRC]\b|![A-Z0-9]{3,4}\s+\d{2}\/\d{3}\s)/).forEach(function(x){
+        x=x.trim();if(x.length>25&&/\b[A-G]\)\s|NOTAM[NRC]\b|^!/.test(x))parts.push(x);
+      });
+    });
+    return ntBuild(parts);
+  }
+  function ntBuild(parts){
+    var now=Date.now(),list=parts.map(function(t){
+      var id=(/\b([A-Z]\d{4}\/\d{2})\b/.exec(t)||/^!\S+\s+(\d{2}\/\d{3})/.exec(t)||[])[1]||"",
+        b=/\bB\)\s*(\d{10})/.exec(t),c=/\bC\)\s*(\d{10}|PERM)(\s*EST)?/.exec(t),e=/\bE\)\s*([\s\S]*?)(?=\n\s*[FG]\)\s|\s*$)/.exec(t),
+        from=b?ntTime(b[1]):null,perm=!!(c&&c[1]==="PERM"),to=c&&!perm?ntTime(c[1]):null;
+      return{id:id,from:from,to:to,perm:perm,est:!!(c&&c[2]),text:(e?e[1]:t).trim(),raw:t,up:from!=null&&from>now};
+    });
+    list.sort(function(x,y){if(x.up!==y.up)return x.up?1:-1;return x.up?x.from-y.from:(y.from||0)-(x.from||0)});
+    return{list:list};
+  }
+  function ntUrl2(c){return"https://www.notams.faa.gov/dinsQueryWeb/queryRetrievalMapAction.do?reportType=Raw&retrieveLocId="+encodeURIComponent(c)+"&actionType=notamRetrievalByICAOs&submit=View+NOTAMs"}
+  function ntGet(code){
+    var tasks=[{u:WORKER+"/notam?icao="+encodeURIComponent(code),j:1}];
+    [ntUrl2(code),ntUrl(code)].forEach(function(u){tasks.push({u:WORKER+"/fetch?url="+encodeURIComponent(u)},{u:u});PROXIES.forEach(function(p){tasks.push({u:p(u)})})});
+    return new Promise(function(res){
+      var left=tasks.length,done=false;
+      tasks.forEach(function(k){
+        mwTry(k.u,k.j?16000:9000).then(function(t){
+          if(done)return;
+          var r=null;
+          try{
+            if(k.j){var o=JSON.parse(t),a=o&&Array.isArray(o.notams)?o.notams:null;if(a)r=a.length?ntBuild(a):{list:[]}}
+            else if(t&&/<pre|notam/i.test(t))r=ntParse(t);
+          }catch(e){}
+          if(r){done=true;res(r)}else if(--left<=0){done=true;res(null)}
+        });
+      });
+    });
+  }
+  function ntFoot(code){return'<p class="ntf">Source: FAA PilotWeb · <a href="'+esc(ntUrl2(code))+'" target="_blank" rel="noopener">open original</a>. Coverage outside the USA can be incomplete or delayed. Not for operational use – always check the official AIS/AIP source.</p>'}
+  function ntRender(out,code,d){
+    var n=d.list.length,h='<div class="nth"><b>'+n+(n===1?" NOTAM":" NOTAMs")+" · "+esc(code)+'</b><button type="button" id="ntRef">Refresh</button></div>';
+    if(d.uncovered){out.innerHTML=h+'<p class="msg">The FAA source does not cover '+esc(code)+'.</p>'+ntFoot(code);return}
+    if(!n){out.innerHTML=h+'<p class="msg">No NOTAMs found for '+esc(code)+'.</p>'+ntFoot(code);return}
+    out.innerHTML=h+d.list.map(function(x){
+      var v=(x.from!=null?ntFmt(x.from):"?")+" → "+(x.perm?"PERMANENT":x.to!=null?ntFmt(x.to)+(x.est?" (EST)":""):"?");
+      return'<div class="ntc'+(x.up?" up":"")+'"><div class="nh"><b>'+esc(x.id||"NOTAM")+'</b>'+(x.up?'<span class="chip">Upcoming</span>':"")+'</div><div class="nv">'+esc(v)+'</div><pre class="ne">'+esc(x.text)+'</pre><details><summary>Original text</summary><pre class="ne">'+esc(x.raw)+'</pre></details></div>';
+    }).join("")+'<p class="ntf">Updated '+ntFmt(d.t||Date.now())+'</p>'+ntFoot(code);
+  }
+  async function loadNotam(a){
+    var my=aSeq,out=$("aptBody"),code=a.icao,c=aNt[code];
+    if(c&&Date.now()-c.t<10*60000){ntRender(out,code,c);return}
+    out.innerHTML='<p class="msg">Loading NOTAMs for '+esc(code)+' …</p>';
+    var r=await ntGet(code);if(my!==aSeq)return;
+    if(!r){out.innerHTML='<p class="msg err">NOTAMs for '+esc(code)+' could not be loaded.</p><div class="row2" style="margin-top:10px"><button class="btn alt" id="ntRef" type="button">Try again</button></div>'+ntFoot(code);return}
+    r.t=Date.now();aNt[code]=r;ntRender(out,code,r);
+  }
+  $("aptBody").addEventListener("click",function(e){
+    if(!e.target.closest("#ntRef")||!aCur||aTab!=="notam")return;
+    delete aNt[aCur.icao];aptDetail();
+  });
+
+  /* Logbook scan: reads a photo with OCR and fills EMPTY fields only (never saves) */
+  var scanBusy=false;
+  function loadTess(){
+    if(window.Tesseract)return Promise.resolve(window.Tesseract);
+    var urls=["https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.1.1/tesseract.min.js","https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js"];
+    return new Promise(function(res,rej){
+      (function next(i){
+        if(i>=urls.length){rej(new Error("load"));return}
+        var el=document.createElement("script");el.src=urls[i];
+        el.onload=function(){window.Tesseract?res(window.Tesseract):next(i+1)};el.onerror=function(){next(i+1)};document.head.appendChild(el);
+      })(0);
+    });
+  }
+  function prepImg(file){
+    return new Promise(function(res,rej){
+      var u=URL.createObjectURL(file),im=new Image();
+      im.onload=function(){
+        var k=Math.min(1,2200/Math.max(im.width,im.height)),c=document.createElement("canvas");
+        c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);
+        var x=c.getContext("2d");try{x.filter="grayscale(1) contrast(1.4)"}catch(e){}
+        x.drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);
+        c.toBlob(function(b){b?res(b):rej(new Error("img"))},"image/png");
+      };
+      im.onerror=function(){URL.revokeObjectURL(u);rej(new Error("img"))};im.src=u;
+    });
+  }
+  var SC_BAD={};("DATE FROM TIME TOTAL NAME TYPE PILOT FLIGHT NIGHT DUAL SOLO SELF EXAM SPIC PICUS INSTR LAND LANDINGS PAGE SIGN ARR DEP PLACE MAKE MODEL CLASS SINGLE MULTI ENGINE HOURS TAKE OFF REMARKS NOTE PLANE AIRCRAFT REG REGISTRATION DAY IFR VFR SIGNATURE CREW").split(" ").forEach(function(w){SC_BAD[w]=1});
+  function scanParse(tx,icaoSet){
+    var U=String(tx||"").toUpperCase().replace(/[|_]/g," "),o={},m,p2=function(n){return(n<10?"0":"")+n};
+    m=/\b(\d{1,2})\s?[.\/-]\s?(\d{1,2})\s?[.\/-]\s?(\d{4}|\d{2})\b/.exec(U);
+    if(m){var dd=+m[1],mo=+m[2],yy=+m[3];if(m[3].length===2)yy+=2000;if(dd>=1&&dd<=31&&mo>=1&&mo<=12&&yy>=1990&&yy<=2100)o.date=yy+"-"+p2(mo)+"-"+p2(dd)}
+    if(!o.date&&(m=/\b(20\d{2})-(\d{2})-(\d{2})\b/.exec(U)))o.date=m[0];
+    var ts=[],re=/\b([01]?\d|2[0-3]):([0-5]\d)\b/g;while((m=re.exec(U)))ts.push(p2(+m[1])+":"+m[2]);
+    if(ts[0])o.start=ts[0];if(ts[1])o.end=ts[1];
+    var U2=U.replace(/\b[A-Z]{1,2}\s?-\s?[A-Z0-9]{3,5}\b/g," "),ic=(U2.match(/\b[A-Z]{4}\b/g)||[]).filter(function(w){return!SC_BAD[w]&&(icaoSet?icaoSet[w]:/^[ELKCOUSVRFHDGZMNPTWYB][A-Z]{3}$/.test(w))});
+    if(ic[0])o.from=ic[0];if(ic[1])o.to=ic[1];
+    var rg=U.match(/\b[A-Z]{1,2}\s?-\s?[A-Z0-9]{3,5}\b/g)||[];
+    rg=rg.map(function(x){return x.replace(/\s/g,"")}).filter(function(x){return/[A-Z]/.test(x.split("-")[1])});
+    if(rg[0])o.reg=rg[0];else if((m=/\bN\d{1,5}[A-Z]{0,2}\b/.exec(U))&&m[0].length>=3)o.reg=m[0];
+    m=/\b(C-?\s?(?:1\d{2}|2\d{2})[A-Z]?|PA-?\s?\d{2}[A-Z]?|DA-?\s?\d{2}|A\s?210|AT-?0?1|BE-?\d{2}|SR-?2[02]|P2006T?|P2008|TB-?\d{2}|DR-?\d{3}|AA-?5[AB]?|R44|R22|EC-?135|PC-?12|TBM-?\d{3}|B73\d|A3[1-3]\d|ATR-?\d{2}|E1[79]0|CRJ-?\d{3}|DHC-?\d)\b/.exec(U);
+    if(m)o.type=m[1].replace(/\s/g,"");
+    return o;
+  }
+  function scanMsg(t,bad){var e=$("scanMsg");e.textContent=t;e.hidden=!t;e.className="msg scanmsg"+(bad?" err":"")}
+  function fillGap(id,v){
+    var el=$(id);if(!el||!v)return false;var cur=el.value.trim(),td=new Date(),today=td.getFullYear()+"-"+String(td.getMonth()+1).padStart(2,"0")+"-"+String(td.getDate()).padStart(2,"0");
+    if(cur&&!(id==="date"&&cur===today))return false;
+    el.value=v;el.dispatchEvent(new Event("input",{bubbles:true}));el.dispatchEvent(new Event("change",{bubbles:true}));
+    el.classList.add("scanfill");setTimeout(function(){el.classList.remove("scanfill")},3500);return true;
+  }
+  $("scanBtn").addEventListener("click",function(){if(scanBusy)return;$("scanFile").value="";$("scanFile").click()});
+  $("scanFile").addEventListener("change",async function(){
+    var f=this.files&&this.files[0];if(!f||scanBusy)return;
+    scanBusy=true;$("scanBtn").classList.add("busy");$("scanTxt").hidden=true;scanMsg("Preparing image …");
+    try{
+      var T=await loadTess(),blob=await prepImg(f);
+      scanMsg("Reading … 0%");
+      var r=await T.recognize(blob,"eng",{logger:function(m){if(m&&m.status==="recognizing text")scanMsg("Reading … "+Math.round(m.progress*100)+"%")}}),
+        text=(r&&r.data&&r.data.text)||"";
+      if(!adb){try{await Promise.race([ensureDb(),new Promise(function(x,y){setTimeout(y,5000)})])}catch(e){}}
+      var set=null;if(adb){set={};adb.forEach(function(a){set[a.icao]=1})}
+      var res=scanParse(text,set),L={date:"Date",from:"From",to:"To",start:"Departure",end:"Arrival",reg:"Registration",type:"Aircraft type"},done=[];
+      Object.keys(L).forEach(function(k){if(fillGap(k,res[k]))done.push(L[k])});
+      $("scanPre").textContent=text.trim()||"(nothing recognised)";$("scanTxt").hidden=false;
+      scanMsg(done.length?"Filled: "+done.join(", ")+". Please check everything, then save.":(Object.keys(res).length?"Everything detected is already filled in.":"Nothing could be recognised. Try a sharper, well-lit photo of one logbook line."),!done.length&&!Object.keys(res).length);
+    }catch(e){scanMsg("Scan failed. The text recognition loads on first use and needs an internet connection.",true)}
+    scanBusy=false;$("scanBtn").classList.remove("busy");
+  });
 
   function renderAll(){renderOv();renderLog();eList()}
   var t=new Date();
@@ -1596,7 +1958,7 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
   /* Draft of the new-flight form survives reloads */
   var DRK="flugbuch:draft",DRF=["date","cat","role","pic","type","reg","from","to","start","end","night","ifr","ldgD","ldgN","note"];
   function draftSave(){var o={};DRF.forEach(function(k){o[k]=$(k).value});try{localStorage.setItem(DRK,JSON.stringify(o))}catch(e){}}
-  try{var dr=JSON.parse(localStorage.getItem(DRK)||"null");if(dr)DRF.forEach(function(k){if(dr[k])$(k).value=dr[k]})}catch(e){}
+  try{var dr=JSON.parse(localStorage.getItem(DRK)||"null");if(dr)DRF.forEach(function(k){if(dr[k])$(k).value=k==="role"?normRole(dr[k]):dr[k]})}catch(e){}
   $("f").addEventListener("input",draftSave);$("f").addEventListener("change",draftSave);
   $("f").addEventListener("submit",function(){setTimeout(function(){if(!$("fmsg").textContent){try{localStorage.removeItem(DRK)}catch(e){}}},0)});
   calc();
@@ -1607,8 +1969,18 @@ button:focus:not(:focus-visible),.card:focus{outline:none}
   var st=null;window.addEventListener("scroll",function(){clearTimeout(st);st=setTimeout(posSave,200)},{passive:true});
   document.addEventListener("visibilitychange",function(){if(document.hidden)posSave()});
   window.addEventListener("pagehide",posSave);
+  try{history.replaceState({t:"ov"},"")}catch(e){}
+  window.addEventListener("popstate",function(e){
+    var q=e.state&&e.state.t?e.state:{t:"ov"};popping=true;
+    try{
+      menu(false);dialOpen(false);
+      if(q.t==="apt"&&!$("p-apt").hidden&&!$("aptDet").hidden)closeAptUi();
+      else show(q.t);
+    }catch(x){}
+    popping=false;
+  });
   try{var sv=JSON.parse(sessionStorage.getItem("flugbuch:tab")||"null");
-    if(sv&&/^(ov|log|new|docs|more|metar|set|imp|sync|exp)$/.test(sv.t)){show(sv.t);
+    if(sv&&/^(ov|log|new|docs|more|metar|apt|set|imp|sync|exp)$/.test(sv.t)){show(sv.t==="more"?"ov":sv.t==="metar"?"apt":sv.t);
       if(sv.y){var n=0,tr=setInterval(function(){window.scrollTo(0,sv.y);if(++n>5)clearInterval(tr)},60)}}}catch(e){}
 })();
 </script>
